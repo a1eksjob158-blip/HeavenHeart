@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Отслеживание заказа — Heaven Heart</title>
+
+    <!-- Основные SEO-метаданные -->
+    <meta name="description" content="Узнайте актуальный статус доставки вашего заказа в интернет-магазине Heaven Heart по номеру.">
+    <meta name="keywords" content="Heaven Heart, отследить заказ, статус доставки, трек-номер">
+    <meta name="author" content="Heaven Heart Store">
+
+    <!-- Open Graph / Превью для Telegram и соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Отслеживание заказа — Heaven Heart">
+    <meta property="og:description" content="Проверьте статус сборки и доставки вашего заказа Heaven Heart.">
+    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/tracking.html">
+
+    <!-- Twitter Card (карточка для шеринга) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Отслеживание заказа — Heaven Heart">
+    <meta name="twitter:description" content="Проверьте статус сборки и доставки вашего заказа Heaven Heart.">
+    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+
+    <!-- Мобильные настройки интерфейса и темы -->
+    <meta name="theme-color" content="#111111">
+    <meta name="msapplication-TileColor" content="#111111">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Подключение шрифта Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: #111111;
+            line-height: 1.6;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: transparent;
+            padding: calc(15px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .header-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            display: inline-block;
+            margin-bottom: -15px;
+            mix-blend-mode: multiply;
+            cursor: pointer;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            color: #666666;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .track-card {
+            background-color: #fbfbfb;
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .track-card h2 {
+            font-size: 1.8rem;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .track-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 1rem; /* 16px — блокирует автозум в Safari на iPhone */
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: bold;
+            text-transform: uppercase;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #b38228;
+        }
+
+        .btn-track {
+            display: block;
+            width: 100%;
+            background-color: #111;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-track:hover {
+            background-color: #b38228;
+            transform: translateY(-2px);
+        }
+
+        .btn-track:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 22px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            display: none;
+        }
+
+        .result-box h4 {
+            font-size: 1.15rem;
+            color: #111;
+            margin-bottom: 14px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            gap: 15px;
+        }
+
+        .result-row span:first-child {
+            color: #777;
+            flex-shrink: 0;
+        }
+
+        .result-row span:last-child, .result-row strong {
+            text-align: right;
+            color: #111;
+        }
+
+        .badge-status {
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .status-assembly {
+            background: rgba(229, 169, 59, 0.15);
+            color: #d39e2e;
+            border: 1px solid rgba(229, 169, 59, 0.4);
+        }
+
+        .status-transit {
+            background: rgba(42, 171, 238, 0.15);
+            color: #2AABEE;
+            border: 1px solid rgba(42, 171, 238, 0.4);
+        }
+
+        .status-delivered {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 22px;
+            background-color: #f4f4f4;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: #111;
+            color: #fff;
+            border-color: #111;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #eaeaea;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #2AABEE;
+            text-decoration: underline;
+        }
+
+        /* ========================================================
+           АДАПТАЦИЯ ДЛЯ IPHONE И ДРУГИХ СМАРТФОНОВ (до 768px)
+           ======================================================== */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .track-card {
+                padding: 28px 18px;
+                border-radius: 14px;
+            }
+
+            .track-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .track-card p {
+                font-size: 0.85rem;
+                margin-bottom: 22px;
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .btn-track {
+                padding: 13px 20px;
+                font-size: 0.95rem;
+            }
+
+            .result-box {
+                padding: 16px;
+                margin-top: 22px;
+            }
+
+            .result-row {
+                font-size: 0.85rem;
+                flex-direction: column;
+                gap: 2px;
+                margin-bottom: 8px;
+            }
+
+            .result-row span:last-child, .result-row strong {
+                text-align: left;
+            }
+
+            .btn-back {
+                width: 100%;
+                text-align: center;
+                margin-top: 20px;
+                padding: 13px 20px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <p>Bags & Accessories Collection</p>
+    </header>
+
+    <div class="container">
+        <div class="track-card">
+            <h2>Отслеживание заказа</h2>
+            <p>Введите номер вашего заказа (например, HH-4821), чтобы узнать актуальный статус</p>
+
+            <div class="form-group">
+                <input type="text" id="orderInput" placeholder="HH-XXXX" autocomplete="off">
+            </div>
+
+            <button class="btn-track" id="trackBtn" onclick="checkOrderStatus()">Проверить статус</button>
+
+            <div id="errorMsg" class="error-msg" style="display: none;"></div>
+
+            <div id="resultBox" class="result-box">
+                <h4>
+                    <span>Информация о заказе</span>
+                    <span id="resBadge" class="badge-status"></span>
+                </h4>
+                <div class="result-row">
+                    <span>Номер заказа:</span>
+                    <strong id="resNum"></strong>
+                </div>
+                <div class="result-row">
+                    <span>Дата создания:</span>
+                    <span id="resDate"></span>
+                </div>
+                <div class="result-row">
+                    <span>Товары:</span>
+                    <strong id="resProducts" style="color: #111;"></strong>
+                </div>
+                <div class="result-row">
+                    <span>Стоимость:</span>
+                    <span id="resCost" style="font-weight: bold; color: #b38228;"></span>
+                </div>
+                <div class="result-row">
+                    <span>Доставка:</span>
+                    <span id="resDelivery"></span>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn-back">← Вернуться в магазин</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/bandos158" target="_blank">Магазин в Telegram</a></p>
+    </footer>
+
+    <script>
+        const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
+
+        let cachedOrders = [];
+
+        async function preloadOrders() {
+            try {
+                const response = await fetch(ORDERS_WEB_APP_URL);
+                if (response.ok) {
+                    cachedOrders = await response.json();
+                }
+            } catch (e) {
+                console.log('Фоновая загрузка заказов');
+            }
+        }
+
+        const inputEl = document.getElementById('orderInput');
+        inputEl.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkOrderStatus();
+            }
+        });
+
+        async function checkOrderStatus() {
+            const query = inputEl.value.trim().toUpperCase();
+            const errorEl = document.getElementById('errorMsg');
+            const resultBox = document.getElementById('resultBox');
+            const trackBtn = document.getElementById('trackBtn');
+
+            errorEl.style.display = 'none';
+            resultBox.style.display = 'none';
+
+            if (!query) {
+                errorEl.textContent = 'Пожалуйста, введите номер заказа.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (cachedOrders.length > 0) {
+                let found = cachedOrders.find(o => String(o.orderNum).trim().toUpperCase() === query);
+                if (found) {
+                    displayOrder(found);
+                    return;
+                }
+            }
+
+            trackBtn.disabled = true;
+            errorEl.style.display = 'block';
+            errorEl.style.color = '#666';
+            errorEl.textContent = 'Поиск заказа в базе...';
+
+            try {
+                const response = await fetch(ORDERS_WEB_APP_URL);
+                if (!response.ok) throw new Error('Ошибка сети');
+
+                cachedOrders = await response.json();
+                trackBtn.disabled = false;
+
+                let found = cachedOrders.find(o => String(o.orderNum).trim().toUpperCase() === query);
+
+                if (found) {
+                    errorEl.style.display = 'none';
+                    displayOrder(found);
+                } else {
+                    errorEl.style.color = '#e74c3c';
+                    errorEl.textContent = 'Заказ с таким номером не найден. Проверьте правильность ввода.';
+                }
+            } catch (e) {
+                trackBtn.disabled = false;
+                errorEl.style.color = '#e74c3c';
+                errorEl.textContent = 'Не удалось подключиться к базе заказов. Проверьте интернет-соединение.';
+            }
+        }
+
+        function displayOrder(order) {
+            const resultBox = document.getElementById('resultBox');
+            const resBadge = document.getElementById('resBadge');
+            
+            let statusText = order.orderStatus || 'Принят в обработку';
+            let badgeClass = 'status-assembly';
+            
+            let lowerStatus = statusText.toLowerCase();
+            if (lowerStatus.includes('пути') || lowerStatus.includes('отправлен')) badgeClass = 'status-transit';
+            let isDelivered = lowerStatus.includes('доставлен') || lowerStatus.includes('выдан');
+            if (isDelivered) badgeClass = 'status-delivered';
+
+            resBadge.className = `badge-status ${badgeClass}`;
+            resBadge.textContent = statusText;
+
+            document.getElementById('resNum').textContent = order.orderNum || '-';
+            document.getElementById('resDate').textContent = order.dateOrder || '-';
+            document.getElementById('resProducts').textContent = order.productName || '-';
+            document.getElementById('resCost').textContent = order.cost || '-';
+            document.getElementById('resDelivery').textContent = order.deliveryAddress || 'Не указан';
+
+            resultBox.style.display = 'block';
+        }
+
+        window.addEventListener('DOMContentLoaded', preloadOrders);
+    </script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Проверка подлинности — Heaven Heart</title>
+
+    <!-- Основные SEO-метаданные -->
+    <meta name="description" content="Проверьте подлинность вашего изделия Heaven Heart по 12-значному серийному номеру. Официальная база данных аутентичности архивного люкса.">
+    <meta name="keywords" content="Heaven Heart, проверка подлинности, серийный номер, аутентичность, NFC верификация">
+    <meta name="author" content="Heaven Heart Store">
+
+    <!-- Open Graph / Превью для Telegram и соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Проверка подлинности — Heaven Heart">
+    <meta property="og:description" content="Подтвердите подлинность вашего приобретения в официальной базе данных Heaven Heart.">
+    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/acept.html">
+
+    <!-- Twitter Card (карточка для шеринга) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Проверка подлинности — Heaven Heart">
+    <meta name="twitter:description" content="Подтвердите подлинность вашего приобретения в официальной базе данных Heaven Heart.">
+    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+
+    <!-- Мобильные настройки интерфейса и темы -->
+    <meta name="theme-color" content="#111111">
+    <meta name="msapplication-TileColor" content="#111111">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Подключение шрифта Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: #111111;
+            line-height: 1.6;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: transparent;
+            padding: calc(15px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .header-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            display: inline-block;
+            margin-bottom: -15px;
+            mix-blend-mode: multiply;
+            cursor: pointer;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            color: #666666;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .verify-card {
+            background-color: #fbfbfb;
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .verify-card h2 {
+            font-size: 1.8rem;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .verify-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 1rem; /* 16px — блокирует автозум в Safari на iPhone */
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: bold;
+            text-transform: uppercase;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #b38228;
+        }
+
+        .verify-btn {
+            display: block;
+            width: 100%;
+            background-color: #111;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .verify-btn:hover {
+            background-color: #b38228;
+            transform: translateY(-2px);
+        }
+
+        .verify-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 22px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            display: none;
+        }
+
+        .result-box h4 {
+            font-size: 1.15rem;
+            color: #111;
+            margin-bottom: 14px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            gap: 15px;
+        }
+
+        .result-row span:first-child {
+            color: #777;
+            flex-shrink: 0;
+        }
+
+        .result-row span:last-child, .result-row strong {
+            text-align: right;
+            color: #111;
+        }
+
+        .badge-status {
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .status-delivered {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 22px;
+            background-color: #f4f4f4;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: #111;
+            color: #fff;
+            border-color: #111;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #eaeaea;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #2AABEE;
+            text-decoration: underline;
+        }
+
+        /* ========================================================
+           АДАПТАЦИЯ ДЛЯ IPHONE И ДРУГИХ СМАРТФОНОВ (до 768px)
+           ======================================================== */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .verify-card {
+                padding: 28px 18px;
+                border-radius: 14px;
+            }
+
+            .verify-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .verify-card p {
+                font-size: 0.85rem;
+                margin-bottom: 22px;
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .verify-btn {
+                padding: 13px 20px;
+                font-size: 0.95rem;
+            }
+
+            .result-box {
+                padding: 16px;
+                margin-top: 22px;
+            }
+
+            .result-row {
+                font-size: 0.85rem;
+                flex-direction: column;
+                gap: 2px;
+                margin-bottom: 8px;
+            }
+
+            .result-row span:last-child, .result-row strong {
+                text-align: left;
+            }
+
+            .btn-back {
+                width: 100%;
+                text-align: center;
+                margin-top: 20px;
+                padding: 13px 20px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <p>Bags & Accessories Collection</p>
+    </header>
+
+    <div class="container">
+        <div class="verify-card">
+            <h2>Проверка подлинности</h2>
+            <p>Введите 12-значный серийный номер изделия для подтверждения аутентичности</p>
+
+            <div class="form-group">
+                <input type="text" id="serialInput" placeholder="HH-XXXX-XXXX-XXXX" maxlength="17" autocomplete="off">
+            </div>
+
+            <button class="verify-btn" id="verifyBtn" onclick="checkAuthenticity()">Проверить изделие</button>
+
+            <div id="errorMsg" class="error-msg" style="display: none;"></div>
+
+            <div id="resultBox" class="result-box">
+                <h4>
+                    <span>Информация об изделии</span>
+                    <span id="resBadge" class="badge-status status-delivered">Оригинал</span>
+                </h4>
+                <div class="result-row">
+                    <span>Серийный номер:</span>
+                    <strong id="resSerial"></strong>
+                </div>
+                <div class="result-row">
+                    <span>Бренд:</span>
+                    <span id="resBrand"></span>
+                </div>
+                <div class="result-row">
+                    <span>Модель:</span>
+                    <strong id="resModel" style="color: #111;"></strong>
+                </div>
+                <div class="result-row">
+                    <span>Статус подлинности:</span>
+                    <span id="resStatus" style="font-weight: bold; color: #27ae60;"></span>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn-back">← Вернуться в магазин</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/bandos158" target="_blank">Магазин в Telegram</a></p>
+    </footer>
+
+    <script>
+        const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxGZrwdPrgDmnFgBW8BOCR8r1C53iRZ04HM11y2khvMibL6lX5IXNs5rBnI92M9L0oZ/exec';
+        const CACHE_KEY = 'hh_verify_db_v4';
+
+        let cachedProducts = [];
+
+        const localDb = localStorage.getItem(CACHE_KEY);
+        if (localDb) {
+            try { cachedProducts = JSON.parse(localDb); } catch(e) {}
+        }
+
+        async function preloadDatabase() {
+            try {
+                const response = await fetch(`${GOOGLE_WEB_APP_URL}?t=${Date.now()}`);
+                if (response.ok) {
+                    cachedProducts = await response.json();
+                    localStorage.setItem(CACHE_KEY, JSON.stringify(cachedProducts));
+                }
+            } catch (e) {
+                console.log('Фоновое обновление базы подлинности пропущено');
+            }
+        }
+
+        const inputField = document.getElementById('serialInput');
+        inputField.addEventListener('input', function (e) {
+            let val = e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+            if (val.length > 2) val = val.slice(0, 2) + '-' + val.slice(2);
+            if (val.length > 7) val = val.slice(0, 7) + '-' + val.slice(7);
+            if (val.length > 12) val = val.slice(0, 12) + '-' + val.slice(12);
+            e.target.value = val;
+        });
+
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAuthenticity();
+            }
+        });
+
+        async function checkAuthenticity() {
+            const btn = document.getElementById('verifyBtn');
+            const resultBox = document.getElementById('resultBox');
+            const errorEl = document.getElementById('errorMsg');
+            const serialNumber = inputField.value.trim().toUpperCase();
+
+            errorEl.style.display = 'none';
+            resultBox.style.display = 'none';
+
+            if (serialNumber.length < 17) {
+                errorEl.textContent = 'Пожалуйста, введите серийный номер полностью (в формате HH-XXXX-XXXX-XXXX).';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            let found = cachedProducts.find(item => item.serial && item.serial.toUpperCase() === serialNumber);
+            if (found) {
+                renderResult(found);
+                return;
+            }
+
+            btn.disabled = true;
+            errorEl.style.display = 'block';
+            errorEl.style.color = '#666';
+            errorEl.textContent = 'Поиск изделия в базе...';
+
+            try {
+                const response = await fetch(`${GOOGLE_WEB_APP_URL}?t=${Date.now()}`);
+                if (!response.ok) throw new Error('Ошибка сети');
+                
+                cachedProducts = await response.json();
+                localStorage.setItem(CACHE_KEY, JSON.stringify(cachedProducts));
+
+                btn.disabled = false;
+
+                found = cachedProducts.find(item => item.serial && item.serial.toUpperCase() === serialNumber);
+                if (found) {
+                    errorEl.style.display = 'none';
+                    renderResult(found);
+                } else {
+                    errorEl.style.color = '#e74c3c';
+                    errorEl.textContent = `Серийный номер ${serialNumber} не найден в базе подлинности.`;
+                }
+            } catch (error) {
+                btn.disabled = false;
+                errorEl.style.color = '#e74c3c';
+                errorEl.textContent = 'Не удалось подключиться к базе данных. Проверьте интернет-соединение.';
+            }
+        }
+
+        function renderResult(product) {
+            const resultBox = document.getElementById('resultBox');
+            document.getElementById('resSerial').textContent = product.serial || '-';
+            document.getElementById('resBrand').textContent = product.brand || 'Heaven Heart';
+            document.getElementById('resModel').textContent = product.model || product.name || 'Оригинальное изделие';
+            document.getElementById('resStatus').textContent = product.status || 'Подтверждено (Оригинал)';
+            resultBox.style.display = 'block';
+        }
+
+        window.addEventListener('DOMContentLoaded', preloadDatabase);
+    </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>О бренде — Heaven Heart</title>
+
+    <!-- Основные SEO-метаданные -->
+    <meta name="description" content="Узнайте больше о философии независимого бренда премиальных аксессуаров Heaven Heart. Архитектурные формы, премиальные материалы и бескомпромиссное качество.">
+    <meta name="keywords" content="Heaven Heart, о бренде, премиальные сумки, архивный люкс, история бренда">
+    <meta name="author" content="Heaven Heart Store">
+
+    <!-- Open Graph / Превью для Telegram и соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="О бренде — Heaven Heart">
+    <meta property="og:description" content="Эстетика утонченного дизайна и бескомпромиссное качество. Познакомьтесь с философией Heaven Heart.">
+    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/about.html">
+
+    <!-- Twitter Card (карточка для шеринга) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="О бренде — Heaven Heart">
+    <meta name="twitter:description" content="Эстетика утонченного дизайна и бескомпромиссное качество. Познакомьтесь с философией Heaven Heart.">
+    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+
+    <!-- Мобильные настройки интерфейса и темы -->
+    <meta name="theme-color" content="#111111">
+    <meta name="msapplication-TileColor" content="#111111">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: #111111;
+            line-height: 1.6;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: transparent;
+            padding: calc(15px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .header-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            display: inline-block;
+            margin-bottom: -15px;
+            mix-blend-mode: multiply;
+            cursor: pointer;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            color: #666666;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .about-card {
+            background-color: #fbfbfb;
+            border-radius: 16px;
+            padding: 50px 40px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 25px;
+        }
+
+        .about-header h2 {
+            font-size: 2rem;
+            color: #111;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .about-header p {
+            font-size: 0.95rem;
+            color: #777;
+            letter-spacing: 0.5px;
+        }
+
+        .about-intro {
+            font-size: 1.05rem;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .value-item {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .value-icon {
+            font-size: 1.8rem;
+            color: #b38228;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .value-item h3 {
+            font-size: 1.1rem;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .value-item p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .banner-highlight {
+            background: rgba(179, 130, 40, 0.05);
+            border: 1px dashed rgba(179, 130, 40, 0.4);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .banner-highlight h4 {
+            font-size: 1.15rem;
+            color: #b38228;
+            margin-bottom: 8px;
+        }
+
+        .banner-highlight p {
+            font-size: 0.9rem;
+            color: #555;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .actions-box {
+            text-align: center;
+        }
+
+        /* Замедленный в 2 раза эффект чернильной капли (1.0s вместо 0.5s) */
+        .btn-back {
+            position: relative;
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: #111111;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            border: 1px solid #111111;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.8s ease, transform 0.2s ease, border-color 0.8s ease;
+        }
+
+        .btn-back::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 350px;
+            height: 350px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 1.0s cubic-bezier(0.4, 0, 0.2, 1); /* Замедлено в 2 раза */
+            z-index: -1;
+        }
+
+        .btn-back:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .btn-back:hover {
+            color: #111111;
+            border-color: #111111;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #eaeaea;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #2AABEE;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container { margin: 20px auto; padding: 0 16px; }
+            .about-card { padding: 28px 18px; border-radius: 14px; }
+            .btn-back { width: 100%; text-align: center; padding: 14px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <p>Bags & Accessories Collection</p>
+    </header>
+
+    <div class="container">
+        <div class="about-card">
+            <div class="about-header">
+                <h2>О бренде Heaven Heart</h2>
+                <p>Эстетика утонченного дизайна и бескомпромиссное качество</p>
+            </div>
+
+            <p class="about-intro">
+                Heaven Heart — независимый бренд премиальных аксессуаров, объединяющий архитектурные формы и долговечные материалы.
+            </p>
+
+            <div class="actions-box">
+                <a href="index.html" class="btn-back">← Вернуться к покупкам</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>

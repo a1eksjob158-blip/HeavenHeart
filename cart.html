@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Корзина — Heaven Heart</title>
+
+    <!-- Основные SEO-метаданные -->
+    <meta name="description" content="Оформление заказа в интернет-магазине Heaven Heart. Быстрая доставка архивного люкса и премиальных аксессуаров по России.">
+    <meta name="keywords" content="Heaven Heart, корзина, оформить заказ, купить сумку, доставка СДЕК">
+    <meta name="author" content="Heaven Heart Store">
+
+    <!-- Open Graph / Превью для Telegram и соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Корзина — Heaven Heart">
+    <meta property="og:description" content="Завершите оформление вашего заказа в официальном магазине Heaven Heart.">
+    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/cart.html">
+
+    <!-- Twitter Card (карточка для шеринга) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Корзина — Heaven Heart">
+    <meta name="twitter:description" content="Завершите оформление вашего заказа в официальном магазине Heaven Heart.">
+    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+
+    <!-- Мобильные настройки интерфейса и темы -->
+    <meta name="theme-color" content="#111111">
+    <meta name="msapplication-TileColor" content="#111111">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Подключение шрифта Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: #111111;
+            line-height: 1.6;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: transparent;
+            padding: calc(15px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .header-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            display: inline-block;
+            margin-bottom: -15px;
+            mix-blend-mode: multiply;
+            cursor: pointer;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            color: #666666;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .cart-card {
+            background-color: #fbfbfb;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .cart-header h2 {
+            font-size: 1.8rem;
+            color: #111;
+        }
+
+        .cart-header-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .cart-section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .cart-items-list {
+            margin-bottom: 20px;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            gap: 12px;
+        }
+
+        .cart-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .cart-item-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            background: #eee;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info h4 {
+            font-size: 0.95rem;
+            color: #111;
+            margin-bottom: 2px;
+        }
+
+        .cart-item-info span {
+            font-size: 0.85rem;
+            color: #b38228;
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .qty-btn {
+            background: #eee;
+            border: none;
+            width: 28px;
+            height: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .qty-btn:hover {
+            background: #ccc;
+        }
+
+        .qty-value {
+            font-weight: bold;
+            width: 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .btn-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 4px;
+        }
+
+        .btn-remove:hover {
+            text-decoration: underline;
+        }
+
+        .cart-total-box {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #b38228;
+            text-align: right;
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+            font-size: 0.85rem;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:disabled {
+            background-color: #f5f5f5;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        .input-error {
+            border-color: #e74c3c !important;
+            background-color: #fff8f8 !important;
+        }
+
+        .field-error-msg {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .qr-container {
+            margin: 15px auto;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 220px;
+        }
+
+        .qr-hint {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .btn-pay-order {
+            display: block;
+            width: 100%;
+            background-color: #111;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-pay-order:hover {
+            background-color: #b38228;
+            transform: translateY(-2px);
+        }
+
+        .btn-tg-pay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #2AABEE, #229ED9);
+            color: #fff;
+            font-size: 0.95rem;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: opacity 0.3s, transform 0.2s;
+        }
+
+        .btn-tg-pay:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 30px 0;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 22px;
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background-color: #b38228;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #f4f4f4;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .btn-secondary:hover {
+            background-color: #111;
+            color: #fff;
+            border-color: #111;
+        }
+
+        .success-order-box {
+            text-align: center;
+            padding: 20px 0;
+            grid-column: 1 / -1;
+        }
+
+        .success-order-box h3 {
+            font-size: 1.6rem;
+            color: #b38228;
+            margin-bottom: 10px;
+        }
+
+        .order-number-badge {
+            display: inline-block;
+            background: rgba(179, 130, 40, 0.1);
+            border: 1px dashed #b38228;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #111;
+            margin: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #eaeaea;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #2AABEE;
+            text-decoration: underline;
+        }
+
+        /* ========================================================
+           АДАПТАЦИЯ ДЛЯ IPHONE И ДРУГИХ СМАРТФОНОВ (до 768px)
+           ======================================================== */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .cart-card {
+                padding: 24px 16px;
+                border-radius: 14px;
+            }
+
+            .cart-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .cart-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .cart-header-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .cart-header .btn {
+                width: 100%;
+            }
+
+            .cart-layout {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .cart-item-row {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px 0;
+            }
+
+            .cart-item-left {
+                min-width: 100%;
+            }
+
+            .quantity-controls {
+                margin-left: auto;
+            }
+
+            .form-group select, .form-group input {
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+            .btn-pay-order {
+                padding: 14px 20px;
+                font-size: 0.95rem;
+            }
+
+            .btn-tg-pay {
+                width: 100%;
+                max-width: 100% !important;
+                padding: 14px 20px;
+            }
+
+            .order-number-badge {
+                font-size: 1.05rem;
+                padding: 8px 16px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <p>Bags & Accessories Collection</p>
+    </header>
+
+    <div class="container">
+        <div class="cart-card" id="cartCardContainer">
+            <div class="cart-header">
+                <h2>Оформление заказа</h2>
+                <div class="cart-header-buttons">
+                    <a href="tovar.html" id="backToProductBtn" class="btn btn-secondary">← К товару</a>
+                    <a href="index.html" class="btn btn-secondary">← В магазин</a>
+                </div>
+            </div>
+
+            <div class="cart-layout" id="cartMainLayout">
+                <div id="checkoutSection" style="display: none;">
+                    <div class="cart-section-title">Данные получения</div>
+
+                    <div class="form-group" id="discountSection" style="background: #f4f4f4; padding: 12px; border: 1px dashed #ccc; border-radius: 12px; margin-bottom: 15px;">
+                        <label for="serialDiscountInput" style="font-size: 0.8rem;">Серийный номер для скидки 10%:</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="serialDiscountInput" placeholder="" maxlength="17" style="text-transform: uppercase;">
+                            <button type="button" class="btn" id="serialDiscountBtn" onclick="applySerialDiscount()" style="padding: 0 16px; border-radius: 12px; white-space: nowrap; font-size: 0.85rem;">Применить</button>
+                        </div>
+                        <div id="discountMsg" style="font-size: 0.8rem; margin-top: 4px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullNameInput">Фамилия Имя Отчество:</label>
+                        <input type="text" id="fullNameInput" placeholder="">
+                        <div class="field-error-msg" id="nameError">Введите ровно 3 слова (Фамилия, Имя и Отчество русскими буквами)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailInput">Email:</label>
+                        <input type="email" id="emailInput" placeholder="">
+                        <div class="field-error-msg" id="emailError">Введите корректный адрес электронной почты</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneInput">Телефон:</label>
+                        <input type="tel" id="phoneInput" placeholder="">
+                        <div class="field-error-msg" id="phoneError">Введите полный номер телефона (11 цифр)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deliveryService">Почтовая служба:</label>
+                        <select id="deliveryService">
+                            <option value="СДЕК">СДЕК</option>
+                            <option value="ПОЧТА РОССИИ">ПОЧТА РОССИИ</option>
+                            <option value="ДЕЛОВЫЕ ЛИНИИ">ДЕЛОВЫЕ ЛИНИИ</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cityInput">Город доставки:</label>
+                        <input type="text" id="cityInput" placeholder="">
+                        <div class="field-error-msg" id="cityError">Укажите корректный город (не менее 3 букв)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addressInput">Адрес доставки (улица, дом, квартира):</label>
+                        <input type="text" id="addressInput" placeholder="">
+                        <div class="field-error-msg" id="addressError">Введите подробный адрес (улица, дом — не менее 5 символов)</div>
+                    </div>
+
+                    <button class="btn-pay-order" onclick="handleCheckout()">Оплатить заказ</button>
+                </div>
+
+                <div>
+                    <div class="cart-section-title">Состав заказа</div>
+                    <div class="cart-items-list" id="cartPageList">
+                        <div class="empty-cart">Корзина пуста</div>
+                    </div>
+
+                    <div class="cart-total-box" id="cartPageTotal" style="display: none;">
+                        Итого: 0 ₽
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/bandos158" target="_blank">Магазин в Telegram</a></p>
+    </footer>
+
+    <script>
+        const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
+        const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
+
+        let cachedSerials = [];
+        let currentDiscountPercent = 0;
+        let appliedSerialNumber = '';
+
+        function setupBackToProductButton() {
+            const backBtn = document.getElementById('backToProductBtn');
+            const referrer = document.referrer;
+            
+            let lastProductUrl = localStorage.getItem('hh_last_product_url');
+            
+            if (!lastProductUrl) {
+                let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
+                if (cart.length > 0 && cart[cart.length - 1].url) {
+                    lastProductUrl = cart[cart.length - 1].url;
+                }
+            }
+
+            if (lastProductUrl) {
+                backBtn.href = lastProductUrl;
+                backBtn.style.display = 'inline-block';
+            } else if (referrer && referrer.includes('tovar.html')) {
+                backBtn.href = referrer;
+                backBtn.style.display = 'inline-block';
+            } else {
+                backBtn.style.display = 'none';
+            }
+        }
+
+        async function preloadSerials() {
+            try {
+                const response = await fetch(VERIFY_WEB_APP_URL);
+                if (response.ok) {
+                    const data = await response.json();
+                    cachedSerials = data.map(item => item.serial ? item.serial.toUpperCase() : '');
+                }
+            } catch (e) {
+                console.log('Фоновая загрузка базы подлинности');
+            }
+        }
+
+        const serialInputEl = document.getElementById('serialDiscountInput');
+        if (serialInputEl) {
+            serialInputEl.addEventListener('input', function (e) {
+                let val = e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                if (val.length > 2) val = val.slice(0, 2) + '-' + val.slice(2);
+                if (val.length > 7) val = val.slice(0, 7) + '-' + val.slice(7);
+                if (val.length > 12) val = val.slice(0, 12) + '-' + val.slice(12);
+                e.target.value = val;
+            });
+        }
+
+        const phoneInputField = document.getElementById('phoneInput');
+        phoneInputField.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (!value) {
+                e.target.value = '';
+                return;
+            }
+
+            if (['7', '8', '9'].includes(value[0])) {
+                if (value[0] === '9') value = '7' + value;
+                let firstChar = '+7';
+                let formatted = firstChar + ' ';
+                
+                if (value.length > 1) {
+                    formatted += '(' + value.substring(1, 4);
+                }
+                if (value.length >= 5) {
+                    formatted += ') ' + value.substring(4, 7);
+                }
+                if (value.length >= 8) {
+                    formatted += '-' + value.substring(7, 9);
+                }
+                if (value.length >= 10) {
+                    formatted += '-' + value.substring(9, 11);
+                }
+                e.target.value = formatted;
+            } else {
+                e.target.value = '+' + value.substring(0, 15);
+            }
+        });
+
+        // 1. ОТОБРАЖЕНИЕ КОРЗИНЫ С УЧЕТОМ ID
+        function loadCartPage() {
+            let rawCart = JSON.parse(localStorage.getItem('hh_cart')) || [];
+            
+            let cartMap = {};
+            rawCart.forEach(item => {
+                let key = item.id || item.name; // Подстраховка на случай старого кэша
+                if (cartMap[key]) {
+                    cartMap[key].quantity += (item.quantity !== undefined ? item.quantity : 1);
+                } else {
+                    cartMap[key] = {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        image: item.image || 'logo.png',
+                        quantity: item.quantity !== undefined ? item.quantity : 1,
+                        url: item.url || 'tovar.html'
+                    };
+                }
+            });
+            let cart = Object.values(cartMap);
+
+            const listEl = document.getElementById('cartPageList');
+            const totalEl = document.getElementById('cartPageTotal');
+            const checkoutSec = document.getElementById('checkoutSection');
+
+            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
+            const emailInp = document.getElementById('emailInput');
+            if (logged && emailInp) {
+                let userEmail = logged.email;
+                if (!userEmail) {
+                    const userObj = JSON.parse(localStorage.getItem('hh_user_' + logged.name) || 'null');
+                    if (userObj && userObj.email) userEmail = userObj.email;
+                }
+                if (userEmail) {
+                    emailInp.value = userEmail;
+                    emailInp.disabled = true;
+                }
+            }
+
+            if (cart.length === 0) {
+                listEl.innerHTML = '<div class="empty-cart">Ваша корзина пуста</div>';
+                totalEl.style.display = 'none';
+                checkoutSec.style.display = 'none';
+            } else {
+                let html = '';
+                let total = 0;
+
+                cart.forEach((item) => {
+                    let itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    let passKey = item.id || item.name;
+                    let mediaHtml = item.image.includes('.webm') 
+                        ? `<video src="${item.image}#t=0.001" class="cart-item-img" preload="metadata" playsinline style="object-fit: cover; pointer-events: none;"></video>`
+                        : `<img src="${item.image}" alt="${item.name}" class="cart-item-img">`;
+                    
+                    html += `
+                        <div class="cart-item-row">
+                            <div class="cart-item-left">
+                                ${mediaHtml}
+                                <div class="cart-item-info">
+                                    <h4><a href="${item.url}" style="text-decoration: none; color: inherit;">${item.name}</a></h4>
+                                    <span>${item.price.toLocaleString()} ₽</span>
+                                </div>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQuantity('${passKey}', -1)">-</button>
+                                <span class="qty-value">${item.quantity}</span>
+                                <button class="qty-btn" onclick="changeQuantity('${passKey}', 1)">+</button>
+                            </div>
+                            <button class="btn-remove" onclick="removeFromCartPage('${passKey}')">Удалить</button>
+                        </div>
+                    `;
+                });
+
+                listEl.innerHTML = html;
+
+                if (currentDiscountPercent > 0) {
+                    let originalTotal = total;
+                    let discountAmount = total * (currentDiscountPercent / 100);
+                    total = total - discountAmount;
+                    totalEl.innerHTML = `Итого (со скидкой ${currentDiscountPercent}%): <span style="text-decoration: line-through; color: #888; font-size: 0.9rem; margin-right: 5px;">${originalTotal.toLocaleString()} ₽</span> ${total.toLocaleString()} ₽`;
+                } else {
+                    totalEl.textContent = `Итого: ${total.toLocaleString()} ₽`;
+                }
+
+                totalEl.style.display = 'block';
+                checkoutSec.style.display = 'block';
+            }
+        }
+
+        // 2. ИЗМЕНЕНИЕ КОЛИЧЕСТВА ПО ID
+        function changeQuantity(itemId, delta) {
+            let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
+            let item = cart.find(i => String(i.id || i.name) === String(itemId));
+            
+            if (item) {
+                let currentQty = item.quantity !== undefined ? item.quantity : 1;
+                let newQty = currentQty + delta;
+                if (newQty < 0) newQty = 0; 
+                if (newQty > 3) newQty = 3; 
+                item.quantity = newQty;
+            }
+
+            localStorage.setItem('hh_cart', JSON.stringify(cart));
+            loadCartPage();
+        }
+
+        // 3. УДАЛЕНИЕ ПО ID
+        function removeFromCartPage(itemId) {
+            let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
+            cart = cart.filter(item => String(item.id || item.name) !== String(itemId));
+            localStorage.setItem('hh_cart', JSON.stringify(cart));
+            loadCartPage();
+            setupBackToProductButton();
+        }
+
+        async function applySerialDiscount() {
+            const inputVal = document.getElementById('serialDiscountInput').value.trim().toUpperCase();
+            const msgEl = document.getElementById('discountMsg');
+            const btn = document.getElementById('serialDiscountBtn');
+
+            if (!inputVal) {
+                msgEl.style.color = '#e74c3c';
+                msgEl.textContent = 'Введите номер.';
+                return;
+            }
+
+            let usedSerials = JSON.parse(localStorage.getItem('hh_used_serials')) || [];
+            if (usedSerials.includes(inputVal)) {
+                msgEl.style.color = '#e74c3c';
+                msgEl.textContent = 'Этот серийный номер уже был использован при оформлении заказа.';
+                return;
+            }
+
+            if (cachedSerials.length > 0) {
+                if (cachedSerials.includes(inputVal)) {
+                    activateDiscount(inputVal);
+                } else {
+                    msgEl.style.color = '#e74c3c';
+                    msgEl.textContent = 'Номер не найден в базе подлинности.';
+                }
+                return;
+            }
+
+            btn.disabled = true;
+            msgEl.style.color = '#666';
+            msgEl.textContent = 'Проверка...';
+
+            try {
+                const response = await fetch(VERIFY_WEB_APP_URL);
+                if (!response.ok) throw new Error('Ошибка сети');
+                
+                const data = await response.json();
+                cachedSerials = data.map(item => item.serial ? item.serial.toUpperCase() : '');
+                btn.disabled = false;
+
+                if (cachedSerials.includes(inputVal)) {
+                    activateDiscount(inputVal);
+                } else {
+                    msgEl.style.color = '#e74c3c';
+                    msgEl.textContent = 'Номер не найден в базе подлинности.';
+                }
+            } catch (error) {
+                btn.disabled = false;
+                msgEl.style.color = '#e74c3c';
+                msgEl.textContent = 'Ошибка связи с базой.';
+            }
+        }
+
+        function activateDiscount(serial) {
+            const msgEl = document.getElementById('discountMsg');
+            const btn = document.getElementById('serialDiscountBtn');
+            
+            currentDiscountPercent = 10;
+            appliedSerialNumber = serial;
+            if (btn) btn.disabled = true;
+            document.getElementById('serialDiscountInput').disabled = true;
+            msgEl.style.color = '#27ae60';
+            msgEl.textContent = 'Скидка 10% успешно применена!';
+            loadCartPage();
+        }
+
+        function generateOrderNumber() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return `HH-${randomNum}`;
+        }
+
+        let currentOrderNumber = '';
+
+        // 4. ОФОРМЛЕНИЕ ЗАКАЗА С ГРУППИРОВКОЙ ПО ID
+        async function handleCheckout() {
+            const nameInput = document.getElementById('fullNameInput');
+            const emailInput = document.getElementById('emailInput');
+            const phoneInput = document.getElementById('phoneInput');
+            const cityInput = document.getElementById('cityInput');
+            const addressInput = document.getElementById('addressInput');
+
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const phoneError = document.getElementById('phoneError');
+            const cityError = document.getElementById('cityError');
+            const addressError = document.getElementById('addressError');
+
+            [nameInput, emailInput, phoneInput, cityInput, addressInput].forEach(inp => inp.classList.remove('input-error'));
+            [nameError, emailError, phoneError, cityError, addressError].forEach(err => err.style.display = 'none');
+
+            const fullName = nameInput.value.trim();
+            const email = emailInput.value.trim().toLowerCase();
+            const phone = phoneInput.value.trim();
+            const city = cityInput.value.trim();
+            const address = addressInput.value.trim();
+            const service = document.getElementById('deliveryService').value;
+
+            let isValid = true;
+
+            const nameWords = fullName.split(/\s+/).filter(w => w.length > 0);
+            const isNameValid = nameWords.length === 3 && nameWords.every(w => /^[А-Яа-яЁёA-Za-z-]{2,}$/.test(w) && !/^([А-Яа-яЁёA-Za-z])\1+$/.test(w));
+            if (!isNameValid) {
+                nameInput.classList.add('input-error');
+                nameError.style.display = 'block';
+                isValid = false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailRegex.test(email) && !/^(.?)\1+$/.test(email.split('@')[0]);
+            
+            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
+            let isDuplicateEmail = false;
+
+            if (!logged) {
+                for (let key in localStorage) {
+                    if (key.startsWith('hh_user_')) {
+                        let u = JSON.parse(localStorage.getItem(key));
+                        if (u.email && u.email.toLowerCase() === email) {
+                            isDuplicateEmail = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!isEmailValid) {
+                emailInput.classList.add('input-error');
+                emailError.textContent = 'Введите корректный адрес электронной почты';
+                emailError.style.display = 'block';
+                isValid = false;
+            } else if (isDuplicateEmail) {
+                emailInput.classList.add('input-error');
+                emailError.textContent = 'На этот Email уже зарегистрирован аккаунт. Пожалуйста, войдите в профиль!';
+                emailError.style.display = 'block';
+                isValid = false;
+            }
+
+            const digitsOnly = phone.replace(/\D/g, '');
+            const isPhoneValid = digitsOnly.length === 11 && !/^(\d)\1+$/.test(digitsOnly);
+            if (!isPhoneValid) {
+                phoneInput.classList.add('input-error');
+                phoneError.style.display = 'block';
+                isValid = false;
+            }
+
+            const isCityValid = city.length >= 3 && /^[А-Яа-яЁёA-Za-z\s-]+$/.test(city) && !/^([А-Яа-яЁёA-Za-z])\1+$/.test(city);
+            if (!isCityValid) {
+                cityInput.classList.add('input-error');
+                cityError.style.display = 'block';
+                isValid = false;
+            }
+
+            const isAddressValid = address.length >= 5 && /[\d]/.test(address) && /[\p{L}]/u.test(address) && !/^(.?)\1+$/.test(address.replace(/\s/g, ''));
+            if (!isAddressValid) {
+                addressInput.classList.add('input-error');
+                addressError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            let rawCart = JSON.parse(localStorage.getItem('hh_cart')) || [];
+            let activeItems = rawCart.filter(item => (item.quantity !== undefined ? item.quantity : 1) > 0);
+            if (activeItems.length === 0) {
+                alert('Увеличьте количество хотя бы одного товара больше 0!');
+                return;
+            }
+
+            let total = activeItems.reduce((sum, item) => sum + (item.price * (item.quantity !== undefined ? item.quantity : 1)), 0);
+
+            if (currentDiscountPercent > 0) {
+                total = total - (total * (currentDiscountPercent / 100));
+            }
+
+            let finalCartMap = {};
+            activeItems.forEach(item => {
+                let key = String(item.id || item.name);
+                if (!finalCartMap[key]) {
+                    finalCartMap[key] = { name: item.name, qty: 0 };
+                }
+                finalCartMap[key].qty += (item.quantity !== undefined ? item.quantity : 1);
+            });
+            let itemsTextSummary = Object.values(finalCartMap).map(info => `${info.name} (${info.qty} шт.)`).join(', ');
+
+            let fullDeliveryInfo = `Служба: ${service} | Город: ${city} | Адрес: ${address} | Получатель: ${fullName} (${phone})`;
+
+            if (!window.sessionStorage.getItem('hh_order_num')) {
+                window.sessionStorage.setItem('hh_order_num', generateOrderNumber());
+            }
+            currentOrderNumber = window.sessionStorage.getItem('hh_order_num');
+            const currentDate = new Date().toLocaleString();
+
+            try {
+                fetch(ORDERS_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        dateOrder: currentDate,
+                        orderNum: currentOrderNumber,
+                        productName: itemsTextSummary,
+                        cost: total + ' ₽',
+                        deliveryAddress: fullDeliveryInfo,
+                        email: email
+                    })
+                });
+            } catch (e) {
+                console.log('Ошибка отправки в базу');
+            }
+
+            let cached = JSON.parse(localStorage.getItem('hh_orders_cache_' + email) || '[]');
+            cached.push({
+                orderNum: currentOrderNumber,
+                dateOrder: currentDate,
+                productName: itemsTextSummary,
+                cost: total + ' ₽',
+                deliveryAddress: fullDeliveryInfo,
+                orderStatus: 'Принят в обработку'
+            });
+            localStorage.setItem('hh_orders_cache_' + email, JSON.stringify(cached));
+
+            if (appliedSerialNumber) {
+                let usedSerials = JSON.parse(localStorage.getItem('hh_used_serials')) || [];
+                if (!usedSerials.includes(appliedSerialNumber)) {
+                    usedSerials.push(appliedSerialNumber);
+                    localStorage.setItem('hh_used_serials', JSON.stringify(usedSerials));
+                }
+            }
+
+            localStorage.removeItem('hh_cart');
+
+            const text = encodeURIComponent(`Здравствуйте! Оплатил заказ №${currentOrderNumber}:\nТовары: ${itemsTextSummary}\nИтого: ${total.toLocaleString()} ₽\nПолучатель: ${fullName}\nEmail: ${email}\nТелефон: ${phone}\nДоставка: ${service} — г. ${city}, ${address}\nПрикрепляю чек:`);
+            const tgLink = `https://t.me/bandos158?text=${text}`;
+
+            const layoutContainer = document.getElementById('cartMainLayout');
+            layoutContainer.innerHTML = `
+                <div class="success-order-box">
+                    <h3>Спасибо за ваш выбор!</h3>
+                    <p>Заказ успешно зафиксирован в нашей системе.</p>
+                    <div class="order-number-badge">Номер заказа: ${currentOrderNumber}</div>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Отсканируйте QR-код для оплаты и отправьте чек в Telegram.</p>
+                    
+                    <div class="qr-container">
+                        <svg width="160" height="160" viewBox="0 0 25 25" style="display: block; margin: 0 auto;">
+                            <path fill="#fff" d="M0 0h25v25H0z"/>
+                            <path d="M0 0h7v7H0zM2 2h3v3H2z" fill="#000"/>
+                            <path d="M18 0h7v7h-7zM20 2h3v3h-3z" fill="#000"/>
+                            <path d="M0 18h7v7H0zM2 20h3v3H2z" fill="#000"/>
+                            <path d="M9 2h2v3H9zM13 2h2v2h-2zM9 7h2v2H9zM13 6h2v3h-2zM16 2h2v2h-2zM16 7h2v2h-2zM6 9h2v2H6zM10 9h2v2h-1zM14 10h3v2h-3zM18 9h2v2h-2zM22 9h2v2h-2zM2 13h2v3H2zM6 13h2v2H6zM10 13h2v2H-2zM13 13h3v3h-3zM18 13h2v2h-2zM21 13h2v3H2zM9 16h2v3H9zM13 18h2v2h-2zM16 16h2v2h-2zM21 18h2v2h-2zM6 19h2v2H6zM10 21h2v2h-2zM18 21h2v2h-2zM21 21h2v2h-2zM0 9h4v2H0zM9 0h2v4H9zM16 0h2v3h-2z" fill="#000"/>
+                        </svg>
+                        <div class="qr-hint">Оплата по СБП</div>
+                    </div>
+
+                    <a href="${tgLink}" id="finalTgBtn" target="_blank" class="btn-tg-pay" style="margin: 20px auto 0 auto; max-width: 320px;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
+                        Отправить чек в Telegram
+                    </a>
+                </div>
+            `;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCartPage();
+            preloadSerials();
+            setupBackToProductButton();
+        });
+    </script>
+</body>
+</html>

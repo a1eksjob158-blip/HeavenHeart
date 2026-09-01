@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Личный кабинет — Heaven Heart</title>
+
+    <!-- Основные SEO-метаданные -->
+    <meta name="description" content="Личный кабинет покупателя Heaven Heart. Отслеживайте статус заказов, управляйте профилем и активируйте персональные скидки.">
+    <meta name="keywords" content="Heaven Heart, личный кабинет, мои заказы, статус заказа, премиум аксессуары">
+    <meta name="author" content="Heaven Heart Store">
+
+    <!-- Open Graph / Превью для Telegram и соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Личный кабинет — Heaven Heart">
+    <meta property="og:description" content="Управляйте своими заказами и привилегиями в личном кабинете Heaven Heart.">
+    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/acccount.html">
+
+    <!-- Twitter Card (карточка для шеринга) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Личный кабинет — Heaven Heart">
+    <meta name="twitter:description" content="Управляйте своими заказами и привилегиями в личном кабинете Heaven Heart.">
+    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
+
+    <!-- Мобильные настройки интерфейса и темы -->
+    <meta name="theme-color" content="#111111">
+    <meta name="msapplication-TileColor" content="#111111">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Подключение шрифта Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: #111111;
+            line-height: 1.6;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: transparent;
+            padding: calc(15px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .header-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            display: inline-block;
+            margin-bottom: -15px;
+            mix-blend-mode: multiply;
+            cursor: pointer;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            color: #666666;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .account-card {
+            background-color: #fbfbfb;
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .account-header h2 {
+            font-size: 1.8rem;
+            color: #111;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 25px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: #777;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .auth-tab-btn.active {
+            color: #b38228;
+            border-bottom: 2px solid #b38228;
+        }
+
+        .auth-form {
+            display: none;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #111;
+            font-size: 1rem; /* 16px исключает автозум в Safari на iPhone */
+        }
+
+        .cabinet-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+        }
+
+        .cabinet-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .verification-banner {
+            background: rgba(229, 169, 59, 0.12);
+            border: 1px solid rgba(229, 169, 59, 0.4);
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .verification-banner.verified {
+            background: rgba(46, 204, 113, 0.12);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            color: #27ae60;
+        }
+
+        .discount-section {
+            background: rgba(179, 130, 40, 0.05);
+            border: 1px solid rgba(179, 130, 40, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .discount-section h3 {
+            font-size: 1.1rem;
+            color: #b38228;
+            margin-bottom: 10px;
+        }
+
+        .discount-input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .discount-input-group input {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .discount-result {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .user-info-section {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .user-info-section h3 {
+            font-size: 1.1rem;
+            color: #111;
+            margin-bottom: 12px;
+        }
+
+        .user-info-item {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .user-info-item strong {
+            color: #111;
+        }
+
+        .orders-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #111;
+        }
+
+        .order-card {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f4f4f4;
+            padding-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .badge-status {
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-assembly {
+            background: rgba(229, 169, 59, 0.15);
+            color: #d39e2e;
+            border: 1px solid rgba(229, 169, 59, 0.4);
+        }
+        .status-transit {
+            background: rgba(42, 171, 238, 0.15);
+            color: #2AABEE;
+            border: 1px solid rgba(42, 171, 238, 0.4);
+        }
+        .status-delivered {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+
+        .order-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .order-item-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .order-item-row img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #f0f0f0;
+            border: 1px solid #eee;
+        }
+
+        .order-item-info {
+            flex-grow: 1;
+        }
+
+        .order-item-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #111;
+        }
+
+        .order-item-meta {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 2px;
+        }
+
+        .order-item-price {
+            font-weight: bold;
+            color: #b38228;
+            font-size: 0.95rem;
+        }
+
+        .order-footer {
+            border-top: 1px dashed #eee;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .no-orders {
+            color: #666;
+            font-style: italic;
+            background: #f4f4f4;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 22px;
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background-color: #b38228;
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            border-radius: 20px;
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            width: 100%;
+        }
+
+        .btn-danger:hover {
+            background-color: #e74c3c;
+            color: #fff;
+            border-color: #e74c3c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #eaeaea;
+            color: #666;
+        }
+
+        footer a {
+            color: #2AABEE;
+            text-decoration: underline;
+        }
+
+        /* ========================================================
+           АДАПТАЦИЯ ДЛЯ IPHONE И ДРУГИХ СМАРТФОНОВ (до 768px)
+           ======================================================== */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .account-card {
+                padding: 24px 16px;
+                border-radius: 14px;
+            }
+
+            .account-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .account-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .account-header .btn {
+                width: 100%;
+            }
+
+            .cabinet-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .verification-banner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                gap: 10px;
+                padding: 14px;
+            }
+
+            .verification-banner .btn {
+                width: 100%;
+            }
+
+            .discount-input-group {
+                flex-direction: column;
+            }
+
+            .discount-input-group .btn {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .order-item-row img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .auth-tabs {
+                max-width: 100%;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <p>Личный кабинет покупателя</p>
+    </header>
+
+    <div class="container">
+        <!-- Карточка входа / регистрации -->
+        <div class="account-card" id="authCard" style="display: none;">
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tabLoginBtn" type="button" onclick="switchTab('login')">Вход</button>
+                <button class="auth-tab-btn" id="tabRegBtn" type="button" onclick="switchTab('register')">Регистрация</button>
+            </div>
+
+            <!-- Форма входа -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Никнейм или Email (от 6 символов)</label>
+                    <input type="text" id="loginUsername" required minlength="6" placeholder="Ваш никнейм или email">
+                </div>
+                <div class="form-group">
+                    <label>Пароль (от 6 символов)</label>
+                    <input type="password" id="loginPassword" required minlength="6" placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Войти</button>
+            </form>
+
+            <!-- Форма регистрации -->
+            <form class="auth-form" id="regForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Никнейм (минимум 6 символов)</label>
+                    <input type="text" id="regUsername" required minlength="6" placeholder="Придумайте никнейм">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" required placeholder="mail@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Пароль (минимум 6 символов)</label>
+                    <input type="password" id="regPassword" required minlength="6" placeholder="Придумайте пароль">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Зарегистрироваться</button>
+            </form>
+        </div>
+
+        <!-- Панель кабинета -->
+        <div class="account-card" id="cabinetCard" style="display: none;">
+            <div class="account-header">
+                <h2>Личный кабинет, <span id="userName">Гость</span></h2>
+                <a href="index.html" class="btn">← Вернуться в магазин</a>
+            </div>
+
+            <!-- Блок подтверждения email -->
+            <div class="verification-banner" id="verificationBanner" style="margin-bottom: 25px;">
+                <div>
+                    <strong id="verifyStatusText">📧 Почта не подтверждена!</strong>
+                    <p style="font-size: 0.85rem; margin-top: 3px;" id="verifySubText">Подтвердите почту для активации полного доступа.</p>
+                </div>
+                <button class="btn btn-sm" id="verifyActionBtn" type="button" onclick="sendVerificationEmail()">Подтвердить</button>
+            </div>
+
+            <!-- Сетка -->
+            <div class="cabinet-grid">
+                
+                <!-- ЛЕВАЯ КОЛОНКА: Мои заказы -->
+                <div class="cabinet-column">
+                    <div class="orders-section">
+                        <h3>Мои заказы</h3>
+                        <div id="ordersListContainer">
+                            <div class="no-orders">У вас пока нет оформленных заказов.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ПРАВАЯ КОЛОНКА: Скидки и профиль -->
+                <div class="cabinet-column">
+                    <div class="user-info-section">
+                        <h3>Данные профиля</h3>
+                        <div class="user-info-item">Логин: <strong id="profileLogin">-</strong></div>
+                        <div class="user-info-item">Email: <strong id="profileEmail">-</strong></div>
+                    </div>
+
+                    <!-- Блок скидки (без базовой скидки) -->
+                    <div class="discount-section">
+                        <h3>Персональная скидка</h3>
+                        <p style="color: #666; font-size: 0.85rem; margin-bottom: 10px;">Введите серийный номер изделия для активации привилегии.</p>
+                        <div class="discount-input-group">
+                            <input type="text" id="productNumberInput" placeholder="HH-XXXX-XXXX-XXXX" maxlength="17">
+                            <button class="btn btn-sm" id="discountBtn" type="button" onclick="calculateDiscount()">Применить</button>
+                        </div>
+                        <div class="discount-result" id="discountResult" style="color: #888;">Скидка не активна</div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-danger" type="button" onclick="logout()">Выйти из аккаунта</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/bandos158" target="_blank">Магазин в Telegram</a></p>
+    </footer>
+
+    <script>
+        const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
+        const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
+
+        let cachedSerials = [];
+
+        async function preloadSerials() {
+            try {
+                const response = await fetch(VERIFY_WEB_APP_URL);
+                if (response.ok) {
+                    const data = await response.json();
+                    cachedSerials = data.map(item => item.serial ? item.serial.toUpperCase() : '');
+                }
+            } catch (e) {
+                console.log('Фоновая загрузка базы подлинности');
+            }
+        }
+
+        const serialInput = document.getElementById('productNumberInput');
+        if (serialInput) {
+            serialInput.addEventListener('input', function (e) {
+                let val = e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                if (val.length > 2) val = val.slice(0, 2) + '-' + val.slice(2);
+                if (val.length > 7) val = val.slice(0, 7) + '-' + val.slice(7);
+                if (val.length > 12) val = val.slice(0, 12) + '-' + val.slice(12);
+                e.target.value = val;
+            });
+        }
+
+        function switchTab(type) {
+            const loginBtn = document.getElementById('tabLoginBtn');
+            const regBtn = document.getElementById('tabRegBtn');
+            const loginForm = document.getElementById('loginForm');
+            const regForm = document.getElementById('regForm');
+
+            if (type === 'login') {
+                loginBtn.classList.add('active');
+                regBtn.classList.remove('active');
+                loginForm.classList.add('active');
+                regForm.classList.remove('active');
+            } else {
+                regBtn.classList.add('active');
+                loginBtn.classList.remove('active');
+                regForm.classList.add('active');
+                loginForm.classList.remove('active');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value;
+
+            if (username.length < 6) {
+                alert('Никнейм должен содержать минимум 6 символов!');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Пароль должен содержать минимум 6 символов!');
+                return;
+            }
+
+            for (let key in localStorage) {
+                if (key.startsWith('hh_user_')) {
+                    try {
+                        let u = JSON.parse(localStorage.getItem(key));
+                        if (u && u.username && u.username.toLowerCase() === username.toLowerCase()) {
+                            alert('Пользователь с таким никнеймом уже существует!');
+                            return;
+                        }
+                        if (u && u.email && u.email.toLowerCase() === email) {
+                            alert('Пользователь с таким Email уже существует!');
+                            return;
+                        }
+                    } catch(err) {}
+                }
+            }
+
+            const userData = { username, email, password, isVerified: false };
+            localStorage.setItem('hh_user_' + username, JSON.stringify(userData));
+            localStorage.setItem('hh_logged_in', JSON.stringify({ name: username, email: email }));
+            
+            checkAuth();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (inputVal.length < 6) {
+                alert('Никнейм или Email должен содержать не менее 6 символов!');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Пароль должен содержать не менее 6 символов!');
+                return;
+            }
+
+            let foundUser = null;
+
+            for (let key in localStorage) {
+                if (key.startsWith('hh_user_')) {
+                    try {
+                        let u = JSON.parse(localStorage.getItem(key));
+                        if (u && ((u.username && u.username.toLowerCase() === inputVal.toLowerCase()) || 
+                                  (u.email && u.email.toLowerCase() === inputVal.toLowerCase()))) {
+                            foundUser = u;
+                            break;
+                        }
+                    } catch(err) {}
+                }
+            }
+
+            if (!foundUser) {
+                alert('Пользователь не найден.');
+                return;
+            }
+
+            if (foundUser.password !== password) {
+                alert('Неверный пароль!');
+                return;
+            }
+
+            localStorage.setItem('hh_logged_in', JSON.stringify({ name: foundUser.username, email: foundUser.email }));
+            checkAuth();
+        }
+
+        function getUserEmail(username) {
+            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || '{}');
+            if (logged.email) return logged.email.trim().toLowerCase();
+
+            for (let key in localStorage) {
+                if (key.startsWith('hh_user_')) {
+                    try {
+                        let u = JSON.parse(localStorage.getItem(key));
+                        if (u && u.username && u.username.toLowerCase() === username.toLowerCase() && u.email) {
+                            return u.email.trim().toLowerCase();
+                        }
+                    } catch(err) {}
+                }
+            }
+            return '';
+        }
+
+        async function checkAuth() {
+            const loggedStr = localStorage.getItem('hh_logged_in');
+            const authCard = document.getElementById('authCard');
+            const cabinetCard = document.getElementById('cabinetCard');
+
+            if (loggedStr) {
+                let session = null;
+                try {
+                    session = JSON.parse(loggedStr);
+                } catch(e) {
+                    logout();
+                    return;
+                }
+
+                let foundUser = null;
+
+                for (let key in localStorage) {
+                    if (key.startsWith('hh_user_')) {
+                        try {
+                            let u = JSON.parse(localStorage.getItem(key));
+                            if (u && u.username && session.name && u.username.toLowerCase() === session.name.toLowerCase()) {
+                                foundUser = u;
+                                break;
+                            }
+                        } catch(err) {}
+                    }
+                }
+                
+                if (!foundUser) {
+                    logout();
+                    return;
+                }
+
+                const email = getUserEmail(foundUser.username);
+
+                authCard.style.display = 'none';
+                cabinetCard.style.display = 'block';
+                document.getElementById('userName').textContent = foundUser.username;
+                document.getElementById('profileLogin').textContent = foundUser.username;
+                document.getElementById('profileEmail').textContent = foundUser.email || email;
+
+                updateVerificationUI(foundUser.isVerified);
+
+                const cachedOrders = localStorage.getItem('hh_orders_cache_' + email);
+                if (cachedOrders) {
+                    try {
+                        renderUserOrders(JSON.parse(cachedOrders));
+                    } catch(e) {}
+                }
+
+                fetchUserOrders(email);
+
+                const savedDiscount = localStorage.getItem('hh_discount_' + foundUser.username);
+                const discountResult = document.getElementById('discountResult');
+                if (savedDiscount) {
+                    discountResult.textContent = `Ваша скидка: ${savedDiscount}`;
+                    discountResult.style.color = '#27ae60';
+                } else {
+                    discountResult.textContent = 'Скидка не активна';
+                    discountResult.style.color = '#888';
+                }
+            } else {
+                authCard.style.display = 'block';
+                cabinetCard.style.display = 'none';
+            }
+        }
+
+        async function fetchUserOrders(email) {
+            if (!email) {
+                renderUserOrders([]);
+                return;
+            }
+
+            try {
+                const cleanEmail = email.trim().toLowerCase();
+                const response = await fetch(`${ORDERS_WEB_APP_URL}?email=${encodeURIComponent(cleanEmail)}`);
+                if (!response.ok) throw new Error('Ошибка сети');
+
+                const orders = await response.json();
+                
+                localStorage.setItem('hh_orders_cache_' + cleanEmail, JSON.stringify(orders));
+                renderUserOrders(orders);
+            } catch (error) {
+                console.log('Синхронизация заказов не удалась, использован кэш');
+            }
+        }
+
+        function renderUserOrders(orders) {
+            const container = document.getElementById('ordersListContainer');
+            if (!orders || orders.length === 0) {
+                container.innerHTML = '<div class="no-orders">У вас пока нет оформленных заказов.</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            
+            orders.slice().reverse().forEach(order => {
+                let statusText = order.orderStatus || 'Принят в обработку';
+                let badgeClass = 'status-assembly';
+                
+                let lowerStatus = statusText.toLowerCase();
+                if (lowerStatus.includes('пути') || lowerStatus.includes('отправлен')) badgeClass = 'status-transit';
+                if (lowerStatus.includes('доставлен') || lowerStatus.includes('выдан')) badgeClass = 'status-delivered';
+
+                let card = document.createElement('div');
+                card.className = 'order-card';
+                card.innerHTML = `
+                    <div class="order-top">
+                        <span>Заказ #${order.orderNum || 'HH-0000'} от ${order.dateOrder || ''}</span>
+                        <span class="badge-status ${badgeClass}">${statusText}</span>
+                    </div>
+                    <div class="order-items-list">
+                        <div class="order-item-row">
+                            <img src="logo.png" alt="Товар">
+                            <div class="order-item-info">
+                                <div class="order-item-title">${order.productName || 'Товар'}</div>
+                                <div class="order-item-meta">${order.deliveryAddress || 'Доставка'}</div>
+                            </div>
+                            <div class="order-item-price">${order.cost || ''}</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <span>Статус: <strong>${statusText}</strong></span>
+                        <span style="font-weight: bold; color: #b38228;">Итого: ${order.cost || ''}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateVerificationUI(isVerified) {
+            const banner = document.getElementById('verificationBanner');
+            const statusText = document.getElementById('verifyStatusText');
+            const subText = document.getElementById('verifySubText');
+            const actionBtn = document.getElementById('verifyActionBtn');
+
+            if (isVerified) {
+                banner.classList.add('verified');
+                statusText.textContent = '✓ Email подтвержден';
+                subText.textContent = 'Аккаунт полностью активен.';
+                actionBtn.style.display = 'none';
+            } else {
+                banner.classList.remove('verified');
+                statusText.textContent = '📧 Почта не подтверждена!';
+                subText.textContent = 'Подтвердите почту для получения уведомлений.';
+                actionBtn.style.display = 'inline-block';
+                actionBtn.textContent = 'Подтвердить';
+            }
+        }
+
+        function sendVerificationEmail() {
+            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || '{}');
+            if (!logged || !logged.name) return;
+
+            let user = null;
+            for (let key in localStorage) {
+                if (key.startsWith('hh_user_')) {
+                    try {
+                        let u = JSON.parse(localStorage.getItem(key));
+                        if (u && u.username && u.username.toLowerCase() === logged.name.toLowerCase()) {
+                            user = u;
+                            break;
+                        }
+                    } catch(e) {}
+                }
+            }
+            if (!user) return;
+
+            const confirmAction = confirm(`Письмо отправлено на: ${user.email}\n\nНажмите «ОК», чтобы подтвердить почту.`);
+            
+            if (confirmAction) {
+                user.isVerified = true;
+                localStorage.setItem('hh_user_' + user.username, JSON.stringify(user));
+                updateVerificationUI(true);
+                alert('Почта успешно подтверждена!');
+            }
+        }
+
+        async function calculateDiscount() {
+            const inputVal = document.getElementById('productNumberInput').value.trim().toUpperCase();
+            const resultEl = document.getElementById('discountResult');
+            const btn = document.getElementById('discountBtn');
+            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || '{}');
+
+            if (!inputVal) {
+                resultEl.textContent = 'Введите серийный номер!';
+                resultEl.style.color = '#e74c3c';
+                return;
+            }
+
+            if (cachedSerials.length > 0) {
+                if (cachedSerials.includes(inputVal)) {
+                    applyValidDiscount(logged.name);
+                } else {
+                    resultEl.textContent = 'Номер не найден в базе подлинности.';
+                    resultEl.style.color = '#e74c3c';
+                }
+                return;
+            }
+
+            btn.disabled = true;
+            resultEl.style.color = '#666';
+            resultEl.textContent = 'Проверка номера в базе...';
+
+            try {
+                const response = await fetch(VERIFY_WEB_APP_URL);
+                if (!response.ok) throw new Error('Ошибка сети');
+                
+                const data = await response.json();
+                cachedSerials = data.map(item => item.serial ? item.serial.toUpperCase() : '');
+                btn.disabled = false;
+
+                if (cachedSerials.includes(inputVal)) {
+                    applyValidDiscount(logged.name);
+                } else {
+                    resultEl.textContent = 'Номер не найден в базе подлинности.';
+                    resultEl.style.color = '#e74c3c';
+                }
+            } catch (error) {
+                btn.disabled = false;
+                resultEl.textContent = 'Ошибка проверки номера.';
+                resultEl.style.color = '#e74c3c';
+            }
+        }
+
+        function applyValidDiscount(username) {
+            const resultEl = document.getElementById('discountResult');
+            resultEl.textContent = 'Скидка 10% успешно активирована!';
+            resultEl.style.color = '#27ae60';
+
+            if (username) {
+                localStorage.setItem('hh_discount_' + username, '10%');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('hh_logged_in');
+            checkAuth();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            preloadSerials();
+        });
+    </script>
+</body>
+</html>
