@@ -169,6 +169,13 @@
             font-size: 1rem; /* 16px исключает автозум в Safari на iPhone */
         }
 
+        .form-msg {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
         .cabinet-grid {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -433,9 +440,6 @@
             text-decoration: underline;
         }
 
-        /* ========================================================
-           АДАПТАЦИЯ ДЛЯ IPHONE И ДРУГИХ СМАРТФОНОВ (до 768px)
-           ======================================================== */
         @media (max-width: 768px) {
             .container {
                 margin: 20px auto;
@@ -522,21 +526,22 @@
             <!-- Форма входа -->
             <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label>Никнейм или Email (от 6 символов)</label>
-                    <input type="text" id="loginUsername" required minlength="6" placeholder="Ваш никнейм или email">
+                    <label>Никнейм или Email</label>
+                    <input type="text" id="loginUsername" required placeholder="Ваш никнейм или email">
                 </div>
                 <div class="form-group">
-                    <label>Пароль (от 6 символов)</label>
-                    <input type="password" id="loginPassword" required minlength="6" placeholder="••••••••">
+                    <label>Пароль</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">Войти</button>
+                <div class="form-msg" id="loginMsg"></div>
             </form>
 
             <!-- Форма регистрации -->
             <form class="auth-form" id="regForm" onsubmit="handleRegister(event)">
                 <div class="form-group">
-                    <label>Никнейм (минимум 6 символов)</label>
-                    <input type="text" id="regUsername" required minlength="6" placeholder="Придумайте никнейм">
+                    <label>Никнейм</label>
+                    <input type="text" id="regUsername" required minlength="3" placeholder="Придумайте никнейм">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
@@ -547,6 +552,7 @@
                     <input type="password" id="regPassword" required minlength="6" placeholder="Придумайте пароль">
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">Зарегистрироваться</button>
+                <div class="form-msg" id="regMsg"></div>
             </form>
         </div>
 
@@ -560,10 +566,9 @@
             <!-- Блок подтверждения email -->
             <div class="verification-banner" id="verificationBanner" style="margin-bottom: 25px;">
                 <div>
-                    <strong id="verifyStatusText">📧 Почта не подтверждена!</strong>
-                    <p style="font-size: 0.85rem; margin-top: 3px;" id="verifySubText">Подтвердите почту для активации полного доступа.</p>
+                    <strong id="verifyStatusText">📧 Аккаунт активен</strong>
+                    <p style="font-size: 0.85rem; margin-top: 3px;" id="verifySubText">Почта успешно подтверждена.</p>
                 </div>
-                <button class="btn btn-sm" id="verifyActionBtn" type="button" onclick="sendVerificationEmail()">Подтвердить</button>
             </div>
 
             <!-- Сетка -->
@@ -587,7 +592,7 @@
                         <div class="user-info-item">Email: <strong id="profileEmail">-</strong></div>
                     </div>
 
-                    <!-- Блок скидки (без базовой скидки) -->
+                    <!-- Блок скидки -->
                     <div class="discount-section">
                         <h3>Персональная скидка</h3>
                         <p style="color: #666; font-size: 0.85rem; margin-bottom: 10px;">Введите серийный номер изделия для активации привилегии.</p>
@@ -614,6 +619,9 @@
     <script>
         const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
         const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
+        
+        // Вставьте сюда вашу новую свежую ссылку на Apps Script для авторизации (из Шага 2)
+        const AUTH_WEB_APP_URL = 'ВАШ_URL_НОВОГО_СКРИПТА_АВТОРИЗАЦИИ';
 
         let cachedSerials = [];
 
@@ -659,104 +667,70 @@
             }
         }
 
-        function handleRegister(e) {
+        // РЕГИСТРАЦИЯ ЧЕРЕЗ GOOGLE APPS SCRIPT
+        async function handleRegister(e) {
             e.preventDefault();
             const username = document.getElementById('regUsername').value.trim();
             const email = document.getElementById('regEmail').value.trim().toLowerCase();
             const password = document.getElementById('regPassword').value;
+            const msgEl = document.getElementById('regMsg');
 
-            if (username.length < 6) {
-                alert('Никнейм должен содержать минимум 6 символов!');
-                return;
+            msgEl.style.color = '#666';
+            msgEl.textContent = 'Регистрация и отправка письма...';
+
+            try {
+                const response = await fetch(AUTH_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'register', username, email, password })
+                });
+
+                msgEl.style.color = '#27ae60';
+                msgEl.textContent = 'Регистрация успешна! Проверьте почту для подтверждения.';
+            } catch (error) {
+                msgEl.style.color = '#e74c3c';
+                msgEl.textContent = 'Ошибка соединения с сервером.';
             }
-
-            if (password.length < 6) {
-                alert('Пароль должен содержать минимум 6 символов!');
-                return;
-            }
-
-            for (let key in localStorage) {
-                if (key.startsWith('hh_user_')) {
-                    try {
-                        let u = JSON.parse(localStorage.getItem(key));
-                        if (u && u.username && u.username.toLowerCase() === username.toLowerCase()) {
-                            alert('Пользователь с таким никнеймом уже существует!');
-                            return;
-                        }
-                        if (u && u.email && u.email.toLowerCase() === email) {
-                            alert('Пользователь с таким Email уже существует!');
-                            return;
-                        }
-                    } catch(err) {}
-                }
-            }
-
-            const userData = { username, email, password, isVerified: false };
-            localStorage.setItem('hh_user_' + username, JSON.stringify(userData));
-            localStorage.setItem('hh_logged_in', JSON.stringify({ name: username, email: email }));
-            
-            checkAuth();
         }
 
-        function handleLogin(e) {
+        // ВХОД ЧЕРЕЗ GOOGLE APPS SCRIPT
+        async function handleLogin(e) {
             e.preventDefault();
-            const inputVal = document.getElementById('loginUsername').value.trim();
+            const login = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            const msgEl = document.getElementById('loginMsg');
 
-            if (inputVal.length < 6) {
-                alert('Никнейм или Email должен содержать не менее 6 символов!');
-                return;
-            }
+            msgEl.style.color = '#666';
+            msgEl.textContent = 'Проверка данных...';
 
-            if (password.length < 6) {
-                alert('Пароль должен содержать не менее 6 символов!');
-                return;
-            }
+            try {
+                const response = await fetch(AUTH_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'cors', // Для получения ответа от скрипта
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', login, password })
+                });
 
-            let foundUser = null;
+                const data = await response.json();
 
-            for (let key in localStorage) {
-                if (key.startsWith('hh_user_')) {
-                    try {
-                        let u = JSON.parse(localStorage.getItem(key));
-                        if (u && ((u.username && u.username.toLowerCase() === inputVal.toLowerCase()) || 
-                                  (u.email && u.email.toLowerCase() === inputVal.toLowerCase()))) {
-                            foundUser = u;
-                            break;
-                        }
-                    } catch(err) {}
+                if (data.status === 'success') {
+                    if (!data.isVerified) {
+                        msgEl.style.color = '#e74c3c';
+                        msgEl.textContent = 'Почта не подтверждена. Перейдите по ссылке из письма.';
+                        return;
+                    }
+
+                    localStorage.setItem('hh_logged_in', JSON.stringify({ name: data.username, email: data.email }));
+                    checkAuth();
+                } else {
+                    msgEl.style.color = '#e74c3c';
+                    msgEl.textContent = data.message || 'Ошибка входа';
                 }
+            } catch (error) {
+                msgEl.style.color = '#e74c3c';
+                msgEl.textContent = 'Ошибка авторизации. Проверьте данные.';
             }
-
-            if (!foundUser) {
-                alert('Пользователь не найден.');
-                return;
-            }
-
-            if (foundUser.password !== password) {
-                alert('Неверный пароль!');
-                return;
-            }
-
-            localStorage.setItem('hh_logged_in', JSON.stringify({ name: foundUser.username, email: foundUser.email }));
-            checkAuth();
-        }
-
-        function getUserEmail(username) {
-            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || '{}');
-            if (logged.email) return logged.email.trim().toLowerCase();
-
-            for (let key in localStorage) {
-                if (key.startsWith('hh_user_')) {
-                    try {
-                        let u = JSON.parse(localStorage.getItem(key));
-                        if (u && u.username && u.username.toLowerCase() === username.toLowerCase() && u.email) {
-                            return u.email.trim().toLowerCase();
-                        }
-                    } catch(err) {}
-                }
-            }
-            return '';
         }
 
         async function checkAuth() {
@@ -773,45 +747,22 @@
                     return;
                 }
 
-                let foundUser = null;
-
-                for (let key in localStorage) {
-                    if (key.startsWith('hh_user_')) {
-                        try {
-                            let u = JSON.parse(localStorage.getItem(key));
-                            if (u && u.username && session.name && u.username.toLowerCase() === session.name.toLowerCase()) {
-                                foundUser = u;
-                                break;
-                            }
-                        } catch(err) {}
-                    }
-                }
-                
-                if (!foundUser) {
-                    logout();
-                    return;
-                }
-
-                const email = getUserEmail(foundUser.username);
-
                 authCard.style.display = 'none';
                 cabinetCard.style.display = 'block';
-                document.getElementById('userName').textContent = foundUser.username;
-                document.getElementById('profileLogin').textContent = foundUser.username;
-                document.getElementById('profileEmail').textContent = foundUser.email || email;
+                document.getElementById('userName').textContent = session.name;
+                document.getElementById('profileLogin').textContent = session.name;
+                document.getElementById('profileEmail').textContent = session.email || '-';
 
-                updateVerificationUI(foundUser.isVerified);
-
-                const cachedOrders = localStorage.getItem('hh_orders_cache_' + email);
+                const cachedOrders = localStorage.getItem('hh_orders_cache_' + session.email);
                 if (cachedOrders) {
                     try {
                         renderUserOrders(JSON.parse(cachedOrders));
                     } catch(e) {}
                 }
 
-                fetchUserOrders(email);
+                fetchUserOrders(session.email);
 
-                const savedDiscount = localStorage.getItem('hh_discount_' + foundUser.username);
+                const savedDiscount = localStorage.getItem('hh_discount_' + session.name);
                 const discountResult = document.getElementById('discountResult');
                 if (savedDiscount) {
                     discountResult.textContent = `Ваша скидка: ${savedDiscount}`;
@@ -887,54 +838,6 @@
                 `;
                 container.appendChild(card);
             });
-        }
-
-        function updateVerificationUI(isVerified) {
-            const banner = document.getElementById('verificationBanner');
-            const statusText = document.getElementById('verifyStatusText');
-            const subText = document.getElementById('verifySubText');
-            const actionBtn = document.getElementById('verifyActionBtn');
-
-            if (isVerified) {
-                banner.classList.add('verified');
-                statusText.textContent = '✓ Email подтвержден';
-                subText.textContent = 'Аккаунт полностью активен.';
-                actionBtn.style.display = 'none';
-            } else {
-                banner.classList.remove('verified');
-                statusText.textContent = '📧 Почта не подтверждена!';
-                subText.textContent = 'Подтвердите почту для получения уведомлений.';
-                actionBtn.style.display = 'inline-block';
-                actionBtn.textContent = 'Подтвердить';
-            }
-        }
-
-        function sendVerificationEmail() {
-            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || '{}');
-            if (!logged || !logged.name) return;
-
-            let user = null;
-            for (let key in localStorage) {
-                if (key.startsWith('hh_user_')) {
-                    try {
-                        let u = JSON.parse(localStorage.getItem(key));
-                        if (u && u.username && u.username.toLowerCase() === logged.name.toLowerCase()) {
-                            user = u;
-                            break;
-                        }
-                    } catch(e) {}
-                }
-            }
-            if (!user) return;
-
-            const confirmAction = confirm(`Письмо отправлено на: ${user.email}\n\nНажмите «ОК», чтобы подтвердить почту.`);
-            
-            if (confirmAction) {
-                user.isVerified = true;
-                localStorage.setItem('hh_user_' + user.username, JSON.stringify(user));
-                updateVerificationUI(true);
-                alert('Почта успешно подтверждена!');
-            }
         }
 
         async function calculateDiscount() {
