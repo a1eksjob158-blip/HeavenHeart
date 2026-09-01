@@ -620,7 +620,7 @@
         const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
         const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
         
-        // Ссылка на ваш новый скрипт авторизации успешно проставлена:
+        // Актуальная ссылка на скрипт авторизации
         const AUTH_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyJfn_rAzFba7GP7MdMnlcIRqmIUNUXKSQjeUklyTJ08Kmr3IO9qVNVy9NSzuW2qbuh/exec';
 
         let cachedSerials = [];
@@ -667,7 +667,7 @@
             }
         }
 
-        // РЕГИСТРАЦИЯ ЧЕРЕЗ GOOGLE APPS SCRIPT
+        // РЕГИСТРАЦИЯ ЧЕРЕЗ GET-ЗАПРОС
         async function handleRegister(e) {
             e.preventDefault();
             const username = document.getElementById('regUsername').value.trim();
@@ -679,22 +679,25 @@
             msgEl.textContent = 'Регистрация и отправка письма...';
 
             try {
-                const response = await fetch(AUTH_WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'register', username, email, password })
-                });
+                const url = `${AUTH_WEB_APP_URL}?action=register&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
 
-                msgEl.style.color = '#27ae60';
-                msgEl.textContent = 'Регистрация успешна! Проверьте почту для подтверждения.';
+                if (data.status === 'success') {
+                    msgEl.style.color = '#27ae60';
+                    msgEl.textContent = 'Регистрация успешна! Проверьте почту для подтверждения.';
+                } else {
+                    msgEl.style.color = '#e74c3c';
+                    msgEl.textContent = data.message || 'Ошибка регистрации';
+                }
             } catch (error) {
                 msgEl.style.color = '#e74c3c';
                 msgEl.textContent = 'Ошибка соединения с сервером.';
             }
         }
 
-        // ВХОД ЧЕРЕЗ GOOGLE APPS SCRIPT
+        // ВХОД ЧЕРЕЗ GET-ЗАПРОС
         async function handleLogin(e) {
             e.preventDefault();
             const login = document.getElementById('loginUsername').value.trim();
@@ -705,13 +708,9 @@
             msgEl.textContent = 'Проверка данных...';
 
             try {
-                const response = await fetch(AUTH_WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'login', login, password })
-                });
-
+                const url = `${AUTH_WEB_APP_URL}?action=login&login=${encodeURIComponent(login)}&password=${encodeURIComponent(password)}`;
+                
+                const response = await fetch(url);
                 const data = await response.json();
 
                 if (data.status === 'success') {
