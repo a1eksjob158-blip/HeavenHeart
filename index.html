@@ -882,13 +882,11 @@
     </div>
 
     <div class="container">
-        <!-- Блок разделения по брендам -->
+        <!-- Блок разделения по брендам (автоматический) -->
         <div class="filter-section">
             <div class="filter-title">Фильтр по брендам</div>
-            <div class="filter-controls">
+            <div class="filter-controls" id="brandFilterControls">
                 <button class="filter-btn active" onclick="filterByBrand('all')">Все бренды</button>
-                <button class="filter-btn" onclick="filterByBrand('heaven-heart')">Heaven Heart</button>
-                <button class="filter-btn" onclick="filterByBrand('luxury-edit')">Luxury Edit</button>
             </div>
         </div>
 
@@ -1000,9 +998,39 @@
             }
         });
 
+        function generateBrandButtons(data) {
+            const container = document.getElementById('brandFilterControls');
+            if (!container) return;
+
+            const brandsSet = new Set();
+            data.forEach(item => {
+                if (item.brand && String(item.brand).trim() !== '') {
+                    brandsSet.add(String(item.brand).trim());
+                }
+            });
+
+            const activeBrand = currentBrandFilter;
+
+            container.innerHTML = `<button class="filter-btn ${activeBrand === 'all' ? 'active' : ''}" onclick="filterByBrand('all')">Все бренды</button>`;
+
+            brandsSet.forEach(brandName => {
+                const brandSlug = brandName.toLowerCase().replace(/\s+/g, '-');
+                const isActive = (activeBrand === brandSlug) ? 'active' : '';
+                
+                const btn = document.createElement('button');
+                btn.className = `filter-btn ${isActive}`;
+                btn.setAttribute('onclick', `filterByBrand('${brandSlug}')`);
+                btn.textContent = brandName;
+                container.appendChild(btn);
+            });
+        }
+
         function renderGrid(data) {
             const grid = document.querySelector('.products-grid');
             if (!grid) return;
+            
+            generateBrandButtons(data);
+
             grid.innerHTML = ''; 
             
             data.forEach(item => {
@@ -1051,8 +1079,8 @@
                         </div>
                         <div class="product-info">
                             <div>
-                                <div class="product-brand-tag">${item.brand || 'Heaven Heart'}</div>
-                                <h3 class="product-title">${item.title}</h3>
+                                <div class="product-brand-tag">${item.title}</div>
+                                <h3 class="product-title">${item.brand || 'Heaven Heart'}</h3>
                                 <div class="product-price">${priceStr}</div>
                             </div>
                         </div>
@@ -1133,13 +1161,16 @@
         }
 
         function filterByBrand(brand) {
-            const buttons = document.querySelectorAll('.filter-section:nth-of-type(1) .filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            if (event && event.target) {
-                event.target.classList.add('active');
-            }
-            
             currentBrandFilter = brand;
+            
+            const buttons = document.querySelectorAll('#brandFilterControls .filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(`'${brand}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+            
             applyFilters();
         }
 
