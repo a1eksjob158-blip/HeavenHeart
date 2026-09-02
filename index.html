@@ -969,17 +969,11 @@
             window.location.href = 'acccount.html';
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            // Случайный выбор фоновой картинки при каждом обновлении страницы
-            const banners = [
-                '68250033.jpg',
-                '000613690014.jpg',
-                '000613690035.jpg'
-            ];
-            const randomIndex = Math.floor(Math.random() * banners.length);
+       window.addEventListener('DOMContentLoaded', () => {
+            // Установка фиксированного фонового фото
             const bannerEl = document.getElementById('randomBanner');
             if (bannerEl) {
-                bannerEl.style.backgroundImage = `url('${banners[randomIndex]}')`;
+                bannerEl.style.backgroundImage = `url('68250033.jpg')`;
             }
 
             initCatalog(); 
