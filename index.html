@@ -850,6 +850,15 @@
             }
         }
     </style>
+    
+    <!-- Скрипт-невидимка: скрывает кнопку Telegram моментально до отрисовки страницы, если открыто в мессенджере -->
+    <script>
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
+            const style = document.createElement('style');
+            style.innerHTML = '#tgShopBtn { display: none !important; }';
+            document.head.appendChild(style);
+        }
+    </script>
 </head>
 <body>
 
@@ -970,11 +979,11 @@
         }
 
        window.addEventListener('DOMContentLoaded', () => {
-            // Более надежная проверка Telegram WebApp и полное удаление кнопки
+            // Дополнительная проверка на случай динамического удаления
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
                 const tgBtn = document.getElementById('tgShopBtn');
                 if (tgBtn) {
-                    tgBtn.remove(); // Полностью стирает кнопку из HTML-кода
+                    tgBtn.remove();
                 }
             }
 
