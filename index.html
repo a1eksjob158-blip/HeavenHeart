@@ -970,10 +970,12 @@
         }
 
        window.addEventListener('DOMContentLoaded', () => {
-            // Автоматическое скрытие кнопки «Магазин в Telegram», если сайт открыт внутри телеги
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+            // Более надежная проверка Telegram WebApp и полное удаление кнопки
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
                 const tgBtn = document.getElementById('tgShopBtn');
-                if (tgBtn) tgBtn.style.display = 'none';
+                if (tgBtn) {
+                    tgBtn.remove(); // Полностью стирает кнопку из HTML-кода
+                }
             }
 
             // Установка фиксированного фонового фото
