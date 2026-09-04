@@ -15,13 +15,7 @@
     <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
     <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/cart.html">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Корзина — Heaven Heart">
-    <meta name="twitter:description" content="Завершите оформление вашего заказа в официальном магазине Heaven Heart.">
-    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-
     <meta name="theme-color" content="#111111">
-    <meta name="msapplication-TileColor" content="#111111">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Heaven Heart">
@@ -195,9 +189,7 @@
             font-size: 1rem;
         }
 
-        .qty-btn:hover {
-            background: #ccc;
-        }
+        .qty-btn:hover { background: #ccc; }
 
         .qty-value {
             font-weight: bold;
@@ -217,9 +209,7 @@
             padding: 4px;
         }
 
-        .btn-remove:hover {
-            text-decoration: underline;
-        }
+        .btn-remove:hover { text-decoration: underline; }
 
         .cart-total-box {
             font-size: 1.25rem;
@@ -401,83 +391,23 @@
             margin-top: 40px;
         }
 
-        footer a {
-            color: #2AABEE;
-            text-decoration: underline;
-        }
+        footer a { color: #2AABEE; text-decoration: underline; }
 
         @media (max-width: 768px) {
-            .container {
-                margin: 20px auto;
-                padding: 0 16px;
-            }
-
-            .cart-card {
-                padding: 24px 16px;
-                border-radius: 14px;
-            }
-
-            .cart-header {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
-                gap: 12px;
-                margin-bottom: 20px;
-            }
-
-            .cart-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .cart-header-buttons {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .cart-header .btn {
-                width: 100%;
-            }
-
-            .cart-layout {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .cart-item-row {
-                flex-wrap: wrap;
-                gap: 10px;
-                padding: 10px 0;
-            }
-
-            .cart-item-left {
-                min-width: 100%;
-            }
-
-            .quantity-controls {
-                margin-left: auto;
-            }
-
-            .form-group select, .form-group input {
-                font-size: 1rem;
-                padding: 12px;
-            }
-
-            .btn-pay-order {
-                padding: 14px 20px;
-                font-size: 0.95rem;
-            }
-
-            .btn-tg-pay {
-                width: 100%;
-                max-width: 100% !important;
-                padding: 14px 20px;
-            }
-
-            .order-number-badge {
-                font-size: 1.05rem;
-                padding: 8px 16px;
-                width: 100%;
-            }
+            .container { margin: 20px auto; padding: 0 16px; }
+            .cart-card { padding: 24px 16px; border-radius: 14px; }
+            .cart-header { flex-direction: column; align-items: stretch; text-align: center; gap: 12px; margin-bottom: 20px; }
+            .cart-header h2 { font-size: 1.5rem; }
+            .cart-header-buttons { flex-direction: column; gap: 8px; }
+            .cart-header .btn { width: 100%; }
+            .cart-layout { grid-template-columns: 1fr; gap: 25px; }
+            .cart-item-row { flex-wrap: wrap; gap: 10px; padding: 10px 0; }
+            .cart-item-left { min-width: 100%; }
+            .quantity-controls { margin-left: auto; }
+            .form-group select, .form-group input { font-size: 1rem; padding: 12px; }
+            .btn-pay-order { padding: 14px 20px; font-size: 0.95rem; }
+            .btn-tg-pay { width: 100%; max-width: 100% !important; padding: 14px 20px; }
+            .order-number-badge { font-size: 1.05rem; padding: 8px 16px; width: 100%; }
         }
     </style>
 </head>
@@ -559,9 +489,7 @@
                         <div class="empty-cart">Корзина пуста</div>
                     </div>
 
-                    <div class="cart-total-box" id="cartPageTotal" style="display: none;">
-                        Итого: 0 ₽
-                    </div>
+                    <div class="cart-total-box" id="cartPageTotal" style="display: none;"> Итого: 0 ₽ </div>
                 </div>
             </div>
         </div>
@@ -583,7 +511,6 @@
         function setupBackToProductButton() {
             const backBtn = document.getElementById('backToProductBtn');
             const referrer = document.referrer;
-            
             let lastProductUrl = localStorage.getItem('hh_last_product_url');
             
             if (!lastProductUrl) {
@@ -611,9 +538,7 @@
                     const data = await response.json();
                     cachedSerials = data.map(item => item.serial ? item.serial.toUpperCase() : '');
                 }
-            } catch (e) {
-                console.log('Фоновая загрузка базы подлинности');
-            }
+            } catch (e) { console.log('Фоновая загрузка базы подлинности'); }
         }
 
         const serialInputEl = document.getElementById('serialDiscountInput');
@@ -630,28 +555,16 @@
         const phoneInputField = document.getElementById('phoneInput');
         phoneInputField.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            if (!value) {
-                e.target.value = '';
-                return;
-            }
+            if (!value) { e.target.value = ''; return; }
 
             if (['7', '8', '9'].includes(value[0])) {
                 if (value[0] === '9') value = '7' + value;
                 let firstChar = '+7';
                 let formatted = firstChar + ' ';
-                
-                if (value.length > 1) {
-                    formatted += '(' + value.substring(1, 4);
-                }
-                if (value.length >= 5) {
-                    formatted += ') ' + value.substring(4, 7);
-                }
-                if (value.length >= 8) {
-                    formatted += '-' + value.substring(7, 9);
-                }
-                if (value.length >= 10) {
-                    formatted += '-' + value.substring(9, 11);
-                }
+                if (value.length > 1) formatted += '(' + value.substring(1, 4);
+                if (value.length >= 5) formatted += ') ' + value.substring(4, 7);
+                if (value.length >= 8) formatted += '-' + value.substring(7, 9);
+                if (value.length >= 10) formatted += '-' + value.substring(9, 11);
                 e.target.value = formatted;
             } else {
                 e.target.value = '+' + value.substring(0, 15);
@@ -660,7 +573,6 @@
 
         function loadCartPage() {
             let rawCart = JSON.parse(localStorage.getItem('hh_cart')) || [];
-            
             let cartMap = {};
             rawCart.forEach(item => {
                 let key = item.id || item.name;
@@ -708,7 +620,6 @@
                 cart.forEach((item) => {
                     let itemTotal = item.price * item.quantity;
                     total += itemTotal;
-                    
                     let passKey = item.id || item.name;
                     let mediaHtml = item.image.includes('.webm') 
                         ? `<video src="${item.image}#t=0.001" class="cart-item-img" preload="metadata" playsinline style="object-fit: cover; pointer-events: none;"></video>`
@@ -752,7 +663,6 @@
         function changeQuantity(itemId, delta) {
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             let item = cart.find(i => String(i.id || i.name) === String(itemId));
-            
             if (item) {
                 let currentQty = item.quantity !== undefined ? item.quantity : 1;
                 let newQty = currentQty + delta;
@@ -760,7 +670,6 @@
                 if (newQty > 3) newQty = 3; 
                 item.quantity = newQty;
             }
-
             localStorage.setItem('hh_cart', JSON.stringify(cart));
             loadCartPage();
         }
@@ -778,11 +687,7 @@
             const msgEl = document.getElementById('discountMsg');
             const btn = document.getElementById('serialDiscountBtn');
 
-            if (!inputVal) {
-                msgEl.style.color = '#e74c3c';
-                msgEl.textContent = 'Введите номер.';
-                return;
-            }
+            if (!inputVal) { msgEl.style.color = '#e74c3c'; msgEl.textContent = 'Введите номер.'; return; }
 
             let usedSerials = JSON.parse(localStorage.getItem('hh_used_serials')) || [];
             if (usedSerials.includes(inputVal)) {
@@ -792,12 +697,8 @@
             }
 
             if (cachedSerials.length > 0) {
-                if (cachedSerials.includes(inputVal)) {
-                    activateDiscount(inputVal);
-                } else {
-                    msgEl.style.color = '#e74c3c';
-                    msgEl.textContent = 'Номер не найден в базе подлинности.';
-                }
+                if (cachedSerials.includes(inputVal)) activateDiscount(inputVal);
+                else { msgEl.style.color = '#e74c3c'; msgEl.textContent = 'Номер не найден в базе подлинности.'; }
                 return;
             }
 
@@ -808,17 +709,12 @@
             try {
                 const response = await fetch(VERIFY_WEB_APP_URL);
                 if (!response.ok) throw new Error('Ошибка сети');
-                
                 const data = await response.json();
                 cachedSerials = data.map(item => item.serial ? item.serial.toUpperCase() : '');
                 btn.disabled = false;
 
-                if (cachedSerials.includes(inputVal)) {
-                    activateDiscount(inputVal);
-                } else {
-                    msgEl.style.color = '#e74c3c';
-                    msgEl.textContent = 'Номер не найден в базе подлинности.';
-                }
+                if (cachedSerials.includes(inputVal)) activateDiscount(inputVal);
+                else { msgEl.style.color = '#e74c3c'; msgEl.textContent = 'Номер не найден в базе подлинности.'; }
             } catch (error) {
                 btn.disabled = false;
                 msgEl.style.color = '#e74c3c';
@@ -829,7 +725,6 @@
         function activateDiscount(serial) {
             const msgEl = document.getElementById('discountMsg');
             const btn = document.getElementById('serialDiscountBtn');
-            
             currentDiscountPercent = 10;
             appliedSerialNumber = serial;
             if (btn) btn.disabled = true;
@@ -840,8 +735,7 @@
         }
 
         function generateOrderNumber() {
-            const randomNum = Math.floor(1000 + Math.random() * 9000);
-            return `HH-${randomNum}`;
+            return `HH-${Math.floor(1000 + Math.random() * 9000)}`;
         }
 
         let currentOrderNumber = '';
@@ -873,11 +767,7 @@
 
             const nameWords = fullName.split(/\s+/).filter(w => w.length > 0);
             const isNameValid = nameWords.length === 3 && nameWords.every(w => /^[А-Яа-яЁёA-Za-z-]{2,}$/.test(w) && !/^([А-Яа-яЁёA-Za-z])\1+$/.test(w));
-            if (!isNameValid) {
-                nameInput.classList.add('input-error');
-                nameError.style.display = 'block';
-                isValid = false;
-            }
+            if (!isNameValid) { nameInput.classList.add('input-error'); nameError.style.display = 'block'; isValid = false; }
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const isEmailValid = emailRegex.test(email) && !/^(.?)\1+$/.test(email.split('@')[0]);
@@ -889,10 +779,7 @@
                 for (let key in localStorage) {
                     if (key.startsWith('hh_user_')) {
                         let u = JSON.parse(localStorage.getItem(key));
-                        if (u.email && u.email.toLowerCase() === email) {
-                            isDuplicateEmail = true;
-                            break;
-                        }
+                        if (u.email && u.email.toLowerCase() === email) { isDuplicateEmail = true; break; }
                     }
                 }
             }
@@ -911,51 +798,30 @@
 
             const digitsOnly = phone.replace(/\D/g, '');
             const isPhoneValid = digitsOnly.length === 11 && !/^(\d)\1+$/.test(digitsOnly);
-            if (!isPhoneValid) {
-                phoneInput.classList.add('input-error');
-                phoneError.style.display = 'block';
-                isValid = false;
-            }
+            if (!isPhoneValid) { phoneInput.classList.add('input-error'); phoneError.style.display = 'block'; isValid = false; }
 
             const isCityValid = city.length >= 3 && /^[А-Яа-яЁёA-Za-z\s-]+$/.test(city) && !/^([А-Яа-яЁёA-Za-z])\1+$/.test(city);
-            if (!isCityValid) {
-                cityInput.classList.add('input-error');
-                cityError.style.display = 'block';
-                isValid = false;
-            }
+            if (!isCityValid) { cityInput.classList.add('input-error'); cityError.style.display = 'block'; isValid = false; }
 
             const isAddressValid = address.length >= 5 && /[\d]/.test(address) && /[\p{L}]/u.test(address) && !/^(.?)\1+$/.test(address.replace(/\s/g, ''));
-            if (!isAddressValid) {
-                addressInput.classList.add('input-error');
-                addressError.style.display = 'block';
-                isValid = false;
-            }
+            if (!isAddressValid) { addressInput.classList.add('input-error'); addressError.style.display = 'block'; isValid = false; }
 
             if (!isValid) return;
 
             let rawCart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             let activeItems = rawCart.filter(item => (item.quantity !== undefined ? item.quantity : 1) > 0);
-            if (activeItems.length === 0) {
-                alert('Увеличьте количество хотя бы одного товара больше 0!');
-                return;
-            }
+            if (activeItems.length === 0) { alert('Увеличьте количество хотя бы одного товара больше 0!'); return; }
 
             let total = activeItems.reduce((sum, item) => sum + (item.price * (item.quantity !== undefined ? item.quantity : 1)), 0);
-
-            if (currentDiscountPercent > 0) {
-                total = total - (total * (currentDiscountPercent / 100));
-            }
+            if (currentDiscountPercent > 0) total = total - (total * (currentDiscountPercent / 100));
 
             let finalCartMap = {};
             activeItems.forEach(item => {
                 let key = String(item.id || item.name);
-                if (!finalCartMap[key]) {
-                    finalCartMap[key] = { name: item.name, qty: 0 };
-                }
+                if (!finalCartMap[key]) finalCartMap[key] = { name: item.name, qty: 0 };
                 finalCartMap[key].qty += (item.quantity !== undefined ? item.quantity : 1);
             });
             let itemsTextSummary = Object.values(finalCartMap).map(info => `${info.name} (${info.qty} шт.)`).join(', ');
-
             let fullDeliveryInfo = `Служба: ${service} | Город: ${city} | Адрес: ${address} | Получатель: ${fullName} (${phone})`;
 
             if (!window.sessionStorage.getItem('hh_order_num')) {
@@ -978,9 +844,7 @@
                         email: email
                     })
                 });
-            } catch (e) {
-                console.log('Ошибка отправки в базу');
-            }
+            } catch (e) { console.log('Ошибка отправки в базу'); }
 
             let cached = JSON.parse(localStorage.getItem('hh_orders_cache_' + email) || '[]');
             cached.push({
@@ -1003,7 +867,6 @@
 
             localStorage.removeItem('hh_cart');
 
-            // Ссылка с переходом на бота
             const text = encodeURIComponent(`Здравствуйте! Оплатил заказ №${currentOrderNumber}:\nТовары: ${itemsTextSummary}\nИтого: ${total.toLocaleString()} ₽\nПолучатель: ${fullName}\nEmail: ${email}\nТелефон: ${phone}\nДоставка: ${service} — г. ${city}, ${address}\nПрикрепляю чек:`);
             const tgLink = `https://t.me/Heaven_Heart_store_bot?text=${text}`;
 
@@ -1016,8 +879,8 @@
                     <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Отсканируйте QR-код для оплаты и отправьте чек в Telegram.</p>
                     
                     <div class="qr-container">
-                        <!-- ВСТАВЛЕН ТВОЙ ФАЙЛ IMG_7675.PNG ВМЕСТО СТАРЫХ КВАДРАТОВ -->
-                        <img src="IMG_7675.PNG" alt="QR-код для оплаты" style="width: 160px; height: 160px; object-fit: contain; display: block; margin: 0 auto;">
+                        <!-- ИСПРАВЛЕНО НА ТВОЕ ТОЧНОЕ ИМЯ ФАЙЛА -->
+                        <img src="QR.GODE.PAY.PNG" alt="QR-код для оплаты" style="width: 160px; height: 160px; object-fit: contain; display: block; margin: 0 auto;">
                         <div class="qr-hint">Оплата по СБП</div>
                     </div>
 
@@ -1029,11 +892,7 @@
             `;
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            loadCartPage();
-            preloadSerials();
-            setupBackToProductButton();
-        });
+        window.addEventListener('DOMContentLoaded', `loadCartPage(); preloadSerials(); setupBackToProductButton();`);
     </script>
 </body>
 </html>
