@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Корзина — Heaven Heart</title>
 
-    <!-- Основные SEO-метаданные -->
     <meta name="description" content="Оформление заказа в интернет-магазине Heaven Heart. Быстрая доставка архивного люкса и премиальных аксессуаров по России.">
     <meta name="keywords" content="Heaven Heart, корзина, оформить заказ, купить сумку, доставка СДЕК">
     <meta name="author" content="Heaven Heart Store">
 
-    <!-- Open Graph / Превью для Telegram и соцсетей -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Корзина — Heaven Heart">
     <meta property="og:description" content="Завершите оформление вашего заказа в официальном магазине Heaven Heart.">
     <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
     <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/cart.html">
 
-    <!-- Twitter Card (карточка для шеринга) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Корзина — Heaven Heart">
     <meta name="twitter:description" content="Завершите оформление вашего заказа в официальном магазине Heaven Heart.">
     <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
 
-    <!-- Мобильные настройки интерфейса и темы -->
     <meta name="theme-color" content="#111111">
     <meta name="msapplication-TileColor" content="#111111">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,7 +28,6 @@
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Подключение шрифта Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -411,9 +406,6 @@
             text-decoration: underline;
         }
 
-        /* ========================================================
-           АДАПТАЦИЯ ДЛЯ IPHONE И ДРУГИХ СМАРТФОНОВ (до 768px)
-           ======================================================== */
         @media (max-width: 768px) {
             .container {
                 margin: 20px auto;
@@ -576,11 +568,12 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/bandos158" target="_blank">Магазин в Telegram</a></p>
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/Heaven_Heart_store_bot" target="_blank">Магазин в Telegram</a></p>
     </footer>
 
     <script>
-        const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
+        // Ссылка на твой скрипт для обработки заказов и рассылки писем
+        const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxQJ3ssia9E19xSa0wdetmRU0w0n_PUJyPCBTgmo7XIGbGDaviaEYKzFWjlomvRVJ79/exec';
         const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
 
         let cachedSerials = [];
@@ -665,13 +658,12 @@
             }
         });
 
-        // 1. ОТОБРАЖЕНИЕ КОРЗИНЫ С УЧЕТОМ ID
         function loadCartPage() {
             let rawCart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             
             let cartMap = {};
             rawCart.forEach(item => {
-                let key = item.id || item.name; // Подстраховка на случай старого кэша
+                let key = item.id || item.name;
                 if (cartMap[key]) {
                     cartMap[key].quantity += (item.quantity !== undefined ? item.quantity : 1);
                 } else {
@@ -757,7 +749,6 @@
             }
         }
 
-        // 2. ИЗМЕНЕНИЕ КОЛИЧЕСТВА ПО ID
         function changeQuantity(itemId, delta) {
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             let item = cart.find(i => String(i.id || i.name) === String(itemId));
@@ -774,7 +765,6 @@
             loadCartPage();
         }
 
-        // 3. УДАЛЕНИЕ ПО ID
         function removeFromCartPage(itemId) {
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             cart = cart.filter(item => String(item.id || item.name) !== String(itemId));
@@ -856,7 +846,6 @@
 
         let currentOrderNumber = '';
 
-        // 4. ОФОРМЛЕНИЕ ЗАКАЗА С ГРУППИРОВКОЙ ПО ID
         async function handleCheckout() {
             const nameInput = document.getElementById('fullNameInput');
             const emailInput = document.getElementById('emailInput');
@@ -1000,7 +989,7 @@
                 productName: itemsTextSummary,
                 cost: total + ' ₽',
                 deliveryAddress: fullDeliveryInfo,
-                orderStatus: 'Принят в обработку'
+                orderStatus: 'Ожидает оплаты'
             });
             localStorage.setItem('hh_orders_cache_' + email, JSON.stringify(cached));
 
@@ -1014,8 +1003,9 @@
 
             localStorage.removeItem('hh_cart');
 
+            // Ссылка с переходом на бота
             const text = encodeURIComponent(`Здравствуйте! Оплатил заказ №${currentOrderNumber}:\nТовары: ${itemsTextSummary}\nИтого: ${total.toLocaleString()} ₽\nПолучатель: ${fullName}\nEmail: ${email}\nТелефон: ${phone}\nДоставка: ${service} — г. ${city}, ${address}\nПрикрепляю чек:`);
-            const tgLink = `https://t.me/bandos158?text=${text}`;
+            const tgLink = `https://t.me/Heaven_Heart_store_bot?text=${text}`;
 
             const layoutContainer = document.getElementById('cartMainLayout');
             layoutContainer.innerHTML = `
@@ -1026,13 +1016,8 @@
                     <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Отсканируйте QR-код для оплаты и отправьте чек в Telegram.</p>
                     
                     <div class="qr-container">
-                        <svg width="160" height="160" viewBox="0 0 25 25" style="display: block; margin: 0 auto;">
-                            <path fill="#fff" d="M0 0h25v25H0z"/>
-                            <path d="M0 0h7v7H0zM2 2h3v3H2z" fill="#000"/>
-                            <path d="M18 0h7v7h-7zM20 2h3v3h-3z" fill="#000"/>
-                            <path d="M0 18h7v7H0zM2 20h3v3H2z" fill="#000"/>
-                            <path d="M9 2h2v3H9zM13 2h2v2h-2zM9 7h2v2H9zM13 6h2v3h-2zM16 2h2v2h-2zM16 7h2v2h-2zM6 9h2v2H6zM10 9h2v2h-1zM14 10h3v2h-3zM18 9h2v2h-2zM22 9h2v2h-2zM2 13h2v3H2zM6 13h2v2H6zM10 13h2v2H-2zM13 13h3v3h-3zM18 13h2v2h-2zM21 13h2v3H2zM9 16h2v3H9zM13 18h2v2h-2zM16 16h2v2h-2zM21 18h2v2h-2zM6 19h2v2H6zM10 21h2v2h-2zM18 21h2v2h-2zM21 21h2v2h-2zM0 9h4v2H0zM9 0h2v4H9zM16 0h2v3h-2z" fill="#000"/>
-                        </svg>
+                        <!-- ВСТАВЛЕН ТВОЙ ФАЙЛ IMG_7675.PNG ВМЕСТО СТАРЫХ КВАДРАТОВ -->
+                        <img src="IMG_7675.PNG" alt="QR-код для оплаты" style="width: 160px; height: 160px; object-fit: contain; display: block; margin: 0 auto;">
                         <div class="qr-hint">Оплата по СБП</div>
                     </div>
 
