@@ -5,25 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Heaven Heart — Official Store</title>
 
-    <!-- Основные SEO-метаданные -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <meta name="description" content="Heaven Heart — независимый бренд премиальных аксессуаров и архивного люкса. 100% аутентичность, NFC-проверка, доставка по РФ.">
     <meta name="keywords" content="Heaven Heart, сумки премиум, архивный люкс, дизайнерские аксессуары, купить сумку СПб">
     <meta name="author" content="Heaven Heart Store">
 
-    <!-- Open Graph / Превью для Telegram и соцсетей -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Heaven Heart — Official Store">
     <meta property="og:description" content="Эстетика утонченного дизайна и бескомпромиссное качество. Архивный люкс и аксессуары.">
     <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
     <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/">
 
-    <!-- Twitter Card (карточка для шеринга) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Heaven Heart — Official Store">
     <meta name="twitter:description" content="Эстетика утонченного дизайна и бескомпромиссное качество. Архивный люкс и аксессуары.">
     <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
 
-    <!-- Мобильные настройки интерфейса и темы -->
     <meta name="theme-color" content="#111111">
     <meta name="msapplication-TileColor" content="#111111">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,7 +30,6 @@
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Подключение шрифта Montserrat (оригинал стиля логотипа) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -64,7 +61,6 @@
             overflow-x: hidden;
         }
 
-        /* Шапка с безопасными отступами под Dynamic Island и челку */
         header {
             background-color: transparent;
             padding: calc(15px + var(--sat)) 16px 12px 16px;
@@ -174,7 +170,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Главный баннер (картинка выбирается случайно при загрузке) */
         .parallax-banner {
             width: 100%;
             aspect-ratio: 3 / 2;
@@ -195,9 +190,6 @@
             background: rgba(0, 0, 0, 0.35);
         }
 
-        /* ========================================================
-           ИДЕАЛЬНО БЕСШОВНАЯ БЕГУЩАЯ СТРОКА С КРЕСТИКАМИ ×
-           ======================================================== */
         .gold-marquee-wrapper {
             width: 100%;
             background: #fbfbfb;
@@ -242,7 +234,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Контейнер на всю ширину экрана */
         .container {
             width: 100%;
             max-width: 100%;
@@ -250,7 +241,6 @@
             padding: 0 32px;
         }
 
-        /* Фильтры */
         .filter-section {
             margin-bottom: 30px;
             text-align: center;
@@ -292,9 +282,6 @@
             border-color: #111;
         }
 
-        /* ========================================================
-           РАВНОМЕРНАЯ СЕТКА: 4 ТОВАРА В РЯД НА ДЕСКТОПЕ
-           ======================================================== */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -432,9 +419,7 @@
             font-size: 0.8rem;
         }
 
-        .btn:hover {
-            background-color: #b38228;
-        }
+        .btn:hover { background-color: #b38228; }
 
         .btn-cart {
             background-color: #f4f4f4;
@@ -448,9 +433,6 @@
             border-color: #111;
         }
 
-        /* ========================================================
-           ПЛАВАЮЩИЙ ПРОЗРАЧНЫЙ ВИДЖЕТ КОРЗИНЫ
-           ======================================================== */
         .floating-cart-btn {
             position: fixed;
             bottom: calc(25px + var(--sab));
@@ -517,7 +499,6 @@
             text-align: center;
         }
         
-        /* Уведомление */
         .toast-notification {
             position: fixed;
             top: 50%;
@@ -552,7 +533,6 @@
 
         .toast-icon { color: #888888; font-size: 1.2rem; }
 
-        /* МОДАЛЬНЫЕ ОКНА */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -622,7 +602,8 @@
             font-weight: 600;
         }
 
-        .form-group select {
+        /* Обновленные стили полей ввода для модального окна */
+        .form-group select, .form-group input {
             width: 100%;
             padding: 12px 14px;
             border-radius: 12px;
@@ -630,6 +611,7 @@
             background-color: #fff;
             font-size: 1rem;
             font-weight: 500;
+            box-sizing: border-box;
         }
 
         .qr-container {
@@ -682,11 +664,7 @@
             margin-top: 60px;
         }
 
-        footer a {
-            color: #2AABEE;
-            text-decoration: underline;
-        }
-
+        footer a { color: #2AABEE; text-decoration: underline; }
         footer a:hover { color: #111; }
 
         @media (max-width: 1024px) {
@@ -702,15 +680,7 @@
             .gold-marquee-item { font-size: 0.68rem; letter-spacing: 1.5px; padding: 0 12px; }
             .filter-section { margin-bottom: 18px; }
             .filter-title { font-size: 0.75rem; margin-bottom: 8px; }
-            .filter-controls {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 6px;
-                gap: 8px;
-                flex-wrap: nowrap;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
+            .filter-controls { justify-content: flex-start; overflow-x: auto; padding-bottom: 6px; gap: 8px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
             .filter-controls::-webkit-scrollbar { display: none; }
             .filter-btn { padding: 6px 14px; font-size: 0.75rem; white-space: nowrap; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
@@ -741,15 +711,12 @@
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
                 Магазин в Telegram
             </a>
-            <!-- ВЕРНУЛ КЛАССИЧЕСКУЮ КНОПКУ КАБИНЕТА -->
             <button class="header-user-btn" id="authBtn" onclick="goToCabinet()">👤 Кабинет</button>
         </div>
     </header>
 
-    <!-- Главный баннер -->
     <div class="parallax-banner" id="randomBanner"></div>
 
-    <!-- Бегущая строка -->
     <div class="gold-marquee-wrapper">
         <div class="gold-marquee-track">
             <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
@@ -760,7 +727,6 @@
     </div>
 
     <div class="container">
-        <!-- Блок разделения по брендам -->
         <div class="filter-section">
             <div class="filter-title">Фильтр по брендам</div>
             <div class="filter-controls" id="brandFilterControls">
@@ -768,7 +734,6 @@
             </div>
         </div>
 
-        <!-- Блок разделения по категориям товаров -->
         <div class="filter-section">
             <div class="filter-title">Категории товаров</div>
             <div class="filter-controls">
@@ -781,13 +746,9 @@
             </div>
         </div>
 
-        <!-- Сетка товаров -->
-        <section class="products-grid">
-            <!-- Здесь появятся товары -->
-        </section>
+        <section class="products-grid"></section>
     </div>
 
-    <!-- ПЛАВАЮЩИЙ МИНИ-ВИДЖЕТ КОРЗИНЫ -->
     <div class="floating-cart-btn" id="floatingCartBtn" onclick="window.location.href='cart.html'" title="Корзина">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -797,12 +758,18 @@
         <span class="cart-badge" id="cartBadge">0</span>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО БЫСТРОЙ ОПЛАТЫ ПО QR -->
+    <!-- МОДАЛЬНОЕ ОКНО БЫСТРОЙ ОПЛАТЫ (С ВАШИМ QR-КОДОМ И ПОЛЕМ ДЛЯ ПОЧТЫ) -->
     <div class="modal-overlay" id="quickPayModal" onclick="closeQuickPay(event)">
         <div class="modal-card" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeQuickPay()">&times;</button>
             <div class="modal-title" id="modalProductName">Товар</div>
             <div class="modal-price" id="modalProductPrice">0 ₽</div>
+
+            <!-- Новое поле для ввода почты -->
+            <div class="form-group">
+                <label for="userEmail">Ваш Email (для чека и уведомлений):</label>
+                <input type="email" id="userEmail" placeholder="example@mail.ru" required>
+            </div>
 
             <div class="form-group">
                 <label for="citySelect">Город доставки:</label>
@@ -815,8 +782,9 @@
             </div>
 
             <div class="qr-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://t.me/Heaven_Heart_store_bot" alt="QR для оплаты">
-                <div class="qr-hint">Отсканируйте камерой телефона для перехода в бот</div>
+                <!-- ВАШ НОВЫЙ QR КОД -->
+                <img src="IMG_7675.PNG" alt="QR для оплаты">
+                <div class="qr-hint">Отсканируйте камерой телефона для оплаты по СБП</div>
             </div>
 
             <a href="#" id="tgCheckoutBtn" target="_blank" class="btn-tg-pay" onclick="handleCheckoutClick()">
@@ -826,7 +794,6 @@
         </div>
     </div>
     
-    <!-- БЛОК ДЛЯ TOAST-УВЕДОМЛЕНИЯ -->
     <div id="toastNotification" class="toast-notification">
         <span class="toast-icon">✓</span>
         <span id="toastMessage">Товар добавлен в корзину</span>
@@ -848,26 +815,15 @@
         }
 
        window.addEventListener('DOMContentLoaded', () => {
-            // ======================================================================
-            // ПРОВЕРКА ВОЗВРАТА ИЗ EMAIL (АВТОВХОД ПОСЛЕ ПОДТВЕРЖДЕНИЯ ПОЧТЫ)
-            // ======================================================================
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('login') && urlParams.get('login') === 'success') {
                 const userEmail = urlParams.get('email') || 'User';
                 const userName = urlParams.get('name') || userEmail;
-                
-                // Создаем сессию
                 const session = { name: userName, email: userEmail };
                 localStorage.setItem('hh_logged_in', JSON.stringify(session));
-                
-                // Очищаем адресную строку браузера, чтобы скрыть параметры ?login=success...
                 window.history.replaceState({}, document.title, window.location.pathname);
-                
-                // Опционально: можно раскомментировать строку ниже, чтобы сразу редиректить в кабинет, а не оставлять на главной
-                // window.location.href = 'acccount.html';
             }
 
-            // Установка фиксированного фонового фото
             const bannerEl = document.getElementById('randomBanner');
             if (bannerEl) {
                 bannerEl.style.backgroundImage = `url('68250033.jpg')`;
@@ -907,7 +863,6 @@
             brandsSet.forEach(brandName => {
                 const brandSlug = brandName.toLowerCase().replace(/\s+/g, '-');
                 const isActive = (activeBrand === brandSlug) ? 'active' : '';
-                
                 const btn = document.createElement('button');
                 btn.className = `filter-btn ${isActive}`;
                 btn.setAttribute('onclick', `filterByBrand('${brandSlug}')`);
@@ -976,7 +931,6 @@
                     </a>
                     <div style="padding: 0 12px 12px 12px;">
                         <div class="btn-group">
-                            <!-- ИСПОЛЬЗУЕТСЯ НОВАЯ ФУНКЦИЯ ДЛЯ 1 КЛИКА -->
                             <button class="btn" onclick="buyOneClick('${safeTitle}', ${cleanPrice}, '${item.id}', event)">Купить за 1 клик</button>
                             <button class="btn btn-cart" onclick="addToCart('${safeTitle}', ${cleanPrice}, '${item.id}', event)">В корзину</button>
                         </div>
@@ -984,7 +938,6 @@
                 `;
                 grid.appendChild(card);
             });
-
             applyFilters();
         }
 
@@ -1045,14 +998,12 @@
             if (event && event.target) {
                 event.target.classList.add('active');
             }
-            
             currentCategoryFilter = category;
             applyFilters();
         }
 
         function filterByBrand(brand) {
             currentBrandFilter = brand;
-            
             const buttons = document.querySelectorAll('#brandFilterControls .filter-btn');
             buttons.forEach(btn => {
                 btn.classList.remove('active');
@@ -1060,13 +1011,19 @@
                     btn.classList.add('active');
                 }
             });
-            
             applyFilters();
         }
 
         function openQuickPay(productName, productPrice) {
             document.getElementById('modalProductName').textContent = productName;
             document.getElementById('modalProductPrice').textContent = productPrice;
+            
+            // Если юзер уже входил через почту, подставляем её автоматически
+            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
+            if (logged && logged.email) {
+                document.getElementById('userEmail').value = logged.email;
+            }
+            
             updateTelegramLink(productName, productPrice);
             document.getElementById('quickPayModal').classList.add('active');
         }
@@ -1093,9 +1050,11 @@
             const productName = document.getElementById('modalProductName').textContent;
             const productPrice = document.getElementById('modalProductPrice').textContent;
             const city = document.getElementById('citySelect').value;
-
+            
+            // Берем почту из нового поля ввода
+            const inputEmail = document.getElementById('userEmail').value;
             const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
-            let userEmail = logged ? (logged.email || logged.name) : 'guest@store.ru';
+            let userEmail = inputEmail || (logged ? (logged.email || logged.name) : 'guest@store.ru');
 
             const today = new Date();
             const dateStr = String(today.getDate()).padStart(2, '0') + '.' + 
@@ -1123,9 +1082,6 @@
             }
         }
 
-        // ========================================================
-        // МГНОВЕННЫЙ ПЕРЕХОД В КОРЗИНУ В 1 КЛИК
-        // ========================================================
         function buyOneClick(name, price, itemId, event) {
             addToCart(name, price, itemId, event);
             window.location.href = 'cart.html';
