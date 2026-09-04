@@ -41,7 +41,6 @@
             background-color: transparent;
             padding: calc(15px + var(--sat)) 16px 12px 16px;
             text-align: center;
-            animation: fadeInDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .header-logo {
@@ -386,13 +385,6 @@
             pointer-events: auto;
         }
 
-        .floating-cart-btn:hover {
-            transform: translateY(-3px) scale(1.06);
-            background: rgba(17, 17, 17, 0.88);
-            color: #ffffff;
-            border-color: rgba(17, 17, 17, 0.88);
-        }
-
         .floating-cart-btn svg { width: 20px; height: 20px; }
         .cart-badge {
             background: #b38228;
@@ -435,91 +427,6 @@
         }
 
         .toast-icon { color: #888888; font-size: 1.2rem; }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-overlay.active { display: flex; animation: fadeInDown 0.3s ease; }
-
-        .modal-card {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 380px;
-            padding: 25px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 12px; right: 15px;
-            font-size: 1.4rem;
-            color: #777;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; color: #111; }
-        .modal-price { font-size: 1.25rem; font-weight: 700; color: #111111; margin-bottom: 15px; }
-
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 5px; color: #444; font-size: 0.8rem; font-weight: 600; }
-        .form-group select, .form-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            font-size: 1rem;
-            font-weight: 500;
-            box-sizing: border-box;
-        }
-
-        .qr-container {
-            margin: 15px 0;
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 12px;
-        }
-        .qr-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 8px auto;
-        }
-        .qr-hint { font-size: 0.75rem; font-weight: 500; color: #666; }
-
-        .btn-tg-pay {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #2AABEE, #229ED9);
-            color: #fff;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            padding: 13px;
-            border-radius: 30px;
-            text-decoration: none;
-            cursor: pointer;
-        }
 
         footer {
             text-align: center;
@@ -606,41 +513,6 @@
         </svg>
         <span class="cart-badge" id="cartBadge">0</span>
     </div>
-
-    <!-- МОДАЛЬНОЕ ОКНО С НОВЫМ QR И ПОЛЕМ ПОЧТЫ -->
-    <div class="modal-overlay" id="quickPayModal" onclick="closeQuickPay(event)">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeQuickPay()">&times;</button>
-            <div class="modal-title" id="modalProductName">Товар</div>
-            <div class="modal-price" id="modalProductPrice">0 ₽</div>
-
-            <div class="form-group">
-                <label for="userEmail">Ваш Email (для уведомлений):</label>
-                <input type="email" id="userEmail" placeholder="example@mail.ru" required>
-            </div>
-
-            <div class="form-group">
-                <label for="citySelect">Город доставки:</label>
-                <select id="citySelect">
-                    <option value="Москва">Москва</option>
-                    <option value="Санкт-Петербург">Санкт-Петербург</option>
-                    <option value="Другой город РФ">Другой город РФ (+ доставка)</option>
-                    <option value="Самовывоз">Самовывоз</option>
-                </select>
-            </div>
-
-            <div class="qr-container">
-                <!-- ВАШ QR-КОД ОПЛАТЫ -->
-                <img src="IMG_7675.PNG" alt="QR для оплаты">
-                <div class="qr-hint">Отсканируйте камерой телефона для оплаты по СБП</div>
-            </div>
-
-            <a href="#" id="tgCheckoutBtn" target="_blank" class="btn-tg-pay" onclick="handleCheckoutClick()">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
-                Отправить чек в Telegram
-            </a>
-        </div>
-    </div>
     
     <div id="toastNotification" class="toast-notification">
         <span class="toast-icon">✓</span>
@@ -652,18 +524,15 @@
     </footer>
 
     <script>
-        // ВАША ССЫЛКА НА НОВЫЙ БОТ-РАССЫЛЬЩИК И СБОРЩИК ЗАКАЗОВ ВСТАВЛЕНА СЮДА:
         const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxQJ3ssia9E19xSa0wdetmRU0w0n_PUJyPCBTgmo7XIGbGDaviaEYKzFWjlomvRVJ79/exec';
-        
-        // Ссылка на каталог товаров осталась прежней:
-        const CATALOG_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzIdgEJZD9ImO5NToKIpdNOAd1ZK5hvxhx931PaQtbBuUIh0F3a1V6h6IQIsnpwoY2_Wg/exec';
+        const CATALOG_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzX0dM6x5Dnr4NPZ4xtW8N6xd5mWJNb_RocQFnlDTVwp-uFYhavjphVD6sz_3v6VmJwQ/exec';
 
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
 
         function goToCabinet() { window.location.href = 'acccount.html'; }
 
-       window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('login') && urlParams.get('login') === 'success') {
                 const userEmail = urlParams.get('email') || 'User';
@@ -777,18 +646,20 @@
         async function initCatalog() {
             let cachedData = null;
             try { cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache')); } catch (e) {}
-            if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) renderGrid(cachedData);
+            if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
+                renderGrid(cachedData);
+            }
 
             try {
-                const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now());
+                const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now(), { cache: 'no-store' });
                 const freshData = await response.json();
-                if (freshData && Array.isArray(freshData) && freshData.length > 0) {
-                    if (JSON.stringify(freshData) !== JSON.stringify(cachedData)) {
-                        localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
-                        renderGrid(freshData);
-                    }
+                
+                if (freshData && Array.isArray(freshData)) {
+                    localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
+                    renderGrid(freshData);
                 }
             } catch (error) {
+                console.error('Ошибка обновления каталога:', error);
                 if (!cachedData || cachedData.length === 0) {
                     const grid = document.querySelector('.products-grid');
                     if (grid) grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">Не удалось загрузить каталог. Проверьте интернет-соединение.</p>';
@@ -820,71 +691,6 @@
                 if (btn.getAttribute('onclick').includes(`'${brand}'`)) btn.classList.add('active');
             });
             applyFilters();
-        }
-
-        function openQuickPay(productName, productPrice) {
-            document.getElementById('modalProductName').textContent = productName;
-            document.getElementById('modalProductPrice').textContent = productPrice;
-            
-            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
-            if (logged && logged.email) document.getElementById('userEmail').value = logged.email;
-            
-            updateTelegramLink(productName, productPrice);
-            document.getElementById('quickPayModal').classList.add('active');
-        }
-
-        function closeQuickPay(event) {
-            if (!event || event.target.id === 'quickPayModal' || event.target.classList.contains('modal-close')) {
-                document.getElementById('quickPayModal').classList.remove('active');
-            }
-        }
-
-        function updateTelegramLink(name, price) {
-            const city = document.getElementById('citySelect').value;
-            const text = encodeURIComponent(`Здравствуйте! Оплатил товар: ${name} (${price}). Город доставки: ${city}. Прикрепляю чек:`);
-            document.getElementById('tgCheckoutBtn').href = `https://t.me/Heaven_Heart_store_bot?text=${text}`;
-        }
-
-        document.getElementById('citySelect').addEventListener('change', function() {
-            updateTelegramLink(document.getElementById('modalProductName').textContent, document.getElementById('modalProductPrice').textContent);
-        });
-
-        // Отправка данных на скрипт Google для сохранения заказа и отправки письма
-        async function handleCheckoutClick() {
-            const productName = document.getElementById('modalProductName').textContent;
-            const productPrice = document.getElementById('modalProductPrice').textContent;
-            const city = document.getElementById('citySelect').value;
-            const inputEmail = document.getElementById('userEmail').value;
-            
-            if (!inputEmail) {
-                alert("Пожалуйста, введите ваш Email для получения чека.");
-                return;
-            }
-
-            const today = new Date();
-            const dateStr = String(today.getDate()).padStart(2, '0') + '.' + 
-                            String(today.getMonth() + 1).padStart(2, '0') + '.' + 
-                            today.getFullYear();
-            const orderNum = 'HH-' + Math.floor(1000 + Math.random() * 9000);
-
-            try {
-                fetch(ORDERS_WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        dateOrder: dateStr,
-                        orderNum: orderNum,
-                        productName: productName,
-                        cost: productPrice,
-                        deliveryAddress: city,
-                        email: inputEmail // Передаем введенный Email в Google Скрипт
-                    })
-                });
-            } catch (err) {
-                console.error('Ошибка отправки в таблицу:', err);
-            }
-            closeQuickPay();
         }
 
         function buyOneClick(name, price, itemId, event) {
