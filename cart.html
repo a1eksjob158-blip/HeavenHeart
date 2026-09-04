@@ -500,7 +500,6 @@
     </footer>
 
     <script>
-        // Ссылка на твой скрипт для обработки заказов и рассылки писем
         const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxQJ3ssia9E19xSa0wdetmRU0w0n_PUJyPCBTgmo7XIGbGDaviaEYKzFWjlomvRVJ79/exec';
         const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
 
@@ -879,8 +878,7 @@
                     <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Отсканируйте QR-код для оплаты и отправьте чек в Telegram.</p>
                     
                     <div class="qr-container">
-                        <!-- ИСПРАВЛЕНО НА ТВОЕ ТОЧНОЕ ИМЯ ФАЙЛА -->
-                        <img src="QR.GODE.PAY.PNG" alt="QR-код для оплаты" style="width: 160px; height: 160px; object-fit: contain; display: block; margin: 0 auto;">
+                        <img src="qrcodepay.web" alt="QR-код для оплаты" style="width: 160px; height: 160px; object-fit: contain; display: block; margin: 0 auto;">
                         <div class="qr-hint">Оплата по СБП</div>
                     </div>
 
@@ -892,7 +890,7 @@
             `;
         }
 
-        window.addEventListener('DOMContentLoaded', `loadCartPage(); preloadSerials(); setupBackToProductButton();`);
+        window.addEventListener('DOMContentLoaded', () => { loadCartPage(); preloadSerials(); setupBackToProductButton(); });
     </script>
 </body>
 </html>
