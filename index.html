@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Heaven Heart — Official Store</title>
 
-    <!-- Подключение Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
     <!-- Основные SEO-метаданные -->
     <meta name="description" content="Heaven Heart — независимый бренд премиальных аксессуаров и архивного люкса. 100% аутентичность, NFC-проверка, доставка по РФ.">
     <meta name="keywords" content="Heaven Heart, сумки премиум, архивный люкс, дизайнерские аксессуары, купить сумку СПб">
@@ -35,7 +32,7 @@
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Подключение шрифта Montserrat -->
+    <!-- Подключение шрифта Montserrat (оригинал стиля логотипа) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -67,7 +64,7 @@
             overflow-x: hidden;
         }
 
-        /* Шапка */
+        /* Шапка с безопасными отступами под Dynamic Island и челку */
         header {
             background-color: transparent;
             padding: calc(15px + var(--sat)) 16px 12px 16px;
@@ -177,7 +174,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Баннер */
+        /* Главный баннер (картинка выбирается случайно при загрузке) */
         .parallax-banner {
             width: 100%;
             aspect-ratio: 3 / 2;
@@ -198,7 +195,9 @@
             background: rgba(0, 0, 0, 0.35);
         }
 
-        /* Бегущая строка */
+        /* ========================================================
+           ИДЕАЛЬНО БЕСШОВНАЯ БЕГУЩАЯ СТРОКА С КРЕСТИКАМИ ×
+           ======================================================== */
         .gold-marquee-wrapper {
             width: 100%;
             background: #fbfbfb;
@@ -239,10 +238,15 @@
         }
 
         @keyframes goldScrollContinuous {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
+        /* Контейнер на всю ширину экрана */
         .container {
             width: 100%;
             max-width: 100%;
@@ -292,7 +296,9 @@
             border-color: #111;
         }
 
-        /* Сетка товаров */
+        /* ========================================================
+           РАВНОМЕРНАЯ СЕТКА: 4 ТОВАРА В РЯД НА ДЕСКТОПЕ
+           ======================================================== */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -430,7 +436,18 @@
             font-size: 0.8rem;
         }
 
-        .btn:hover { background-color: #b38228; }
+        .btn:hover {
+            background-color: #b38228;
+        }
+
+        .btn-preorder {
+            background-color: #b38228;
+            color: #fff;
+        }
+
+        .btn-preorder:hover {
+            background-color: #966c20;
+        }
 
         .btn-cart {
             background-color: #f4f4f4;
@@ -444,7 +461,9 @@
             border-color: #111;
         }
 
-        /* Корзина */
+        /* ========================================================
+           ПЛАВАЮЩИЙ ПРОЗРАЧНЫЙ ВИДЖЕТ КОРЗИНЫ
+           ======================================================== */
         .floating-cart-btn {
             position: fixed;
             bottom: calc(25px + var(--sab));
@@ -497,7 +516,9 @@
             transition: transform 0.25s ease;
         }
 
-        .floating-cart-btn:hover svg { transform: scale(1.08); }
+        .floating-cart-btn:hover svg {
+            transform: scale(1.08);
+        }
 
         .cart-badge {
             background: #b38228;
@@ -511,6 +532,7 @@
             text-align: center;
         }
         
+        /* Уведомление */
         .toast-notification {
             position: fixed;
             top: 50%;
@@ -548,7 +570,7 @@
             font-size: 1.2rem;
         }
 
-        /* Модальные окна */
+        /* МОДАЛЬНЫЕ ОКНА */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -683,25 +705,60 @@
             text-decoration: underline;
         }
 
-        footer a:hover { color: #111; }
+        footer a:hover {
+            color: #111;
+        }
 
+        /* ========================================================
+           АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ: 2 ТОВАРА В РЯД
+           ======================================================== */
         @media (max-width: 1024px) {
-            .products-grid { grid-template-columns: repeat(3, 1fr); }
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
-            .container { padding: 0 12px; }
-            .header-links-group { gap: 8px; }
+            .container {
+                padding: 0 12px;
+            }
+
+            .header-links-group {
+                gap: 8px;
+            }
+
             .header-verify-link, .header-tg-link, .header-user-btn {
                 padding: 6px 12px;
                 font-size: 0.72rem;
                 letter-spacing: 0.5px;
             }
-            .parallax-banner { aspect-ratio: 3 / 2; max-height: 280px; margin-bottom: 20px; }
-            .gold-marquee-wrapper { margin-bottom: 20px; padding: 8px 0; }
-            .gold-marquee-item { font-size: 0.68rem; letter-spacing: 1.5px; padding: 0 12px; }
-            .filter-section { margin-bottom: 18px; }
-            .filter-title { font-size: 0.75rem; margin-bottom: 8px; }
+
+            .parallax-banner {
+                aspect-ratio: 3 / 2;
+                max-height: 280px;
+                margin-bottom: 20px;
+            }
+
+            .gold-marquee-wrapper {
+                margin-bottom: 20px;
+                padding: 8px 0;
+            }
+
+            .gold-marquee-item {
+                font-size: 0.68rem;
+                letter-spacing: 1.5px;
+                padding: 0 12px;
+            }
+
+            .filter-section {
+                margin-bottom: 18px;
+            }
+
+            .filter-title {
+                font-size: 0.75rem;
+                margin-bottom: 8px;
+            }
+
             .filter-controls {
                 justify-content: flex-start;
                 overflow-x: auto;
@@ -711,20 +768,86 @@
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
-            .filter-controls::-webkit-scrollbar { display: none; }
-            .filter-btn { padding: 6px 14px; font-size: 0.75rem; white-space: nowrap; }
-            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
-            .product-card { height: auto; border-radius: 14px; }
-            .status-badge { top: 8px; left: 8px; padding: 3px 8px; font-size: 0.62rem; letter-spacing: 0.5px; border-radius: 12px; }
-            .product-image { height: 175px; min-height: 175px; max-height: 175px; }
-            .product-info { padding: 12px 10px 8px 10px; }
-            .product-brand-tag { font-size: 0.65rem; letter-spacing: 1px; margin-bottom: 2px; }
-            .product-title { font-size: 0.85rem; line-height: 1.25; margin-bottom: 4px; }
-            .product-price { font-size: 0.95rem; margin-bottom: 8px; letter-spacing: 0.3px; }
-            .btn-group { gap: 6px; }
-            .btn { padding: 9px 4px; font-size: 0.72rem; letter-spacing: 0.3px; border-radius: 20px; }
-            .floating-cart-btn { padding: 10px 14px; right: 14px; bottom: calc(20px + var(--sab)); }
-            .floating-cart-btn svg { width: 18px; height: 18px; }
+            .filter-controls::-webkit-scrollbar {
+                display: none;
+            }
+
+            .filter-btn {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            /* Сетка строго 2 в ряд на экранах смартфонов */
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 40px;
+            }
+
+            .product-card {
+                height: auto;
+                border-radius: 14px;
+            }
+
+            .status-badge {
+                top: 8px;
+                left: 8px;
+                padding: 3px 8px;
+                font-size: 0.62rem;
+                letter-spacing: 0.5px;
+                border-radius: 12px;
+            }
+
+            .product-image {
+                height: 175px;
+                min-height: 175px;
+                max-height: 175px;
+            }
+
+            .product-info {
+                padding: 12px 10px 8px 10px;
+            }
+
+            .product-brand-tag {
+                font-size: 0.65rem;
+                letter-spacing: 1px;
+                margin-bottom: 2px;
+            }
+
+            .product-title {
+                font-size: 0.85rem;
+                line-height: 1.25;
+                margin-bottom: 4px;
+            }
+
+            .product-price {
+                font-size: 0.95rem;
+                margin-bottom: 8px;
+                letter-spacing: 0.3px;
+            }
+
+            .btn-group {
+                gap: 6px;
+            }
+
+            .btn {
+                padding: 9px 4px;
+                font-size: 0.72rem;
+                letter-spacing: 0.3px;
+                border-radius: 20px;
+            }
+
+            .floating-cart-btn {
+                padding: 10px 14px;
+                right: 14px;
+                bottom: calc(20px + var(--sab));
+            }
+
+            .floating-cart-btn svg {
+                width: 18px;
+                height: 18px;
+            }
         }
     </style>
 </head>
@@ -737,21 +860,19 @@
             <a href="about.html" class="header-verify-link">О нас</a>
             <a href="acept.html" class="header-verify-link">Проверка подлинности</a>
             <a href="tracking.html" class="header-verify-link">Отследить заказ</a>
-            <a href="https://t.me/Heaven_Heart_store_bot" class="header-tg-link" target="_blank">
+            <!-- ЗДЕСЬ ИЗМЕНЕНА ССЫЛКА НА ВАШЕГО БОТА -->
+            <a href="https://t.me/ИМЯ_ВАШЕГО_БОТА" class="header-tg-link" target="_blank">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
                 Магазин в Telegram
             </a>
-            
-            <!-- Кнопка кабинета / виджет входа -->
-            <button class="header-user-btn" id="authBtn" onclick="handleAuthClick()">👤 Войти через Telegram</button>
-            <div id="tgLoginContainer" style="display: none;"></div>
+            <button class="header-user-btn" id="authBtn" onclick="goToCabinet()">👤 Кабинет</button>
         </div>
     </header>
 
-    <!-- Главный баннер -->
+    <!-- Главный баннер (картинка выбирается случайно при загрузке) -->
     <div class="parallax-banner" id="randomBanner"></div>
 
-    <!-- Бегущая строка -->
+    <!-- БЕСПРЕРЫВНАЯ БЕГУЩАЯ СТРОКА С КРЕСТИКАМИ -->
     <div class="gold-marquee-wrapper">
         <div class="gold-marquee-track">
             <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
@@ -762,7 +883,7 @@
     </div>
 
     <div class="container">
-        <!-- Блок фильтра по брендам -->
+        <!-- Блок разделения по брендам (автоматический) -->
         <div class="filter-section">
             <div class="filter-title">Фильтр по брендам</div>
             <div class="filter-controls" id="brandFilterControls">
@@ -770,7 +891,7 @@
             </div>
         </div>
 
-        <!-- Блок фильтра по категориям -->
+        <!-- Блок разделения по категориям товаров -->
         <div class="filter-section">
             <div class="filter-title">Категории товаров</div>
             <div class="filter-controls">
@@ -783,13 +904,13 @@
             </div>
         </div>
 
-        <!-- Сетка товаров -->
+        <!-- Сетка товаров (4 на ПК, 2 на смартфонах) -->
         <section class="products-grid">
-            <!-- Загружается из Google Таблицы -->
+            <!-- Здесь появятся товары из Google Таблицы -->
         </section>
     </div>
 
-    <!-- Плавающий виджет корзины -->
+    <!-- ПЛАВАЮЩИЙ МИНИ-ВИДЖЕТ КОРЗИНЫ -->
     <div class="floating-cart-btn" id="floatingCartBtn" onclick="window.location.href='cart.html'" title="Корзина">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -799,7 +920,7 @@
         <span class="cart-badge" id="cartBadge">0</span>
     </div>
 
-    <!-- Модальное окно быстрой оплаты по QR -->
+    <!-- МОДАЛЬНОЕ ОКНО БЫСТРОЙ ОПЛАТЫ ПО QR (Оставлено без изменений по вашей просьбе) -->
     <div class="modal-overlay" id="quickPayModal" onclick="closeQuickPay(event)">
         <div class="modal-card" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeQuickPay()">&times;</button>
@@ -817,8 +938,8 @@
             </div>
 
             <div class="qr-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://t.me/Heaven_Heart_store_bot" alt="QR для оплаты">
-                <div class="qr-hint">Отсканируйте камерой телефона для перехода в бот</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://t.me/bandos158" alt="QR для оплаты">
+                <div class="qr-hint">Отсканируйте камерой телефона для перевода по СБП</div>
             </div>
 
             <a href="#" id="tgCheckoutBtn" target="_blank" class="btn-tg-pay" onclick="handleCheckoutClick()">
@@ -828,25 +949,16 @@
         </div>
     </div>
     
-    <!-- Toast-уведомление -->
+    <!-- БЛОК ДЛЯ TOAST-УВЕДОМЛЕНИЯ -->
     <div id="toastNotification" class="toast-notification">
         <span class="toast-icon">✓</span>
         <span id="toastMessage">Товар добавлен в корзину</span>
     </div>
 
     <footer>
-        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/Heaven_Heart_store_bot" target="_blank">Магазин в Telegram</a></p>
+        <!-- ЗДЕСЬ ТАКЖЕ ИЗМЕНЕНА ССЫЛКА НА ВАШЕГО БОТА -->
+        <p>&copy; 2026 Heaven Heart Store. Все права защищены. | <a href="https://t.me/ИМЯ_ВАШЕГО_БОТА" target="_blank">Магазин в Telegram</a></p>
     </footer>
-
-    <!-- Модальное окно виджета авторизации Telegram для браузера -->
-    <div class="modal-overlay" id="tgLoginModal" onclick="closeTgLoginModal(event)">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeTgLoginModal()">&times;</button>
-            <div class="modal-title" style="margin-bottom: 15px;">Вход через Telegram</div>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 20px;">Подтвердите вход через ваш аккаунт Telegram, чтобы получить доступ к заказам и бонусам.</p>
-            <div id="telegramLoginButtonSlot" style="display: flex; justify-content: center; min-height: 45px;"></div>
-        </div>
-    </div>
 
     <script>
         const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
@@ -855,83 +967,25 @@
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
 
-        // Колбэк официального Telegram Login Widget
-        window.onTelegramAuth = function(user) {
-            const session = {
-                name: user.first_name + (user.last_name ? ' ' + user.last_name : ''),
-                id: user.id,
-                username: user.username || '',
-                photo: user.photo_url || ''
-            };
-            localStorage.setItem('hh_logged_in', JSON.stringify(session));
-            updateAuthButton();
-            closeTgLoginModal();
-            showToast(`Добро пожаловать, ${session.name}!`);
-        };
-
-        function updateAuthButton() {
-            const logged = localStorage.getItem('hh_logged_in');
-            const authBtn = document.getElementById('authBtn');
-            if (logged && authBtn) {
-                const session = JSON.parse(logged);
-                authBtn.innerHTML = `👤 ${session.name}`;
-            } else if (authBtn) {
-                authBtn.innerHTML = `👤 Войти через TG`;
-            }
+        function goToCabinet() {
+            window.location.href = 'acccount.html';
         }
 
-        function handleAuthClick() {
-            const logged = localStorage.getItem('hh_logged_in');
-            if (logged) {
-                window.location.href = 'acccount.html';
-            } else {
-                openTgLoginModal();
-            }
-        }
-
-        function openTgLoginModal() {
-            const modal = document.getElementById('tgLoginModal');
-            const slot = document.getElementById('telegramLoginButtonSlot');
-            if (modal && slot) {
-                slot.innerHTML = '';
-                const script = document.createElement('script');
-                script.async = true;
-                script.src = 'https://telegram.org/js/telegram-widget.js?22';
-                script.setAttribute('data-telegram-login', 'Heaven_Heart_store_bot');
-                script.setAttribute('data-size', 'large');
-                script.setAttribute('data-radius', '20');
-                script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-                script.setAttribute('data-request-access', 'write');
-                slot.appendChild(script);
-                modal.classList.add('active');
-            }
-        }
-
-        function closeTgLoginModal(event) {
-            if (!event || event.target.id === 'tgLoginModal' || event.target.classList.contains('modal-close')) {
-                document.getElementById('tgLoginModal').classList.remove('active');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            // 1. Автоматический вход внутри Telegram WebApp
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tgApp = window.Telegram.WebApp;
-                tgApp.ready();
-                if (tgApp.initDataUnsafe && tgApp.initDataUnsafe.user) {
-                    const tgUser = tgApp.initDataUnsafe.user;
-                    const session = {
-                        name: tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : ''),
-                        id: tgUser.id,
-                        username: tgUser.username || ''
-                    };
-                    localStorage.setItem('hh_logged_in', JSON.stringify(session));
-                }
+       window.addEventListener('DOMContentLoaded', () => {
+            // ========================================================
+            // АВТОМАТИЧЕСКАЯ АВТОРИЗАЦИЯ ПРИ ОТКРЫТИИ ЧЕРЕЗ TELEGRAM
+            // ========================================================
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+                const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+                const session = {
+                    name: tgUser.first_name,
+                    id: tgUser.id,
+                    username: tgUser.username
+                };
+                localStorage.setItem('hh_logged_in', JSON.stringify(session));
             }
 
-            updateAuthButton();
-
-            // Фоновое изображение баннера
+            // Установка фиксированного фонового фото
             const bannerEl = document.getElementById('randomBanner');
             if (bannerEl) {
                 bannerEl.style.backgroundImage = `url('68250033.jpg')`;
@@ -939,6 +993,12 @@
 
             initCatalog(); 
             updateCartBadge();
+            const logged = localStorage.getItem('hh_logged_in');
+            const authBtn = document.getElementById('authBtn');
+            if (logged && authBtn) {
+                const session = JSON.parse(logged);
+                authBtn.innerHTML = `👤 ${session.name}`;
+            }
 
             const savedScroll = sessionStorage.getItem('catalog_scroll_pos');
             if (savedScroll) {
@@ -959,6 +1019,7 @@
             });
 
             const activeBrand = currentBrandFilter;
+
             container.innerHTML = `<button class="filter-btn ${activeBrand === 'all' ? 'active' : ''}" onclick="filterByBrand('all')">Все бренды</button>`;
 
             brandsSet.forEach(brandName => {
@@ -978,6 +1039,7 @@
             if (!grid) return;
             
             generateBrandButtons(data);
+
             grid.innerHTML = ''; 
             
             data.forEach(item => {
@@ -1006,6 +1068,7 @@
                 }
                 
                 const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
                 const badgeClass = (item.badge && item.badge.toLowerCase().includes('заказ')) ? 'badge-preorder' : 'badge-instock';
                 const brandClass = item.brand ? item.brand.toLowerCase().replace(/\s+/g, '-') : 'heaven-heart';
                 
@@ -1017,6 +1080,7 @@
                 card.setAttribute('data-category', catStr + ' ' + badgeStr);
                 card.setAttribute('data-brand', brandClass);
                 
+                // ЗДЕСЬ ИЗМЕНЕНО СОБЫТИЕ ДЛЯ "Купить за 1 клик" на buyOneClick
                 card.innerHTML = `
                     <span class="status-badge ${badgeClass}">${item.badge || 'В наличии'}</span>
                     <a href="tovar.html?id=${item.id}" class="product-card-link" onclick="sessionStorage.setItem('catalog_scroll_pos', window.scrollY);">
@@ -1136,7 +1200,7 @@
         function updateTelegramLink(name, price) {
             const city = document.getElementById('citySelect').value;
             const text = encodeURIComponent(`Здравствуйте! Оплатил товар: ${name} (${price}). Город доставки: ${city}. Прикрепляю чек:`);
-            document.getElementById('tgCheckoutBtn').href = `https://t.me/Heaven_Heart_store_bot?text=${text}`;
+            document.getElementById('tgCheckoutBtn').href = `https://t.me/bandos158?text=${text}`;
         }
 
         document.getElementById('citySelect').addEventListener('change', function() {
@@ -1179,8 +1243,13 @@
             }
         }
 
+        // ========================================================
+        // НОВАЯ ФУНКЦИЯ ДЛЯ МГНОВЕННОЙ ПОКУПКИ В 1 КЛИК
+        // ========================================================
         function buyOneClick(name, price, itemId, event) {
+            // Кладем товар в корзину используя существующую функцию
             addToCart(name, price, itemId, event);
+            // Сразу перенаправляем в корзину
             window.location.href = 'cart.html';
         }
 
@@ -1197,6 +1266,7 @@
             let imgSrc = imgElement ? imgElement.src : (vidElement ? vidElement.src : 'logo.png');
 
             let productUrl = `tovar.html?id=${itemId}`;
+
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             
             let existingItem = cart.find(item => String(item.id) === String(itemId));
@@ -1214,6 +1284,7 @@
             }
 
             localStorage.setItem('hh_cart', JSON.stringify(cart));
+            
             updateCartBadge();
             showToast(`«${name}» в корзине`);
         }
@@ -1224,7 +1295,9 @@
             const badge = document.getElementById('cartBadge');
             const cartBtn = document.getElementById('floatingCartBtn');
             
-            if (badge) badge.textContent = totalCount;
+            if (badge) {
+                badge.textContent = totalCount;
+            }
             if (cartBtn) {
                 if (totalCount > 0) {
                     cartBtn.classList.add('visible');
@@ -1242,6 +1315,7 @@
             toast.classList.add('show');
             
             clearTimeout(toastTimeout);
+            
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
