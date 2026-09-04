@@ -492,13 +492,8 @@
 
         <div class="filter-section">
             <div class="filter-title">Категории товаров</div>
-            <div class="filter-controls">
+            <div class="filter-controls" id="categoryFilterControls">
                 <button class="filter-btn active" onclick="filterItems('all')">Все товары</button>
-                <button class="filter-btn" onclick="filterItems('сумки')">Сумки</button>
-                <button class="filter-btn" onclick="filterItems('очки')">Очки</button>
-                <button class="filter-btn" onclick="filterItems('духи')">Духи</button>
-                <button class="filter-btn" onclick="filterItems('в наличии')">В наличии</button>
-                <button class="filter-btn" onclick="filterItems('заказ')">Под заказ</button>
             </div>
         </div>
 
@@ -580,11 +575,45 @@
             });
         }
 
+        function generateCategoryButtons(data) {
+            const container = document.getElementById('categoryFilterControls');
+            if (!container) return;
+
+            const categoriesSet = new Set();
+            const statusesSet = new Set();
+
+            data.forEach(item => {
+                if (item.category && String(item.category).trim() !== '') {
+                    categoriesSet.add(String(item.category).trim().toLowerCase());
+                }
+                if (item.badge && String(item.badge).trim() !== '') {
+                    statusesSet.add(String(item.badge).trim().toLowerCase());
+                }
+            });
+
+            let html = `<button class="filter-btn ${currentCategoryFilter === 'all' ? 'active' : ''}" onclick="filterItems('all')">Все товары</button>`;
+
+            categoriesSet.forEach(cat => {
+                const displayName = cat.charAt(0).toUpperCase() + cat.slice(1);
+                const isActive = (currentCategoryFilter === cat) ? 'active' : '';
+                html += `<button class="filter-btn ${isActive}" onclick="filterItems('${cat}')">${displayName}</button>`;
+            });
+
+            statusesSet.forEach(status => {
+                const displayName = status.charAt(0).toUpperCase() + status.slice(1);
+                const isActive = (currentCategoryFilter === status) ? 'active' : '';
+                html += `<button class="filter-btn ${isActive}" onclick="filterItems('${status}')">${displayName}</button>`;
+            });
+
+            container.innerHTML = html;
+        }
+
         function renderGrid(data) {
             const grid = document.querySelector('.products-grid');
             if (!grid) return;
             
             generateBrandButtons(data);
+            generateCategoryButtons(data);
             grid.innerHTML = ''; 
             
             data.forEach(item => {
@@ -678,9 +707,13 @@
         }
 
         function filterItems(category) {
-            document.querySelectorAll('.filter-section:nth-of-type(2) .filter-btn').forEach(btn => btn.classList.remove('active'));
-            if (event && event.target) event.target.classList.add('active');
             currentCategoryFilter = category;
+            document.querySelectorAll('#categoryFilterControls .filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(`'${category}'`)) {
+                    btn.classList.add('active');
+                }
+            });
             applyFilters();
         }
 
