@@ -5,31 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Heaven Heart — Official Store</title>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
     <meta name="description" content="Heaven Heart — независимый бренд премиальных аксессуаров и архивного люкса. 100% аутентичность, NFC-проверка, доставка по РФ.">
-    <meta name="keywords" content="Heaven Heart, сумки премиум, архивный люкс, дизайнерские аксессуары, купить сумку СПб">
-    <meta name="author" content="Heaven Heart Store">
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Heaven Heart — Official Store">
-    <meta property="og:description" content="Эстетика утонченного дизайна и бескомпромиссное качество. Архивный люкс и аксессуары.">
-    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Heaven Heart — Official Store">
-    <meta name="twitter:description" content="Эстетика утонченного дизайна и бескомпромиссное качество. Архивный люкс и аксессуары.">
-    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-
-    <meta name="theme-color" content="#111111">
-    <meta name="msapplication-TileColor" content="#111111">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
-    <link rel="apple-touch-icon" href="logo.png">
-    <link rel="icon" type="image/png" href="logo.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -94,8 +70,7 @@
             flex-wrap: wrap;
         }
 
-        .header-verify-link {
-            position: relative;
+        .header-verify-link, .header-user-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -113,7 +88,7 @@
             cursor: pointer;
         }
 
-        .header-verify-link:hover {
+        .header-verify-link:hover, .header-user-btn:hover {
             background-color: #111;
             color: #fff;
             transform: translateY(-2px);
@@ -140,34 +115,6 @@
             background: #2AABEE;
             color: #fff;
             transform: translateY(-2px);
-        }
-
-        .header-user-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #111;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            background: rgba(0, 0, 0, 0.03);
-            padding: 7px 18px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.35s ease;
-        }
-
-        .header-user-btn:hover {
-            background: #111;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .parallax-banner {
@@ -208,7 +155,6 @@
             width: max-content;
             animation: goldScrollContinuous 24s linear infinite;
             white-space: nowrap;
-            will-change: transform;
         }
 
         .gold-marquee-item {
@@ -330,23 +276,12 @@
             text-transform: uppercase;
         }
 
-        .badge-instock {
-            background-color: rgba(46, 204, 113, 0.15);
-            color: #27ae60;
-            border: 1px solid rgba(46, 204, 113, 0.4);
-        }
-
-        .badge-preorder {
-            background-color: rgba(229, 169, 59, 0.15);
-            color: #d39e2e;
-            border: 1px solid rgba(229, 169, 59, 0.4);
-        }
+        .badge-instock { background-color: rgba(46, 204, 113, 0.15); color: #27ae60; border: 1px solid rgba(46, 204, 113, 0.4); }
+        .badge-preorder { background-color: rgba(229, 169, 59, 0.15); color: #d39e2e; border: 1px solid rgba(229, 169, 59, 0.4); }
 
         .product-image {
             width: 100%;
             height: 270px;
-            min-height: 270px;
-            max-height: 270px;
             background-color: #f0f0f0;
             display: flex;
             align-items: center;
@@ -355,8 +290,7 @@
             flex-shrink: 0;
         }
 
-        .product-image img,
-        .product-image video {
+        .product-image img, .product-image video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -396,11 +330,7 @@
             letter-spacing: 0.5px;
         }
 
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; }
 
         .btn {
             display: block;
@@ -420,18 +350,8 @@
         }
 
         .btn:hover { background-color: #b38228; }
-
-        .btn-cart {
-            background-color: #f4f4f4;
-            color: #111;
-            border: 1px solid #ddd;
-        }
-
-        .btn-cart:hover {
-            background-color: #111;
-            color: #fff;
-            border-color: #111;
-        }
+        .btn-cart { background-color: #f4f4f4; color: #111; border: 1px solid #ddd; }
+        .btn-cart:hover { background-color: #111; color: #fff; border-color: #111; }
 
         .floating-cart-btn {
             position: fixed;
@@ -471,22 +391,9 @@
             background: rgba(17, 17, 17, 0.88);
             color: #ffffff;
             border-color: rgba(17, 17, 17, 0.88);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
         }
 
-        .floating-cart-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2.2;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.25s ease;
-        }
-
-        .floating-cart-btn:hover svg { transform: scale(1.08); }
-
+        .floating-cart-btn svg { width: 20px; height: 20px; }
         .cart-badge {
             background: #b38228;
             color: #ffffff;
@@ -506,15 +413,12 @@
             transform: translate(-50%, -50%) scale(0.85);
             background-color: rgba(17, 17, 17, 0.85);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             color: #fff;
             padding: 16px 32px;
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             font-size: 0.95rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -522,7 +426,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            white-space: nowrap;
         }
 
         .toast-notification.show {
@@ -539,7 +442,6 @@
             width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
             z-index: 10000;
             display: none;
             align-items: center;
@@ -547,10 +449,7 @@
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-            animation: fadeInDown 0.3s ease;
-        }
+        .modal-overlay.active { display: flex; animation: fadeInDown 0.3s ease; }
 
         .modal-card {
             background: #fff;
@@ -574,35 +473,11 @@
             cursor: pointer;
         }
 
-        .modal-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #111;
-        }
+        .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; color: #111; }
+        .modal-price { font-size: 1.25rem; font-weight: 700; color: #111111; margin-bottom: 15px; }
 
-        .modal-price {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #111111;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #444;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* Обновленные стили полей ввода для модального окна */
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; color: #444; font-size: 0.8rem; font-weight: 600; }
         .form-group select, .form-group input {
             width: 100%;
             padding: 12px 14px;
@@ -621,7 +496,6 @@
             border: 1px solid #eee;
             border-radius: 12px;
         }
-
         .qr-container img {
             width: 150px;
             height: 150px;
@@ -629,12 +503,7 @@
             display: block;
             margin: 0 auto 8px auto;
         }
-
-        .qr-hint {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #666;
-        }
+        .qr-hint { font-size: 0.75rem; font-weight: 500; color: #666; }
 
         .btn-tg-pay {
             display: flex;
@@ -646,10 +515,9 @@
             margin-top: 10px;
             font-size: 0.9rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            text-decoration: none;
             padding: 13px;
             border-radius: 30px;
+            text-decoration: none;
             cursor: pointer;
         }
 
@@ -663,9 +531,7 @@
             font-weight: 500;
             margin-top: 60px;
         }
-
         footer a { color: #2AABEE; text-decoration: underline; }
-        footer a:hover { color: #111; }
 
         @media (max-width: 1024px) {
             .products-grid { grid-template-columns: repeat(3, 1fr); }
@@ -674,27 +540,12 @@
         @media (max-width: 768px) {
             .container { padding: 0 12px; }
             .header-links-group { gap: 8px; }
-            .header-verify-link, .header-tg-link, .header-user-btn { padding: 6px 12px; font-size: 0.72rem; letter-spacing: 0.5px; }
+            .header-verify-link, .header-tg-link, .header-user-btn { padding: 6px 12px; font-size: 0.72rem; }
             .parallax-banner { aspect-ratio: 3 / 2; max-height: 280px; margin-bottom: 20px; }
-            .gold-marquee-wrapper { margin-bottom: 20px; padding: 8px 0; }
-            .gold-marquee-item { font-size: 0.68rem; letter-spacing: 1.5px; padding: 0 12px; }
-            .filter-section { margin-bottom: 18px; }
-            .filter-title { font-size: 0.75rem; margin-bottom: 8px; }
-            .filter-controls { justify-content: flex-start; overflow-x: auto; padding-bottom: 6px; gap: 8px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-            .filter-controls::-webkit-scrollbar { display: none; }
-            .filter-btn { padding: 6px 14px; font-size: 0.75rem; white-space: nowrap; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
-            .product-card { height: auto; border-radius: 14px; }
-            .status-badge { top: 8px; left: 8px; padding: 3px 8px; font-size: 0.62rem; letter-spacing: 0.5px; border-radius: 12px; }
             .product-image { height: 175px; min-height: 175px; max-height: 175px; }
             .product-info { padding: 12px 10px 8px 10px; }
-            .product-brand-tag { font-size: 0.65rem; letter-spacing: 1px; margin-bottom: 2px; }
-            .product-title { font-size: 0.85rem; line-height: 1.25; margin-bottom: 4px; }
-            .product-price { font-size: 0.95rem; margin-bottom: 8px; letter-spacing: 0.3px; }
-            .btn-group { gap: 6px; }
-            .btn { padding: 9px 4px; font-size: 0.72rem; letter-spacing: 0.3px; border-radius: 20px; }
-            .floating-cart-btn { padding: 10px 14px; right: 14px; bottom: calc(20px + var(--sab)); }
-            .floating-cart-btn svg { width: 18px; height: 18px; }
+            .btn { padding: 9px 4px; font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -719,8 +570,6 @@
 
     <div class="gold-marquee-wrapper">
         <div class="gold-marquee-track">
-            <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
-            <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
             <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
             <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
         </div>
@@ -758,16 +607,15 @@
         <span class="cart-badge" id="cartBadge">0</span>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО БЫСТРОЙ ОПЛАТЫ (С ВАШИМ QR-КОДОМ И ПОЛЕМ ДЛЯ ПОЧТЫ) -->
+    <!-- МОДАЛЬНОЕ ОКНО С НОВЫМ QR И ПОЛЕМ ПОЧТЫ -->
     <div class="modal-overlay" id="quickPayModal" onclick="closeQuickPay(event)">
         <div class="modal-card" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeQuickPay()">&times;</button>
             <div class="modal-title" id="modalProductName">Товар</div>
             <div class="modal-price" id="modalProductPrice">0 ₽</div>
 
-            <!-- Новое поле для ввода почты -->
             <div class="form-group">
-                <label for="userEmail">Ваш Email (для чека и уведомлений):</label>
+                <label for="userEmail">Ваш Email (для уведомлений):</label>
                 <input type="email" id="userEmail" placeholder="example@mail.ru" required>
             </div>
 
@@ -782,7 +630,7 @@
             </div>
 
             <div class="qr-container">
-                <!-- ВАШ НОВЫЙ QR КОД -->
+                <!-- ВАШ QR-КОД ОПЛАТЫ -->
                 <img src="IMG_7675.PNG" alt="QR для оплаты">
                 <div class="qr-hint">Отсканируйте камерой телефона для оплаты по СБП</div>
             </div>
@@ -810,9 +658,7 @@
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
 
-        function goToCabinet() {
-            window.location.href = 'acccount.html';
-        }
+        function goToCabinet() { window.location.href = 'acccount.html'; }
 
        window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -825,19 +671,14 @@
             }
 
             const bannerEl = document.getElementById('randomBanner');
-            if (bannerEl) {
-                bannerEl.style.backgroundImage = `url('68250033.jpg')`;
-            }
+            if (bannerEl) bannerEl.style.backgroundImage = `url('68250033.jpg')`;
 
             initCatalog(); 
             updateCartBadge();
             
             const logged = localStorage.getItem('hh_logged_in');
             const authBtn = document.getElementById('authBtn');
-            if (logged && authBtn) {
-                const session = JSON.parse(logged);
-                authBtn.innerHTML = `👤 ${session.name}`;
-            }
+            if (logged && authBtn) authBtn.innerHTML = `👤 ${JSON.parse(logged).name}`;
 
             const savedScroll = sessionStorage.getItem('catalog_scroll_pos');
             if (savedScroll) {
@@ -849,20 +690,16 @@
         function generateBrandButtons(data) {
             const container = document.getElementById('brandFilterControls');
             if (!container) return;
-
             const brandsSet = new Set();
             data.forEach(item => {
-                if (item.brand && String(item.brand).trim() !== '') {
-                    brandsSet.add(String(item.brand).trim());
-                }
+                if (item.brand && String(item.brand).trim() !== '') brandsSet.add(String(item.brand).trim());
             });
 
-            const activeBrand = currentBrandFilter;
-            container.innerHTML = `<button class="filter-btn ${activeBrand === 'all' ? 'active' : ''}" onclick="filterByBrand('all')">Все бренды</button>`;
+            container.innerHTML = `<button class="filter-btn ${currentBrandFilter === 'all' ? 'active' : ''}" onclick="filterByBrand('all')">Все бренды</button>`;
 
             brandsSet.forEach(brandName => {
                 const brandSlug = brandName.toLowerCase().replace(/\s+/g, '-');
-                const isActive = (activeBrand === brandSlug) ? 'active' : '';
+                const isActive = (currentBrandFilter === brandSlug) ? 'active' : '';
                 const btn = document.createElement('button');
                 btn.className = `filter-btn ${isActive}`;
                 btn.setAttribute('onclick', `filterByBrand('${brandSlug}')`);
@@ -880,20 +717,16 @@
             
             data.forEach(item => {
                 if (!item.id) return; 
-                
                 const images = item.images ? item.images.split(',') : ['logo.png'];
                 const mainImg = images[0].trim();
                 
-                let mediaHtml = '';
-                if (mainImg.endsWith('.webm') || mainImg.endsWith('.mp4')) {
-                    mediaHtml = `<video muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"><source src="${mainImg}" type="video/webm"></video>`;
-                } else {
-                    mediaHtml = `<img src="${mainImg}" alt="${item.title}">`;
-                }
+                let mediaHtml = mainImg.endsWith('.webm') || mainImg.endsWith('.mp4') 
+                    ? `<video muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"><source src="${mainImg}" type="video/webm"></video>`
+                    : `<img src="${mainImg}" alt="${item.title}">`;
                 
                 let priceStr = 'Цена по запросу';
                 let cleanPrice = 0;
-                if (item.price !== undefined && item.price !== null && item.price !== '') {
+                if (item.price) {
                     let stringPrice = String(item.price).trim();
                     if (/^\d+([.,]\d+)?$/.test(stringPrice)) {
                         cleanPrice = Math.round(parseFloat(stringPrice.replace(',', '.'))) || 0;
@@ -906,7 +739,6 @@
                 const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 const badgeClass = (item.badge && item.badge.toLowerCase().includes('заказ')) ? 'badge-preorder' : 'badge-instock';
                 const brandClass = item.brand ? item.brand.toLowerCase().replace(/\s+/g, '-') : 'heaven-heart';
-                
                 const catStr = (item.category || '').toLowerCase();
                 const badgeStr = (item.badge || '').toLowerCase();
                 
@@ -918,9 +750,7 @@
                 card.innerHTML = `
                     <span class="status-badge ${badgeClass}">${item.badge || 'В наличии'}</span>
                     <a href="tovar.html?id=${item.id}" class="product-card-link" onclick="sessionStorage.setItem('catalog_scroll_pos', window.scrollY);">
-                        <div class="product-image">
-                            ${mediaHtml}
-                        </div>
+                        <div class="product-image">${mediaHtml}</div>
                         <div class="product-info">
                             <div>
                                 <div class="product-brand-tag">${item.title}</div>
@@ -943,31 +773,19 @@
 
         async function initCatalog() {
             let cachedData = null;
-            try {
-                cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache'));
-            } catch (e) {
-                console.error('Ошибка чтения локального кэша', e);
-            }
-
-            if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
-                renderGrid(cachedData);
-            }
+            try { cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache')); } catch (e) {}
+            if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) renderGrid(cachedData);
 
             try {
                 const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now());
                 const freshData = await response.json();
-
                 if (freshData && Array.isArray(freshData) && freshData.length > 0) {
-                    const freshString = JSON.stringify(freshData);
-                    const cachedString = JSON.stringify(cachedData);
-
-                    if (freshString !== cachedString) {
-                        localStorage.setItem('hh_catalog_cache', freshString);
+                    if (JSON.stringify(freshData) !== JSON.stringify(cachedData)) {
+                        localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
                         renderGrid(freshData);
                     }
                 }
             } catch (error) {
-                console.log('Фоновое обновление недоступно (нет сети):', error);
                 if (!cachedData || cachedData.length === 0) {
                     const grid = document.querySelector('.products-grid');
                     if (grid) grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">Не удалось загрузить каталог. Проверьте интернет-соединение.</p>';
@@ -976,40 +794,27 @@
         }
 
         function applyFilters() {
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
+            document.querySelectorAll('.product-card').forEach(card => {
                 const itemBrand = card.getAttribute('data-brand') || '';
                 const itemCategory = card.getAttribute('data-category') || '';
-                
                 const matchBrand = (currentBrandFilter === 'all' || itemBrand === currentBrandFilter);
                 const matchCategory = (currentCategoryFilter === 'all' || itemCategory.includes(currentCategoryFilter));
-                
-                if (matchBrand && matchCategory) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (matchBrand && matchCategory) ? 'flex' : 'none';
             });
         }
 
         function filterItems(category) {
-            const buttons = document.querySelectorAll('.filter-section:nth-of-type(2) .filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            if (event && event.target) {
-                event.target.classList.add('active');
-            }
+            document.querySelectorAll('.filter-section:nth-of-type(2) .filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
             currentCategoryFilter = category;
             applyFilters();
         }
 
         function filterByBrand(brand) {
             currentBrandFilter = brand;
-            const buttons = document.querySelectorAll('#brandFilterControls .filter-btn');
-            buttons.forEach(btn => {
+            document.querySelectorAll('#brandFilterControls .filter-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(`'${brand}'`)) {
-                    btn.classList.add('active');
-                }
+                if (btn.getAttribute('onclick').includes(`'${brand}'`)) btn.classList.add('active');
             });
             applyFilters();
         }
@@ -1018,11 +823,8 @@
             document.getElementById('modalProductName').textContent = productName;
             document.getElementById('modalProductPrice').textContent = productPrice;
             
-            // Если юзер уже входил через почту, подставляем её автоматически
             const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
-            if (logged && logged.email) {
-                document.getElementById('userEmail').value = logged.email;
-            }
+            if (logged && logged.email) document.getElementById('userEmail').value = logged.email;
             
             updateTelegramLink(productName, productPrice);
             document.getElementById('quickPayModal').classList.add('active');
@@ -1041,26 +843,25 @@
         }
 
         document.getElementById('citySelect').addEventListener('change', function() {
-            const name = document.getElementById('modalProductName').textContent;
-            const price = document.getElementById('modalProductPrice').textContent;
-            updateTelegramLink(name, price);
+            updateTelegramLink(document.getElementById('modalProductName').textContent, document.getElementById('modalProductPrice').textContent);
         });
 
+        // Отправка данных на скрипт Google для сохранения заказа и отправки письма
         async function handleCheckoutClick() {
             const productName = document.getElementById('modalProductName').textContent;
             const productPrice = document.getElementById('modalProductPrice').textContent;
             const city = document.getElementById('citySelect').value;
-            
-            // Берем почту из нового поля ввода
             const inputEmail = document.getElementById('userEmail').value;
-            const logged = JSON.parse(localStorage.getItem('hh_logged_in') || 'null');
-            let userEmail = inputEmail || (logged ? (logged.email || logged.name) : 'guest@store.ru');
+            
+            if (!inputEmail) {
+                alert("Пожалуйста, введите ваш Email для получения чека.");
+                return;
+            }
 
             const today = new Date();
             const dateStr = String(today.getDate()).padStart(2, '0') + '.' + 
                             String(today.getMonth() + 1).padStart(2, '0') + '.' + 
                             today.getFullYear();
-            
             const orderNum = 'HH-' + Math.floor(1000 + Math.random() * 9000);
 
             try {
@@ -1074,12 +875,13 @@
                         productName: productName,
                         cost: productPrice,
                         deliveryAddress: city,
-                        email: userEmail
+                        email: inputEmail // Передаем введенный Email в Google Скрипт
                     })
                 });
             } catch (err) {
                 console.error('Ошибка отправки в таблицу:', err);
             }
+            closeQuickPay();
         }
 
         function buyOneClick(name, price, itemId, event) {
@@ -1088,33 +890,21 @@
         }
 
         let toastTimeout;
-
         function addToCart(name, price, itemId, event) {
             event.stopPropagation(); 
-            
-            const button = event.target;
-            const card = button.closest('.product-card');
-            
-            let imgElement = card ? card.querySelector('.product-image img') : null;
-            let vidElement = card ? card.querySelector('.product-image video source') : null;
-            let imgSrc = imgElement ? imgElement.src : (vidElement ? vidElement.src : 'logo.png');
-
+            const card = event.target.closest('.product-card');
+            let imgSrc = card && card.querySelector('.product-image img') ? card.querySelector('.product-image img').src : 'logo.png';
             let productUrl = `tovar.html?id=${itemId}`;
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             
             let existingItem = cart.find(item => String(item.id) === String(itemId));
-            let currentQuantity = existingItem ? existingItem.quantity : 0;
-
-            if (currentQuantity >= 3) {
+            if (existingItem && existingItem.quantity >= 3) {
                 showToast(`Лимит: не более 3 шт. «${name}»`);
                 return;
             }
 
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ id: String(itemId), name: name, price: price, image: imgSrc, quantity: 1, url: productUrl });
-            }
+            if (existingItem) existingItem.quantity += 1;
+            else cart.push({ id: String(itemId), name: name, price: price, image: imgSrc, quantity: 1, url: productUrl });
 
             localStorage.setItem('hh_cart', JSON.stringify(cart));
             updateCartBadge();
@@ -1126,28 +916,16 @@
             let totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
             const badge = document.getElementById('cartBadge');
             const cartBtn = document.getElementById('floatingCartBtn');
-            
             if (badge) badge.textContent = totalCount;
-            if (cartBtn) {
-                if (totalCount > 0) {
-                    cartBtn.classList.add('visible');
-                } else {
-                    cartBtn.classList.remove('visible');
-                }
-            }
+            if (cartBtn) totalCount > 0 ? cartBtn.classList.add('visible') : cartBtn.classList.remove('visible');
         }
 
         function showToast(message) {
             const toast = document.getElementById('toastNotification');
-            const toastMsg = document.getElementById('toastMessage');
-            
-            toastMsg.textContent = message;
+            document.getElementById('toastMessage').textContent = message;
             toast.classList.add('show');
-            
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
     </script>
 </body>
