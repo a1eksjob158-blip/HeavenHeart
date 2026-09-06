@@ -449,7 +449,7 @@
             font-size: 1.3rem;
         }
 
-        /* Модальное окно просмотра фото на весь экран (Lightbox) */
+        /* ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТО (Lightbox) СО СТРЕЛОЧКАМИ */
         .image-modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -462,7 +462,6 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            cursor: zoom-out;
         }
 
         .image-modal-overlay.active {
@@ -470,8 +469,8 @@
         }
 
         .image-modal-content {
-            max-width: 92vw;
-            max-height: 92vh;
+            max-width: 85vw;
+            max-height: 90vh;
             position: relative;
             display: flex;
             align-items: center;
@@ -510,115 +509,33 @@
             background-color: rgba(255, 255, 255, 0.25);
         }
 
-        /* Модальное окно быстрой оплаты */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background: #fff;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 380px;
-            padding: 24px 20px;
-            position: relative;
-            text-align: center;
-        }
-
-        .modal-close {
+        /* Кнопки листания (стрелочки) */
+        .image-modal-prev, .image-modal-next {
             position: absolute;
-            top: 12px; right: 15px;
-            font-size: 1.4rem;
-            color: #777;
-            background: none;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
             border: none;
+            font-size: 1.8rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             cursor: pointer;
-        }
-
-        .modal-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #111;
-        }
-
-        .modal-price {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #111;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #444;
-            font-size: 0.85rem;
-        }
-
-        .form-group select {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            font-size: 1rem;
-        }
-
-        .qr-container {
-            margin: 15px 0;
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 12px;
-        }
-
-        .qr-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 8px auto;
-        }
-
-        .qr-hint {
-            font-size: 0.75rem;
-            color: #666;
-        }
-
-        .btn-tg-pay {
+            z-index: 20002;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #2AABEE, #229ED9);
-            color: #fff;
-            margin-top: 10px;
-            font-size: 0.95rem;
-            text-decoration: none;
-            padding: 13px;
-            border-radius: 30px;
-            font-weight: bold;
+            transition: background 0.2s, transform 0.2s;
         }
+
+        .image-modal-prev:hover, .image-modal-next:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .image-modal-prev { left: 25px; }
+        .image-modal-next { right: 25px; }
 
         footer {
             text-align: center;
@@ -684,6 +601,10 @@
                 right: 14px;
                 bottom: calc(20px + var(--sab));
             }
+
+            .image-modal-prev { left: 10px; width: 40px; height: 40px; font-size: 1.4rem; }
+            .image-modal-next { right: 10px; width: 40px; height: 40px; font-size: 1.4rem; }
+            .image-modal-close { top: 10px; right: 15px; width: 36px; height: 36px; font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -694,7 +615,7 @@
     </header>
 
     <div class="product-container">
-        <!-- Блок галереи фотографий (клик по главному фото открывает зум на весь экран) -->
+        <!-- Блок галереи фотографий -->
         <div class="product-gallery">
             <div class="main-image-box" onclick="openImageModal()">
                 <img src="logo.png" alt="Загрузка..." style="width: 100%; height: 100%; object-fit: cover;">
@@ -704,7 +625,6 @@
 
         <!-- Блок описания и покупки -->
         <div class="product-details">
-            <!-- Верхняя строка: бренд/название слева, кнопка каталога справа -->
             <div class="product-header-row">
                 <div class="product-title-group">
                     <div class="brand-tag">Heaven Heart Archive</div>
@@ -728,9 +648,11 @@
         </div>
     </div>
 
-    <!-- ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТО -->
+    <!-- ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТО С КНОПКАМИ ЛИСТАНИЯ -->
     <div class="image-modal-overlay" id="imageModal" onclick="closeImageModal(event)">
         <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
+        <button class="image-modal-prev" onclick="event.stopPropagation(); changeModalImage(-1)">&#10094;</button>
+        <button class="image-modal-next" onclick="event.stopPropagation(); changeModalImage(1)">&#10095;</button>
         <div class="image-modal-content" onclick="event.stopPropagation()">
             <div id="modalMediaContainer" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
                 <img id="modalFullImage" src="" alt="Увеличенное фото товара">
@@ -754,35 +676,6 @@
         <span id="toastMessage">Товар добавлен в корзину</span>
     </div>
 
-    <!-- Модальное окно быстрой оплаты -->
-    <div class="modal-overlay" id="quickPayModal" onclick="closeQuickPay(event)">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeQuickPay()">&times;</button>
-            <div class="modal-title" id="modalProductName">Товар</div>
-            <div class="modal-price" id="modalProductPrice">0 ₽</div>
-
-            <div class="form-group">
-                <label for="citySelect">Город доставки:</label>
-                <select id="citySelect">
-                    <option value="Москва">Москва</option>
-                    <option value="Санкт-Петербург">Санкт-Петербург</option>
-                    <option value="Другой город РФ">Другой город РФ (+ доставка)</option>
-                    <option value="Самовывоз">Самовывоз</option>
-                </select>
-            </div>
-
-            <div class="qr-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://t.me/bandos158" alt="QR для оплаты">
-                <div class="qr-hint">Отсканируйте камерой телефона для перевода по СБП</div>
-            </div>
-
-            <a href="#" id="tgCheckoutBtn" target="_blank" class="btn-tg-pay">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
-                Отправить чек в Telegram
-            </a>
-        </div>
-    </div>
-
     <footer>
         <p>&copy; 2026 Heaven Heart Archive. Все права защищены. | <a href="https://t.me/bandos158" target="_blank">Магазин в Telegram</a></p>
     </footer>
@@ -790,6 +683,8 @@
     <script>
         const CATALOG_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyY9UDae3UxnZ7HaqJbzCpaq29PZghWEgfzsDd0n7YGfx7aItb-pCD1g0587gmLJ8_3cg/exec';
         let currentProductImage = 'logo.png';
+        let productImages = ['logo.png'];
+        let currentImageIndex = 0;
         let toastTimeout;
 
         function renderProductData(data, productId) {
@@ -833,8 +728,9 @@
                     specsList.style.display = 'none';
                 }
                 
-                const images = product.images ? product.images.split(',').map(s => s.trim()) : ['logo.png'];
-                currentProductImage = images[0];
+                productImages = product.images ? product.images.split(',').map(s => s.trim()) : ['logo.png'];
+                currentImageIndex = 0;
+                currentProductImage = productImages[0];
                 
                 const mainImageBox = document.querySelector('.main-image-box');
                 const thumbsGrid = document.querySelector('.thumbs-grid');
@@ -849,20 +745,21 @@
 
                 mainImageBox.innerHTML = getMediaHTML(currentProductImage, true);
                 
-                images.forEach((imgSrc, index) => {
+                productImages.forEach((imgSrc, index) => {
                     const thumb = document.createElement('div');
                     thumb.className = 'thumb-item' + (index === 0 ? ' active' : '');
                     thumb.onclick = function() { 
+                        currentImageIndex = index;
+                        currentProductImage = imgSrc;
                         mainImageBox.innerHTML = getMediaHTML(imgSrc, true);
                         document.querySelectorAll('.thumb-item').forEach(el => el.classList.remove('active'));
                         this.classList.add('active');
-                        currentProductImage = imgSrc;
                     };
                     thumb.innerHTML = getMediaHTML(imgSrc, false);
                     thumbsGrid.appendChild(thumb);
                 });
 
-                document.querySelector('.btn-buy').setAttribute('onclick', `openQuickPay('${safeTitle}', '${priceStr}')`);
+                document.querySelector('.btn-buy').setAttribute('onclick', `buyNowFromPage('${safeTitle}', ${cleanPrice}, '${product.id}')`);
                 document.querySelector('.btn-cart').setAttribute('onclick', `addToCartFromPage('${safeTitle}', ${cleanPrice}, '${product.id}')`);
             } else {
                 document.querySelector('.product-title').textContent = "Товар не найден в базе";
@@ -904,20 +801,73 @@
             }
         });
 
-        // Функции для полноэкранного просмотра фото/видео по клику
-        function openImageModal() {
-            if (!currentProductImage) return;
-            const modal = document.getElementById('imageModal');
-            const container = document.getElementById('modalMediaContainer');
+        // Функция для «Купить в 1 клик» (добавляет в корзину и сразу ведет в cart.html)
+        function buyNowFromPage(name, price, itemId) {
+            let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             
-            if (currentProductImage.endsWith('.webm') || currentProductImage.endsWith('.mp4')) {
-                container.innerHTML = `<video controls autoplay playsinline style="max-width: 100%; max-height: 90vh; object-fit: contain;"><source src="${currentProductImage}" type="video/${currentProductImage.endsWith('.webm') ? 'webm' : 'mp4'}"></video>`;
-            } else {
-                container.innerHTML = `<img src="${currentProductImage}" alt="Увеличенное фото товара" style="max-width: 100%; max-height: 90vh; object-fit: contain;">`;
+            let existingItem = cart.find(item => String(item.id) === String(itemId));
+            let currentQuantity = existingItem ? (existingItem.quantity || 1) : 0;
+
+            if (currentQuantity >= 3) {
+                showToast(`Лимит: не более 3 шт.`);
+                return;
             }
-            
-            modal.classList.add('active');
+
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + 1;
+            } else {
+                cart.push({ id: String(itemId), name: name, price: price, image: currentProductImage, quantity: 1, url: window.location.href });
+            }
+
+            localStorage.setItem('hh_cart', JSON.stringify(cart));
+            window.location.href = 'cart.html';
+        }
+
+        // Функции полноэкранного просмотра и листания фото
+        function openImageModal() {
+            if (!productImages || productImages.length === 0) return;
+            updateModalMedia();
+            document.getElementById('imageModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        function updateModalMedia() {
+            const container = document.getElementById('modalMediaContainer');
+            const src = productImages[currentImageIndex];
+            currentProductImage = src;
+
+            if (src.endsWith('.webm') || src.endsWith('.mp4')) {
+                container.innerHTML = `<video controls autoplay playsinline style="max-width: 100%; max-height: 90vh; object-fit: contain;"><source src="${src}" type="video/${src.endsWith('.webm') ? 'webm' : 'mp4'}"></video>`;
+            } else {
+                container.innerHTML = `<img src="${src}" alt="Увеличенное фото товара" style="max-width: 100%; max-height: 90vh; object-fit: contain;">`;
+            }
+
+            // Синхронизируем главную картинку и миниатюры на странице
+            const mainImageBox = document.querySelector('.main-image-box');
+            if (src.endsWith('.webm') || src.endsWith('.mp4')) {
+                mainImageBox.innerHTML = `<video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;"><source src="${src}" type="video/${src.endsWith('.webm') ? 'webm' : 'mp4'}"></video>`;
+            } else {
+                mainImageBox.innerHTML = `<img src="${src}" alt="Фото товара" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
+
+            const thumbs = document.querySelectorAll('.thumb-item');
+            thumbs.forEach((el, idx) => {
+                if (idx === currentImageIndex) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+        }
+
+        function changeModalImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = productImages.length - 1;
+            } else if (currentImageIndex >= productImages.length) {
+                currentImageIndex = 0;
+            }
+            updateModalMedia();
         }
 
         function closeImageModal(event) {
@@ -927,11 +877,17 @@
             }
         }
 
-        // Закрытие модальных окон по нажатию клавиши ESC
+        // Поддержка клавиатуры (Esc для закрытия, стрелки для листания)
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeImageModal();
-                closeQuickPay();
+            }
+            if (document.getElementById('imageModal').classList.contains('active')) {
+                if (event.key === 'ArrowLeft') {
+                    changeModalImage(-1);
+                } else if (event.key === 'ArrowRight') {
+                    changeModalImage(1);
+                }
             }
         });
 
@@ -978,33 +934,6 @@
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
         }
-
-        function openQuickPay(productName, productPrice) {
-            document.getElementById('modalProductName').textContent = productName;
-            document.getElementById('modalProductPrice').textContent = productPrice;
-            updateTelegramLink(productName, productPrice);
-            document.getElementById('quickPayModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeQuickPay(event) {
-            if (!event || event.target.id === 'quickPayModal' || event.target.classList.contains('modal-close')) {
-                document.getElementById('quickPayModal').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        function updateTelegramLink(name, price) {
-            const city = document.getElementById('citySelect').value;
-            const text = encodeURIComponent(`Здравствуйте! Оплатил товар: ${name} (${price}). Город доставки: ${city}. Прикрепляю чек:`);
-            document.getElementById('tgCheckoutBtn').href = `https://t.me/bandos158?text=${text}`;
-        }
-
-        document.getElementById('citySelect').addEventListener('change', function() {
-            const name = document.getElementById('modalProductName').textContent;
-            const price = document.getElementById('modalProductPrice').textContent;
-            updateTelegramLink(name, price);
-        });
     </script>
 </body>
 </html>
