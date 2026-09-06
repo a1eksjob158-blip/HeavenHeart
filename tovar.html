@@ -109,6 +109,32 @@
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid #eaeaea;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Иконка-подсказка увеличения при наведении */
+        .main-image-box::after {
+            content: '🔍';
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .main-image-box:hover::after {
+            opacity: 1;
         }
 
         .main-image-box img, .main-image-box video {
@@ -166,7 +192,7 @@
             flex-grow: 1;
         }
 
-        /* Кнопка возврата в каталог в точности как на главной странице index.html (шрифт и стиль) */
+        /* Кнопка возврата в каталог */
         .back-to-catalog-btn {
             display: inline-flex;
             align-items: center;
@@ -212,7 +238,7 @@
         .product-price {
             font-size: 1.4rem;
             font-weight: bold;
-            color: #111; /* Черный цвет цены */
+            color: #111;
             margin-bottom: 12px;
         }
 
@@ -317,7 +343,7 @@
             border-color: #111;
         }
 
-        /* ПЛАВАЮ ВИДЖЕТ КОРЗИНЫ */
+        /* ПЛАВАЮЩИЙ ВИДЖЕТ КОРЗИНЫ */
         .floating-cart-btn {
             position: fixed;
             bottom: calc(25px + var(--sab));
@@ -421,6 +447,67 @@
         .toast-icon {
             color: #888888;
             font-size: 1.3rem;
+        }
+
+        /* Модальное окно просмотра фото на весь экран (Lightbox) */
+        .image-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 20000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: zoom-out;
+        }
+
+        .image-modal-overlay.active {
+            display: flex;
+        }
+
+        .image-modal-content {
+            max-width: 92vw;
+            max-height: 92vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal-content img, .image-modal-content video {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            display: block;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 2.2rem;
+            color: #fff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 20001;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+        }
+
+        .image-modal-close:hover {
+            background-color: rgba(255, 255, 255, 0.25);
         }
 
         /* Модальное окно быстрой оплаты */
@@ -607,9 +694,9 @@
     </header>
 
     <div class="product-container">
-        <!-- Блок галереи фотографий -->
+        <!-- Блок галереи фотографий (клик по главному фото открывает зум на весь экран) -->
         <div class="product-gallery">
-            <div class="main-image-box">
+            <div class="main-image-box" onclick="openImageModal()">
                 <img src="logo.png" alt="Загрузка..." style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="thumbs-grid"></div>
@@ -623,7 +710,6 @@
                     <div class="brand-tag">Heaven Heart Archive</div>
                     <h1 class="product-title">Загрузка...</h1>
                 </div>
-                <!-- Прямая ссылка без history.back() -->
                 <a href="index.html" class="back-to-catalog-btn">← Каталог</a>
             </div>
 
@@ -638,6 +724,16 @@
             <div class="btn-group">
                 <button class="btn-buy">Купить за 1 клик</button>
                 <button class="btn-cart">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТО -->
+    <div class="image-modal-overlay" id="imageModal" onclick="closeImageModal(event)">
+        <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
+        <div class="image-modal-content" onclick="event.stopPropagation()">
+            <div id="modalMediaContainer" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <img id="modalFullImage" src="" alt="Увеличенное фото товара">
             </div>
         </div>
     </div>
@@ -808,6 +904,37 @@
             }
         });
 
+        // Функции для полноэкранного просмотра фото/видео по клику
+        function openImageModal() {
+            if (!currentProductImage) return;
+            const modal = document.getElementById('imageModal');
+            const container = document.getElementById('modalMediaContainer');
+            
+            if (currentProductImage.endsWith('.webm') || currentProductImage.endsWith('.mp4')) {
+                container.innerHTML = `<video controls autoplay playsinline style="max-width: 100%; max-height: 90vh; object-fit: contain;"><source src="${currentProductImage}" type="video/${currentProductImage.endsWith('.webm') ? 'webm' : 'mp4'}"></video>`;
+            } else {
+                container.innerHTML = `<img src="${currentProductImage}" alt="Увеличенное фото товара" style="max-width: 100%; max-height: 90vh; object-fit: contain;">`;
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal(event) {
+            if (!event || event.target.id === 'imageModal' || event.target.classList.contains('image-modal-close')) {
+                document.getElementById('imageModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Закрытие модальных окон по нажатию клавиши ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+                closeQuickPay();
+            }
+        });
+
         function addToCartFromPage(name, price, itemId) {
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             
@@ -857,11 +984,13 @@
             document.getElementById('modalProductPrice').textContent = productPrice;
             updateTelegramLink(productName, productPrice);
             document.getElementById('quickPayModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeQuickPay(event) {
             if (!event || event.target.id === 'quickPayModal' || event.target.classList.contains('modal-close')) {
                 document.getElementById('quickPayModal').classList.remove('active');
+                document.body.style.overflow = '';
             }
         }
 
