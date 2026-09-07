@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Heaven Heart — брендовые сумки и архивный люкс</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="icon" type="image/png" href="favicon.png"
+    <link rel="icon" type="image/png" href="favicon.png">
 
     <meta name="description" content="Heaven Heart — независимый бренд премиальных аксессуаров и архивного люкса. 100% аутентичность, NFC-проверка, доставка по РФ.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -446,12 +446,22 @@
             .products-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
+        /* --- ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ --- */
         @media (max-width: 768px) {
+            html, body {
+                overflow-x: hidden;
+                width: 100%;
+                position: relative;
+            }
             .container { padding: 0 12px; }
             .header-links-group { gap: 8px; }
             .header-verify-link, .header-tg-link, .header-user-btn { padding: 6px 12px; font-size: 0.72rem; }
             .parallax-banner { aspect-ratio: 3 / 2; max-height: 280px; margin-bottom: 20px; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
+            
+            /* Убираем жесткую высоту 520px для телефона */
+            .product-card { height: 100%; min-height: auto; } 
+            
             .product-image { height: 175px; min-height: 175px; max-height: 175px; }
             .product-info { padding: 12px 10px 8px 10px; }
             .btn { padding: 9px 4px; font-size: 0.72rem; }
@@ -544,7 +554,7 @@
             }
 
             const bannerEl = document.getElementById('randomBanner');
-            if (bannerEl) bannerEl.style.backgroundImage = `url('68250033.jpg')`;
+            if (bannerEl) bannerEl.style.backgroundImage = `url('68250033.webp')`;
 
             initCatalog(); 
             updateCartBadge();
@@ -592,8 +602,13 @@
                 if (item.category && String(item.category).trim() !== '') {
                     categoriesSet.add(String(item.category).trim().toLowerCase());
                 }
+                
                 if (item.badge && String(item.badge).trim() !== '') {
-                    statusesSet.add(String(item.badge).trim().toLowerCase());
+                    const badgeStr = String(item.badge).trim().toLowerCase();
+                    // Исключаем "В наличии" из кнопок-фильтров
+                    if (badgeStr !== 'в наличии') {
+                        statusesSet.add(badgeStr);
+                    }
                 }
             });
 
@@ -644,18 +659,25 @@
                 }
                 
                 const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                const badgeClass = (item.badge && item.badge.toLowerCase().includes('заказ')) ? 'badge-preorder' : 'badge-instock';
                 const brandClass = item.brand ? item.brand.toLowerCase().replace(/\s+/g, '-') : 'heaven-heart';
                 const catStr = (item.category || '').toLowerCase();
                 const badgeStr = (item.badge || '').toLowerCase();
                 
+                // Рендерим плашку только если она есть и НЕ равна "в наличии"
+                let badgeHtml = '';
+                const itemBadgeText = item.badge ? item.badge.trim() : '';
+                if (itemBadgeText && itemBadgeText.toLowerCase() !== 'в наличии') {
+                    const badgeClass = itemBadgeText.toLowerCase().includes('заказ') ? 'badge-preorder' : 'badge-instock';
+                    badgeHtml = `<span class="status-badge ${badgeClass}">${itemBadgeText}</span>`;
+                }
+
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.setAttribute('data-category', catStr + ' ' + badgeStr);
                 card.setAttribute('data-brand', brandClass);
                 
                 card.innerHTML = `
-                    <span class="status-badge ${badgeClass}">${item.badge || 'В наличии'}</span>
+                    ${badgeHtml}
                     <a href="tovar.html?id=${item.id}" class="product-card-link" onclick="sessionStorage.setItem('catalog_scroll_pos', window.scrollY);">
                         <div class="product-image">${mediaHtml}</div>
                         <div class="product-info">

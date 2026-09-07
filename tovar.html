@@ -32,7 +32,7 @@
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Подключение шрифта Montserrat, как на главной странице -->
+    <!-- Подключение шрифта Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,6 +51,12 @@
             padding: 0;
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            overflow-x: hidden; /* Жестко убирает вылезание интерфейса вправо */
+            width: 100%;
+            position: relative;
         }
 
         body {
@@ -100,6 +106,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            width: 100%; /* Фикс ширины */
         }
 
         .main-image-box {
@@ -113,7 +120,6 @@
             position: relative;
         }
 
-        /* Иконка-подсказка увеличения при наведении */
         .main-image-box::after {
             content: '🔍';
             position: absolute;
@@ -177,9 +183,9 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            width: 100%;
         }
 
-        /* Контейнер для шапки карточки (название/бренд слева, кнопка справа) */
         .product-header-row {
             display: flex;
             justify-content: space-between;
@@ -192,7 +198,6 @@
             flex-grow: 1;
         }
 
-        /* Кнопка возврата в каталог */
         .back-to-catalog-btn {
             display: inline-flex;
             align-items: center;
@@ -242,7 +247,6 @@
             margin-bottom: 12px;
         }
 
-        /* Бейдж состояния */
         .condition-badge {
             display: inline-flex;
             align-items: center;
@@ -301,20 +305,23 @@
             gap: 10px;
         }
 
-        .btn-buy {
+        .btn-buy, .btn-cart {
             display: block;
             width: 100%;
             padding: 14px;
-            background-color: #111;
-            color: #fff;
             text-align: center;
             text-decoration: none;
             font-weight: bold;
-            border: none;
             border-radius: 30px;
             cursor: pointer;
             font-size: 0.95rem;
-            transition: background 0.3s;
+            transition: all 0.3s;
+        }
+
+        .btn-buy {
+            background-color: #111;
+            color: #fff;
+            border: none;
         }
 
         .btn-buy:hover {
@@ -322,19 +329,9 @@
         }
 
         .btn-cart {
-            display: block;
-            width: 100%;
-            padding: 14px;
             background-color: #f4f4f4;
             color: #111;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
             border: 1px solid #ddd;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s;
         }
 
         .btn-cart:hover {
@@ -377,14 +374,6 @@
             pointer-events: auto;
         }
 
-        .floating-cart-btn:hover {
-            transform: translateY(-3px) scale(1.06);
-            background: rgba(17, 17, 17, 0.88);
-            color: #ffffff;
-            border-color: rgba(17, 17, 17, 0.88);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
-        }
-
         .floating-cart-btn svg {
             width: 20px;
             height: 20px;
@@ -393,11 +382,6 @@
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
-            transition: transform 0.25s ease;
-        }
-
-        .floating-cart-btn:hover svg {
-            transform: scale(1.08);
         }
 
         .cart-badge {
@@ -420,14 +404,12 @@
             transform: translate(-50%, -50%) scale(0.85);
             background-color: rgba(17, 17, 17, 0.85);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             color: #fff;
             padding: 16px 32px;
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             font-size: 0.95rem;
             font-weight: bold;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -435,7 +417,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            white-space: nowrap;
         }
 
         .toast-notification.show {
@@ -444,19 +425,13 @@
             visibility: visible;
         }
 
-        .toast-icon {
-            color: #888888;
-            font-size: 1.3rem;
-        }
-
-        /* ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТО (Lightbox) СО СТРЕЛОЧКАМИ */
+        /* ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО */
         .image-modal-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.92);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             z-index: 20000;
             display: none;
             align-items: center;
@@ -464,12 +439,10 @@
             padding: 20px;
         }
 
-        .image-modal-overlay.active {
-            display: flex;
-        }
+        .image-modal-overlay.active { display: flex; }
 
         .image-modal-content {
-            max-width: 85vw;
+            max-width: 90vw;
             max-height: 90vh;
             position: relative;
             display: flex;
@@ -482,8 +455,6 @@
             max-height: 90vh;
             object-fit: contain;
             border-radius: 12px;
-            display: block;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
         .image-modal-close {
@@ -491,25 +462,18 @@
             top: 20px; right: 25px;
             font-size: 2.2rem;
             color: #fff;
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             cursor: pointer;
             z-index: 20001;
             width: 44px;
             height: 44px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            transition: background 0.2s;
         }
 
-        .image-modal-close:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-
-        /* Кнопки листания (стрелочки) */
         .image-modal-prev, .image-modal-next {
             position: absolute;
             top: 50%;
@@ -526,12 +490,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .image-modal-prev:hover, .image-modal-next:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.08);
         }
 
         .image-modal-prev { left: 25px; }
@@ -547,11 +505,7 @@
             font-size: 0.85rem;
         }
 
-        footer a {
-            color: #2AABEE;
-            text-decoration: underline;
-        }
-
+        /* === МОБИЛЬНАЯ АДАПТАЦИЯ И СВАЙПЫ === */
         @media (max-width: 768px) {
             .product-container {
                 grid-template-columns: 1fr;
@@ -565,36 +519,30 @@
                 border-radius: 14px;
             }
 
+            /* Настройка ленты миниатюр под свайп */
             .thumbs-grid {
                 overflow-x: auto;
-                padding-bottom: 4px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 8px;
                 scrollbar-width: none;
+                width: 100%;
+                box-sizing: border-box;
             }
             .thumbs-grid::-webkit-scrollbar {
                 display: none;
             }
 
             .thumb-item {
-                width: 65px;
-                height: 65px;
+                width: 75px;
+                height: 75px;
+                scroll-snap-align: start; /* Магнит при свайпе */
+                flex-shrink: 0;
             }
 
-            .product-title {
-                font-size: 1.4rem;
-            }
-
-            .product-price {
-                font-size: 1.25rem;
-            }
-
-            .product-description {
-                font-size: 0.9rem;
-            }
-
-            .btn-buy, .btn-cart {
-                padding: 13px 20px;
-                font-size: 0.95rem;
-            }
+            .product-title { font-size: 1.4rem; }
+            .product-price { font-size: 1.25rem; }
+            .btn-buy, .btn-cart { padding: 13px 20px; font-size: 0.95rem; }
 
             .floating-cart-btn {
                 padding: 10px 14px;
@@ -602,9 +550,13 @@
                 bottom: calc(20px + var(--sab));
             }
 
-            .image-modal-prev { left: 10px; width: 40px; height: 40px; font-size: 1.4rem; }
-            .image-modal-next { right: 10px; width: 40px; height: 40px; font-size: 1.4rem; }
-            .image-modal-close { top: 10px; right: 15px; width: 36px; height: 36px; font-size: 1.8rem; }
+            /* Прячем визуальные кнопки-стрелки в модалке на телефоне */
+            .image-modal-prev, .image-modal-next { 
+                display: none !important; 
+            }
+            .image-modal-close { 
+                top: 10px; right: 15px; width: 36px; height: 36px; font-size: 1.8rem; 
+            }
         }
     </style>
 </head>
@@ -648,12 +600,12 @@
         </div>
     </div>
 
-    <!-- ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТО С КНОПКАМИ ЛИСТАНИЯ -->
+    <!-- ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО -->
     <div class="image-modal-overlay" id="imageModal" onclick="closeImageModal(event)">
         <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
         <button class="image-modal-prev" onclick="event.stopPropagation(); changeModalImage(-1)">&#10094;</button>
         <button class="image-modal-next" onclick="event.stopPropagation(); changeModalImage(1)">&#10095;</button>
-        <div class="image-modal-content" onclick="event.stopPropagation()">
+        <div class="image-modal-content" id="modalSwipeArea" onclick="event.stopPropagation()">
             <div id="modalMediaContainer" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
                 <img id="modalFullImage" src="" alt="Увеличенное фото товара">
             </div>
@@ -801,7 +753,6 @@
             }
         });
 
-        // Функция для «Купить в 1 клик» (добавляет в корзину и сразу ведет в cart.html)
         function buyNowFromPage(name, price, itemId) {
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
             
@@ -823,7 +774,6 @@
             window.location.href = 'cart.html';
         }
 
-        // Функции полноэкранного просмотра и листания фото
         function openImageModal() {
             if (!productImages || productImages.length === 0) return;
             updateModalMedia();
@@ -842,7 +792,6 @@
                 container.innerHTML = `<img src="${src}" alt="Увеличенное фото товара" style="max-width: 100%; max-height: 90vh; object-fit: contain;">`;
             }
 
-            // Синхронизируем главную картинку и миниатюры на странице
             const mainImageBox = document.querySelector('.main-image-box');
             if (src.endsWith('.webm') || src.endsWith('.mp4')) {
                 mainImageBox.innerHTML = `<video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;"><source src="${src}" type="video/${src.endsWith('.webm') ? 'webm' : 'mp4'}"></video>`;
@@ -854,6 +803,8 @@
             thumbs.forEach((el, idx) => {
                 if (idx === currentImageIndex) {
                     el.classList.add('active');
+                    // Автоматически прокручиваем миниатюру в видимую зону (удобно при свайпах)
+                    el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
                     el.classList.remove('active');
                 }
@@ -877,7 +828,6 @@
             }
         }
 
-        // Поддержка клавиатуры (Esc для закрытия, стрелки для листания)
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeImageModal();
@@ -890,6 +840,27 @@
                 }
             }
         });
+
+        // Скрипт для свайпа фотографий в полноэкранном режиме на мобильных
+        let touchstartX = 0;
+        let touchendX = 0;
+        const modalSwipeArea = document.getElementById('modalSwipeArea');
+        
+        modalSwipeArea.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        modalSwipeArea.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            // Если свайп влево (следующее фото)
+            if (touchendX < touchstartX - 40) changeModalImage(1);
+            // Если свайп вправо (предыдущее фото)
+            if (touchendX > touchstartX + 40) changeModalImage(-1);
+        }
 
         function addToCartFromPage(name, price, itemId) {
             let cart = JSON.parse(localStorage.getItem('hh_cart')) || [];
