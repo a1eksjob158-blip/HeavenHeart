@@ -54,8 +54,9 @@
         }
 
         html, body {
-            overflow-x: hidden; /* Жестко убирает вылезание интерфейса вправо */
+            overflow-x: hidden;
             width: 100%;
+            max-width: 100vw; /* Защита от расширения в Telegram App */
             position: relative;
         }
 
@@ -106,7 +107,8 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            width: 100%; /* Фикс ширины */
+            width: 100%; 
+            min-width: 0; /* Фикс вылезания Grid-элементов */
         }
 
         .main-image-box {
@@ -184,6 +186,8 @@
             flex-direction: column;
             justify-content: flex-start;
             width: 100%;
+            min-width: 0; /* Фикс вылезания контента */
+            max-width: 100%;
         }
 
         .product-header-row {
@@ -192,10 +196,13 @@
             align-items: flex-start;
             gap: 15px;
             margin-bottom: 8px;
+            flex-wrap: wrap; /* Чтобы кнопка переносилась, если не влезает */
         }
 
         .product-title-group {
             flex-grow: 1;
+            min-width: 0; /* Разрешаем сжиматься */
+            word-wrap: break-word;
         }
 
         .back-to-catalog-btn {
@@ -238,6 +245,7 @@
             font-weight: 600;
             color: #111;
             margin-bottom: 0;
+            word-wrap: break-word; /* Перенос длинных названий */
         }
 
         .product-price {
@@ -260,6 +268,8 @@
             font-weight: 600;
             margin-bottom: 18px;
             width: fit-content;
+            max-width: 100%;
+            word-wrap: break-word;
         }
 
         .product-description {
@@ -268,6 +278,9 @@
             margin-bottom: 20px;
             line-height: 1.6;
             white-space: pre-line;
+            word-wrap: break-word; /* Принудительный перенос длинных слов */
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         .specs-list {
@@ -276,6 +289,7 @@
             border-top: 1px solid #eaeaea;
             border-bottom: 1px solid #eaeaea;
             padding: 14px 0;
+            width: 100%;
         }
 
         .specs-list li {
@@ -283,6 +297,7 @@
             justify-content: space-between;
             font-size: 0.9rem;
             margin-bottom: 8px;
+            gap: 15px; /* Пространство между левой и правой частью */
         }
 
         .specs-list li:last-child {
@@ -291,18 +306,22 @@
 
         .specs-list li span:first-child {
             color: #777;
+            flex-shrink: 0; /* Левая часть не сжимается */
         }
 
         .specs-list li span:last-child {
             font-weight: 600;
             color: #111;
             text-align: right;
+            word-break: break-word; /* Перенос длинных описаний комплектации */
+            max-width: 70%;
         }
 
         .btn-group {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            width: 100%;
         }
 
         .btn-buy, .btn-cart {
@@ -536,7 +555,7 @@
             .thumb-item {
                 width: 75px;
                 height: 75px;
-                scroll-snap-align: start; /* Магнит при свайпе */
+                scroll-snap-align: start;
                 flex-shrink: 0;
             }
 
@@ -550,7 +569,6 @@
                 bottom: calc(20px + var(--sab));
             }
 
-            /* Прячем визуальные кнопки-стрелки в модалке на телефоне */
             .image-modal-prev, .image-modal-next { 
                 display: none !important; 
             }
@@ -803,7 +821,6 @@
             thumbs.forEach((el, idx) => {
                 if (idx === currentImageIndex) {
                     el.classList.add('active');
-                    // Автоматически прокручиваем миниатюру в видимую зону (удобно при свайпах)
                     el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
                     el.classList.remove('active');
@@ -841,7 +858,7 @@
             }
         });
 
-        // Скрипт для свайпа фотографий в полноэкранном режиме на мобильных
+        // Скрипт для свайпа фотографий
         let touchstartX = 0;
         let touchendX = 0;
         const modalSwipeArea = document.getElementById('modalSwipeArea');
@@ -856,9 +873,7 @@
         }, {passive: true});
 
         function handleSwipe() {
-            // Если свайп влево (следующее фото)
             if (touchendX < touchstartX - 40) changeModalImage(1);
-            // Если свайп вправо (предыдущее фото)
             if (touchendX > touchstartX + 40) changeModalImage(-1);
         }
 

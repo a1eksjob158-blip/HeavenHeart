@@ -446,7 +446,6 @@
             .products-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* --- ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ --- */
         @media (max-width: 768px) {
             html, body {
                 overflow-x: hidden;
@@ -458,10 +457,7 @@
             .header-verify-link, .header-tg-link, .header-user-btn { padding: 6px 12px; font-size: 0.72rem; }
             .parallax-banner { aspect-ratio: 3 / 2; max-height: 280px; margin-bottom: 20px; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
-            
-            /* Убираем жесткую высоту 520px для телефона */
             .product-card { height: 100%; min-height: auto; } 
-            
             .product-image { height: 175px; min-height: 175px; max-height: 175px; }
             .product-info { padding: 12px 10px 8px 10px; }
             .btn { padding: 9px 4px; font-size: 0.72rem; }
@@ -471,7 +467,7 @@
 <body>
 
     <header>
-        <a href="index.html" onclick="window.scrollTo({top: 0, behavior: 'smooth'});"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <a href="index.html" onclick="resetFiltersAndScroll();"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
         <p>Bags & Accessories Collection</p>
         <div class="header-links-group">
             <a href="about.html" class="header-verify-link">О нас</a>
@@ -485,10 +481,8 @@
         </div>
     </header>
 
-    <!-- Главный баннер (картинка выбирается случайно при загрузке) -->
     <div class="parallax-banner" id="randomBanner"></div>
 
-    <!-- БЕСПРЕРЫВНАЯ БЕГУЩАЯ СТРОКА С КРЕСТИКАМИ -->
     <div class="gold-marquee-wrapper">
         <div class="gold-marquee-track">
             <div class="gold-marquee-item">ARCHIVE LUXURY <span>×</span> 100% AUTHENTIC <span>×</span> NFC VERIFIED <span>×</span> DISPATCH WITHIN 24H <span>×</span> HEAVEN HEART <span>×</span></div>
@@ -501,16 +495,12 @@
     <div class="container">
         <div class="filter-section">
             <div class="filter-title">Фильтр по брендам</div>
-            <div class="filter-controls" id="brandFilterControls">
-                <button class="filter-btn active" onclick="filterByBrand('all')">Все бренды</button>
-            </div>
+            <div class="filter-controls" id="brandFilterControls"></div>
         </div>
 
         <div class="filter-section">
             <div class="filter-title">Категории товаров</div>
-            <div class="filter-controls" id="categoryFilterControls">
-                <button class="filter-btn active" onclick="filterItems('all')">Все товары</button>
-            </div>
+            <div class="filter-controls" id="categoryFilterControls"></div>
         </div>
 
         <section class="products-grid"></section>
@@ -535,13 +525,36 @@
     </footer>
 
     <script>
-        const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxQJ3ssia9E19xSa0wdetmRU0w0n_PUJyPCBTgmo7XIGbGDaviaEYKzFWjlomvRVJ79/exec';
         const CATALOG_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzX0dM6x5Dnr4NPZ4xtW8N6xd5mWJNb_RocQFnlDTVwp-uFYhavjphVD6sz_3v6VmJwQ/exec';
 
-        let currentBrandFilter = 'all';
-        let currentCategoryFilter = 'all';
+        // Переменные для пагинации и данных
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentBrandFilter = sessionStorage.getItem('hh_brand_filter') || 'all';
+        let currentCategoryFilter = sessionStorage.getItem('hh_category_filter') || 'all';
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 12;
+
+        // Observer для бесконечного скролла
+        let observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                if (currentPage * ITEMS_PER_PAGE < filteredProducts.length) {
+                    currentPage++;
+                    sessionStorage.setItem('hh_catalog_page', currentPage);
+                    renderPage(currentPage);
+                }
+            }
+        }, { rootMargin: '300px' }); // Начинает грузить за 300px до конца списка
 
         function goToCabinet() { window.location.href = 'acccount.html'; }
+
+        function resetFiltersAndScroll() {
+            sessionStorage.removeItem('hh_brand_filter');
+            sessionStorage.removeItem('hh_category_filter');
+            sessionStorage.removeItem('hh_catalog_page');
+            sessionStorage.removeItem('catalog_scroll_pos');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -554,61 +567,85 @@
             }
 
             const bannerEl = document.getElementById('randomBanner');
-            if (bannerEl) bannerEl.style.backgroundImage = `url('68250033.webp')`;
+            if (bannerEl) bannerEl.style.backgroundImage = `url('68250033.jpg')`;
 
-            initCatalog(); 
             updateCartBadge();
             
             const logged = localStorage.getItem('hh_logged_in');
             const authBtn = document.getElementById('authBtn');
             if (logged && authBtn) authBtn.innerHTML = `👤 ${JSON.parse(logged).name}`;
 
-            const savedScroll = sessionStorage.getItem('catalog_scroll_pos');
-            if (savedScroll) {
-                window.scrollTo(0, parseInt(savedScroll, 10));
-                sessionStorage.removeItem('catalog_scroll_pos');
-            }
+            initCatalog(); 
         });
 
-        function generateBrandButtons(data) {
+        async function initCatalog() {
+            let cachedData = null;
+            try { cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache')); } catch (e) {}
+            
+            // Если есть кэш, моментально рендерим его
+            if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
+                allProducts = cachedData;
+                generateBrandButtons();
+                generateCategoryButtons();
+                applyDataFilters(true); // true означает первичную загрузку (с восстановлением скролла)
+            }
+
+            // Фоновое обновление базы
+            try {
+                const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now(), { cache: 'no-store' });
+                const freshData = await response.json();
+                
+                if (freshData && Array.isArray(freshData)) {
+                    localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
+                    // Обновляем экран только если кэша не было, чтобы не "моргало"
+                    if (!cachedData || cachedData.length === 0) {
+                        allProducts = freshData;
+                        generateBrandButtons();
+                        generateCategoryButtons();
+                        applyDataFilters(true);
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка обновления каталога:', error);
+                if (!cachedData || cachedData.length === 0) {
+                    document.querySelector('.products-grid').innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">Не удалось загрузить каталог. Проверьте интернет.</p>';
+                }
+            }
+        }
+
+        function generateBrandButtons() {
             const container = document.getElementById('brandFilterControls');
             if (!container) return;
             const brandsSet = new Set();
-            data.forEach(item => {
+            
+            allProducts.forEach(item => {
                 if (item.brand && String(item.brand).trim() !== '') brandsSet.add(String(item.brand).trim());
             });
 
-            container.innerHTML = `<button class="filter-btn ${currentBrandFilter === 'all' ? 'active' : ''}" onclick="filterByBrand('all')">Все бренды</button>`;
+            let html = `<button class="filter-btn ${currentBrandFilter === 'all' ? 'active' : ''}" onclick="filterByBrand('all')">Все бренды</button>`;
 
             brandsSet.forEach(brandName => {
                 const brandSlug = brandName.toLowerCase().replace(/\s+/g, '-');
                 const isActive = (currentBrandFilter === brandSlug) ? 'active' : '';
-                const btn = document.createElement('button');
-                btn.className = `filter-btn ${isActive}`;
-                btn.setAttribute('onclick', `filterByBrand('${brandSlug}')`);
-                btn.textContent = brandName;
-                container.appendChild(btn);
+                html += `<button class="filter-btn ${isActive}" onclick="filterByBrand('${brandSlug}')">${brandName}</button>`;
             });
+            container.innerHTML = html;
         }
 
-        function generateCategoryButtons(data) {
+        function generateCategoryButtons() {
             const container = document.getElementById('categoryFilterControls');
             if (!container) return;
 
             const categoriesSet = new Set();
             const statusesSet = new Set();
 
-            data.forEach(item => {
+            allProducts.forEach(item => {
                 if (item.category && String(item.category).trim() !== '') {
                     categoriesSet.add(String(item.category).trim().toLowerCase());
                 }
-                
                 if (item.badge && String(item.badge).trim() !== '') {
                     const badgeStr = String(item.badge).trim().toLowerCase();
-                    // Исключаем "В наличии" из кнопок-фильтров
-                    if (badgeStr !== 'в наличии') {
-                        statusesSet.add(badgeStr);
-                    }
+                    if (badgeStr !== 'в наличии') statusesSet.add(badgeStr);
                 }
             });
 
@@ -625,26 +662,68 @@
                 const isActive = (currentCategoryFilter === status) ? 'active' : '';
                 html += `<button class="filter-btn ${isActive}" onclick="filterItems('${status}')">${displayName}</button>`;
             });
-
             container.innerHTML = html;
         }
 
-        function renderGrid(data) {
+        // Применяем фильтры к массиву данных
+        function applyDataFilters(isInit = false) {
+            filteredProducts = allProducts.filter(item => {
+                if (!item.id) return false;
+                const itemBrand = item.brand ? item.brand.toLowerCase().replace(/\s+/g, '-') : 'heaven-heart';
+                const catStr = (item.category || '').toLowerCase();
+                const badgeStr = (item.badge || '').toLowerCase();
+                const itemCategory = catStr + ' ' + badgeStr;
+                
+                const matchBrand = (currentBrandFilter === 'all' || itemBrand === currentBrandFilter);
+                const matchCategory = (currentCategoryFilter === 'all' || itemCategory.includes(currentCategoryFilter));
+                return matchBrand && matchCategory;
+            });
+
+            const grid = document.querySelector('.products-grid');
+            grid.innerHTML = ''; 
+            observer.disconnect();
+
+            if (isInit) {
+                // Восстанавливаем сохраненные страницы
+                let savedPage = parseInt(sessionStorage.getItem('hh_catalog_page')) || 1;
+                for (let p = 1; p <= savedPage; p++) {
+                    renderPage(p);
+                }
+                currentPage = savedPage;
+
+                // Плавно восстанавливаем скролл
+                setTimeout(() => {
+                    const savedScroll = sessionStorage.getItem('catalog_scroll_pos');
+                    if (savedScroll) {
+                        window.scrollTo(0, parseInt(savedScroll, 10));
+                        sessionStorage.removeItem('catalog_scroll_pos');
+                    }
+                }, 100);
+            } else {
+                // Обычный сброс при клике на новый фильтр
+                currentPage = 1;
+                sessionStorage.setItem('hh_catalog_page', currentPage);
+                renderPage(currentPage);
+            }
+        }
+
+        // Рендерит только нужную "порцию" карточек
+        function renderPage(page) {
             const grid = document.querySelector('.products-grid');
             if (!grid) return;
-            
-            generateBrandButtons(data);
-            generateCategoryButtons(data);
-            grid.innerHTML = ''; 
-            
-            data.forEach(item => {
-                if (!item.id) return; 
+
+            const startIndex = (page - 1) * ITEMS_PER_PAGE;
+            const endIndex = page * ITEMS_PER_PAGE;
+            const itemsToRender = filteredProducts.slice(startIndex, endIndex);
+
+            itemsToRender.forEach(item => {
                 const images = item.images ? item.images.split(',') : ['logo.png'];
                 const mainImg = images[0].trim();
                 
+                // Ленивая загрузка: loading="lazy" для изображений, preload="none" для видео
                 let mediaHtml = mainImg.endsWith('.webm') || mainImg.endsWith('.mp4') 
-                    ? `<video muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"><source src="${mainImg}" type="video/webm"></video>`
-                    : `<img src="${mainImg}" alt="${item.title}">`;
+                    ? `<video muted loop playsinline preload="none" onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"><source src="${mainImg}" type="video/webm"></video>`
+                    : `<img src="${mainImg}" alt="${item.title}" loading="lazy">`;
                 
                 let priceStr = 'Цена по запросу';
                 let cleanPrice = 0;
@@ -659,11 +738,6 @@
                 }
                 
                 const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                const brandClass = item.brand ? item.brand.toLowerCase().replace(/\s+/g, '-') : 'heaven-heart';
-                const catStr = (item.category || '').toLowerCase();
-                const badgeStr = (item.badge || '').toLowerCase();
-                
-                // Рендерим плашку только если она есть и НЕ равна "в наличии"
                 let badgeHtml = '';
                 const itemBadgeText = item.badge ? item.badge.trim() : '';
                 if (itemBadgeText && itemBadgeText.toLowerCase() !== 'в наличии') {
@@ -673,9 +747,6 @@
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                card.setAttribute('data-category', catStr + ' ' + badgeStr);
-                card.setAttribute('data-brand', brandClass);
-                
                 card.innerHTML = `
                     ${badgeHtml}
                     <a href="tovar.html?id=${item.id}" class="product-card-link" onclick="sessionStorage.setItem('catalog_scroll_pos', window.scrollY);">
@@ -697,61 +768,27 @@
                 `;
                 grid.appendChild(card);
             });
-            applyFilters();
-        }
 
-        async function initCatalog() {
-            let cachedData = null;
-            try { cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache')); } catch (e) {}
-            if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
-                renderGrid(cachedData);
+            // Вешаем "наблюдателя" на последнюю карточку, чтобы подгрузить следующую страницу
+            const allCards = grid.querySelectorAll('.product-card');
+            if (allCards.length > 0) {
+                observer.disconnect();
+                observer.observe(allCards[allCards.length - 1]);
             }
-
-            try {
-                const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now(), { cache: 'no-store' });
-                const freshData = await response.json();
-                
-                if (freshData && Array.isArray(freshData)) {
-                    localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
-                    renderGrid(freshData);
-                }
-            } catch (error) {
-                console.error('Ошибка обновления каталога:', error);
-                if (!cachedData || cachedData.length === 0) {
-                    const grid = document.querySelector('.products-grid');
-                    if (grid) grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">Не удалось загрузить каталог. Проверьте интернет-соединение.</p>';
-                }
-            }
-        }
-
-        function applyFilters() {
-            document.querySelectorAll('.product-card').forEach(card => {
-                const itemBrand = card.getAttribute('data-brand') || '';
-                const itemCategory = card.getAttribute('data-category') || '';
-                const matchBrand = (currentBrandFilter === 'all' || itemBrand === currentBrandFilter);
-                const matchCategory = (currentCategoryFilter === 'all' || itemCategory.includes(currentCategoryFilter));
-                card.style.display = (matchBrand && matchCategory) ? 'flex' : 'none';
-            });
         }
 
         function filterItems(category) {
             currentCategoryFilter = category;
-            document.querySelectorAll('#categoryFilterControls .filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(`'${category}'`)) {
-                    btn.classList.add('active');
-                }
-            });
-            applyFilters();
+            sessionStorage.setItem('hh_category_filter', category);
+            generateCategoryButtons(); // Обновляем активные кнопки
+            applyDataFilters(false);
         }
 
         function filterByBrand(brand) {
             currentBrandFilter = brand;
-            document.querySelectorAll('#brandFilterControls .filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(`'${brand}'`)) btn.classList.add('active');
-            });
-            applyFilters();
+            sessionStorage.setItem('hh_brand_filter', brand);
+            generateBrandButtons(); // Обновляем активные кнопки
+            applyDataFilters(false);
         }
 
         function buyOneClick(name, price, itemId, event) {
