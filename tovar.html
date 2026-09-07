@@ -6,33 +6,9 @@
     <title>Товар — Heaven Heart Archive</title>
 
     <!-- Основные SEO-метаданные -->
-    <meta name="description" content="Посмотреть подробную информацию, характеристики и купить товар в интернет-магазине архивного люкса и премиальных аксессуаров Heaven Heart.">
-    <meta name="keywords" content="Heaven Heart, карточка товара, купить сумку, архивный люкс, премиальные аксессуары">
-    <meta name="author" content="Heaven Heart Store">
-
-    <!-- Open Graph / Превью для Telegram и соцсетей -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Товар — Heaven Heart Archive">
-    <meta property="og:description" content="Эксклюзивное изделие из коллекции архивного люкса Heaven Heart.">
-    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/tovar.html">
-
-    <!-- Twitter Card (карточка для шеринга) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Товар — Heaven Heart Archive">
-    <meta name="twitter:description" content="Эксклюзивное изделие из коллекции архивного люкса Heaven Heart.">
-    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-
-    <!-- Мобильные настройки интерфейса и темы -->
-    <meta name="theme-color" content="#111111">
-    <meta name="msapplication-TileColor" content="#111111">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Heaven Heart">
-    <link rel="apple-touch-icon" href="logo.png">
-    <link rel="icon" type="image/png" href="logo.png">
-
-    <!-- Подключение шрифта Montserrat -->
+    <meta name="description" content="Посмотреть подробную информацию, характеристики и купить товар в интернет-магазине Heaven Heart.">
+    
+    <!-- Подключение шрифта Montserrat (как на главной) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -49,14 +25,14 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             -webkit-tap-highlight-color: transparent;
         }
 
         html, body {
-            overflow-x: hidden;
+            overflow-x: hidden; 
             width: 100%;
-            max-width: 100vw; /* Защита от расширения в Telegram App */
+            max-width: 100vw; 
             position: relative;
         }
 
@@ -74,8 +50,9 @@
             padding-bottom: calc(80px + var(--sab));
         }
 
-        /* Шапка */
+        /* Единая шапка (как на главной) */
         header {
+            background-color: transparent;
             padding: calc(15px + var(--sat)) 16px 12px 16px;
             text-align: center;
             border-bottom: 1px solid #eaeaea;
@@ -83,11 +60,21 @@
 
         .header-logo {
             max-width: 280px;
-            width: 80%;
+            width: 85%;
             height: auto;
             display: inline-block;
             margin-bottom: -10px;
             mix-blend-mode: multiply;
+            cursor: pointer;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #666666;
+            margin: 2px 0 12px 0;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         /* Основной контейнер товара */
@@ -108,7 +95,7 @@
             flex-direction: column;
             gap: 12px;
             width: 100%; 
-            min-width: 0; /* Фикс вылезания Grid-элементов */
+            min-width: 0; 
         }
 
         .main-image-box {
@@ -186,7 +173,7 @@
             flex-direction: column;
             justify-content: flex-start;
             width: 100%;
-            min-width: 0; /* Фикс вылезания контента */
+            min-width: 0; 
             max-width: 100%;
         }
 
@@ -196,12 +183,12 @@
             align-items: flex-start;
             gap: 15px;
             margin-bottom: 8px;
-            flex-wrap: wrap; /* Чтобы кнопка переносилась, если не влезает */
+            flex-wrap: wrap; 
         }
 
         .product-title-group {
             flex-grow: 1;
-            min-width: 0; /* Разрешаем сжиматься */
+            min-width: 0; 
             word-wrap: break-word;
         }
 
@@ -211,7 +198,6 @@
             gap: 6px;
             color: #111;
             text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 1px;
@@ -238,6 +224,7 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .product-title {
@@ -245,12 +232,12 @@
             font-weight: 600;
             color: #111;
             margin-bottom: 0;
-            word-wrap: break-word; /* Перенос длинных названий */
+            word-wrap: break-word; 
         }
 
         .product-price {
             font-size: 1.4rem;
-            font-weight: bold;
+            font-weight: 700;
             color: #111;
             margin-bottom: 12px;
         }
@@ -274,13 +261,14 @@
 
         .product-description {
             font-size: 0.95rem;
-            color: #555;
+            color: #333; /* Сделал чуть темнее для читаемости */
             margin-bottom: 20px;
             line-height: 1.6;
             white-space: pre-line;
-            word-wrap: break-word; /* Принудительный перенос длинных слов */
+            word-wrap: break-word; 
             overflow-wrap: break-word;
             max-width: 100%;
+            font-weight: 400;
         }
 
         .specs-list {
@@ -297,7 +285,7 @@
             justify-content: space-between;
             font-size: 0.9rem;
             margin-bottom: 8px;
-            gap: 15px; /* Пространство между левой и правой частью */
+            gap: 15px; 
         }
 
         .specs-list li:last-child {
@@ -306,14 +294,15 @@
 
         .specs-list li span:first-child {
             color: #777;
-            flex-shrink: 0; /* Левая часть не сжимается */
+            flex-shrink: 0; 
+            font-weight: 500;
         }
 
         .specs-list li span:last-child {
             font-weight: 600;
             color: #111;
             text-align: right;
-            word-break: break-word; /* Перенос длинных описаний комплектации */
+            word-break: break-word; 
             max-width: 70%;
         }
 
@@ -330,7 +319,7 @@
             padding: 14px;
             text-align: center;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
             border-radius: 30px;
             cursor: pointer;
             font-size: 0.95rem;
@@ -428,7 +417,7 @@
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             font-size: 0.95rem;
-            font-weight: bold;
+            font-weight: 600;
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -522,6 +511,7 @@
             color: #666;
             margin-top: 40px;
             font-size: 0.85rem;
+            font-weight: 500;
         }
 
         /* === МОБИЛЬНАЯ АДАПТАЦИЯ И СВАЙПЫ === */
@@ -538,7 +528,6 @@
                 border-radius: 14px;
             }
 
-            /* Настройка ленты миниатюр под свайп */
             .thumbs-grid {
                 overflow-x: auto;
                 scroll-snap-type: x mandatory;
@@ -555,7 +544,7 @@
             .thumb-item {
                 width: 75px;
                 height: 75px;
-                scroll-snap-align: start;
+                scroll-snap-align: start; 
                 flex-shrink: 0;
             }
 
@@ -581,7 +570,10 @@
 <body>
 
     <header>
-        <a href="index.html" onclick="sessionStorage.removeItem('catalog_scroll_pos');"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
+        <a href="index.html" onclick="sessionStorage.removeItem('catalog_scroll_pos');">
+            <img src="logo.png" alt="Heaven Heart" class="header-logo">
+        </a>
+        <p>Bags & Accessories Collection</p>
     </header>
 
     <div class="product-container">
