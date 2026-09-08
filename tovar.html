@@ -49,7 +49,7 @@
             overflow-y: scroll;
         }
 
-        /* === ИДЕАЛЬНАЯ ЛИПКАЯ ШАПКА === */
+        /* === ПЛАВНАЯ И МЯГКАЯ ШАПКА === */
         #mainHeader {
             position: sticky;
             top: 0;
@@ -58,7 +58,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid transparent;
-            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+            transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .header-inner {
@@ -69,6 +69,7 @@
             align-items: center;
             text-align: center;
             width: 100%;
+            transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #mainHeader.header-scrolled {
@@ -87,11 +88,11 @@
             display: block;
             margin: 0 auto 12px auto;
             mix-blend-mode: multiply;
-            transition: max-width 0.25s ease, margin 0.25s ease;
+            transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #mainHeader.header-scrolled .header-logo {
-            max-width: 85px; /* Уменьшенный размер по центру при скролле */
+            max-width: 85px; 
             margin: 0 auto;   
         }
 
@@ -102,42 +103,43 @@
             margin: 2px 0 12px 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            transition: opacity 0.15s ease;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
-        .header-links-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            transition: opacity 0.15s ease;
+        #mainHeader.header-scrolled .header-subtitle {
+            opacity: 0;
+            visibility: hidden;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
         }
 
-        #mainHeader.header-scrolled .header-subtitle,
-        #mainHeader.header-scrolled .header-links-group {
-            display: none;
-        }
-
-        /* Кнопка бургер (три полоски) строго слева при скролле */
+        /* Кнопка бургер: плавно появляется слева при скролле */
         .menu-toggle {
-            display: none;
+            display: flex;
             position: absolute;
             left: 16px;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translateY(-50%) scale(0.8);
             background: none;
             border: none;
             cursor: pointer;
             color: #111;
             padding: 8px;
             z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #mainHeader.header-scrolled .menu-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(-50%) scale(1);
         }
 
         .menu-toggle svg {
@@ -202,22 +204,6 @@
             cursor: pointer; text-transform: uppercase; font-family: 'Montserrat', sans-serif; text-align: left;
             letter-spacing: 1px;
         }
-
-        .header-verify-link, .header-user-btn {
-            display: inline-flex; align-items: center; gap: 6px; color: #111; text-decoration: none;
-            font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-            border: 1px solid rgba(0, 0, 0, 0.2); background: rgba(0, 0, 0, 0.03); padding: 7px 18px;
-            border-radius: 30px; transition: all 0.35s ease; cursor: pointer;
-        }
-        .header-verify-link:hover, .header-user-btn:hover { background-color: #111; color: #fff; transform: translateY(-2px); }
-
-        .header-tg-link {
-            display: inline-flex; align-items: center; gap: 6px; color: #111; text-decoration: none;
-            font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-            border: 1px solid #2AABEE; padding: 7px 18px; border-radius: 30px; background: rgba(42, 171, 238, 0.08);
-            transition: all 0.35s ease;
-        }
-        .header-tg-link:hover { background: #2AABEE; color: #fff; transform: translateY(-2px); }
 
         /* Основной контейнер товара */
         .product-container {
