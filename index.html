@@ -49,7 +49,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid transparent;
-            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+            transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .header-inner {
@@ -60,6 +60,7 @@
             align-items: center;
             text-align: center;
             width: 100%;
+            transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Состояние шапки при скролле */
@@ -72,7 +73,7 @@
             padding: calc(8px + var(--sat)) 16px 8px 16px; /* Компактная полоска */
         }
 
-        /* Логотип всегда по центру, меняется только его размер */
+        /* Логотип всегда по центру, плавно меняется его размер */
         .header-logo {
             max-width: 140px; 
             width: 100%;
@@ -80,7 +81,7 @@
             display: block;
             margin: 0 auto 12px auto;
             mix-blend-mode: multiply;
-            transition: max-width 0.25s ease, margin 0.25s ease;
+            transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #mainHeader.header-scrolled .header-logo {
@@ -95,15 +96,19 @@
             margin: 2px 0 12px 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            transition: opacity 0.15s ease;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
-        /* Мгновенное скрытие подзаголовка при скролле */
+        /* Плавное исчезновение подзаголовка при скролле */
         #mainHeader.header-scrolled .header-subtitle {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
         }
 
-        /* Кнопка бургер (три полоски): скрыта наверху, плавно появляется слева при скролле */
+        /* Кнопка бургер (три полоски): скрыта наверху, плавно проявляется слева при скролле */
         .menu-toggle {
             display: flex;
             position: absolute;
@@ -121,7 +126,7 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s ease, transform 0.25s ease;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #mainHeader.header-scrolled .menu-toggle {
