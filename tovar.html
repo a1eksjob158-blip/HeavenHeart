@@ -49,7 +49,7 @@
             overflow-y: scroll;
         }
 
-        /* === ПЛАВНАЯ И МЯГКАЯ ШАПКА БЕЗ ЗАТЯГИВАНИЯ СКРОЛЛА === */
+        /* === ПЛАВНАЯ И МЯГКАЯ ШАПКА БЕЗ БУРГЕРА СВЕРХУ === */
         #mainHeader {
             position: sticky;
             top: 0;
@@ -112,40 +112,6 @@
             margin: 0;
             height: 0;
             overflow: hidden;
-        }
-
-        /* Кнопка бургер: плавно появляется слева при скролле */
-        .menu-toggle {
-            display: flex;
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%) scale(0.8);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #111;
-            padding: 8px;
-            z-index: 10001;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        #mainHeader.header-scrolled .menu-toggle {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transform: translateY(-50%) scale(1);
-        }
-
-        .menu-toggle svg {
-            width: 26px; height: 26px;
-            stroke: currentColor; stroke-width: 2; fill: none;
-            stroke-linecap: round; stroke-linejoin: round;
         }
 
         /* === БОКОВОЕ МЕНЮ (ШТОРКА) === */
@@ -470,31 +436,59 @@
             border-color: #111;
         }
 
-        /* ПЛАВАЮЩИЙ ВИДЖЕТ КОРЗИНЫ */
-        .floating-cart-btn {
+        /* === ПЛАВАЮЩИЕ КНОПКИ СПРАВА ВНИЗУ (МЕНЮ + КОРЗИНА) === */
+        .floating-actions-container {
             position: fixed;
             bottom: calc(25px + var(--sab));
             right: 20px;
             z-index: 9998;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .floating-btn {
             background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             color: #111111;
-            padding: 12px 18px;
+            height: 48px;
             border-radius: 50px;
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(0, 0, 0, 0.14);
             cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Круглая кнопка меню (бургер) — выплывает при скролле */
+        .floating-menu-btn {
+            width: 48px;
+            padding: 0;
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px) scale(0.9);
             pointer-events: none;
-            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .floating-menu-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Кнопка корзины — появляется только когда есть товары */
+        .floating-cart-btn {
+            padding: 12px 18px;
+            gap: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            pointer-events: none;
         }
 
         .floating-cart-btn.visible {
@@ -504,8 +498,8 @@
             pointer-events: auto;
         }
 
-        .floating-cart-btn svg {
-            width: 20px;
+        .floating-cart-btn svg, .floating-menu-btn svg { 
+            width: 20px; 
             height: 20px;
             stroke: currentColor;
             stroke-width: 2.2;
@@ -671,10 +665,16 @@
             .product-price { font-size: 1.25rem; }
             .btn-buy, .btn-cart { padding: 13px 20px; font-size: 0.95rem; }
 
-            .floating-cart-btn {
-                padding: 10px 14px;
+            .floating-actions-container {
                 right: 14px;
                 bottom: calc(20px + var(--sab));
+            }
+
+            .floating-btn {
+                height: 44px;
+            }
+            .floating-menu-btn {
+                width: 44px;
             }
 
             .image-modal-prev, .image-modal-next { display: none !important; }
@@ -686,11 +686,8 @@
 
     <header id="mainHeader">
         <div class="header-inner">
-            <button class="menu-toggle" onclick="openMenu()" aria-label="Открыть меню">
-                <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-            
-            <a href="index.html" onclick="sessionStorage.removeItem('catalog_scroll_pos');" style="text-decoration: none;">
+            <!-- Верхняя кнопка бургер удалена -->
+            <a href="index.html" style="text-decoration: none;">
                 <img src="logo.png" alt="Heaven Heart" class="header-logo">
             </a>
             
@@ -764,14 +761,20 @@
         </div>
     </div>
 
-    <!-- ПЛАВАЮЩИЙ МИНИ-ВИДЖЕТ КОРЗИНЫ -->
-    <div class="floating-cart-btn" id="floatingCartBtn" onclick="window.location.href='cart.html'" title="Корзина">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-        <span class="cart-badge" id="cartBadge">0</span>
+    <!-- ПЛАВАЮЩИЙ БЛОК СПРАВА ВНИЗУ (МЕНЮ + КОРЗИНА) -->
+    <div class="floating-actions-container">
+        <button class="floating-btn floating-menu-btn" id="floatingMenuBtn" onclick="openMenu()" title="Открыть меню">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        
+        <div class="floating-btn floating-cart-btn" id="floatingCartBtn" onclick="window.location.href='cart.html'" title="Корзина">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="cart-badge" id="cartBadge">0</span>
+        </div>
     </div>
 
     <!-- TOAST-УВЕДОМЛЕНИЕ -->
@@ -805,13 +808,21 @@
             document.body.style.overflow = '';
         }
 
-        // Мгновенная реакция с первого пикселя скролла без люфта
+        // Мгновенная реакция шапки и появление плавающего бургера при скролле (> 40px)
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainHeader');
+            const floatingMenu = document.getElementById('floatingMenuBtn');
+
             if (window.scrollY > 2) {
                 header.classList.add('header-scrolled');
             } else {
                 header.classList.remove('header-scrolled');
+            }
+
+            if (window.scrollY > 40) {
+                floatingMenu.classList.add('visible');
+            } else {
+                floatingMenu.classList.remove('visible');
             }
         }, { passive: true });
 
@@ -954,6 +965,7 @@
             }
 
             localStorage.setItem('hh_cart', JSON.stringify(cart));
+            updateCartBadge();
             window.location.href = 'cart.html';
         }
 
@@ -1071,8 +1083,11 @@
             
             if (badge) badge.textContent = totalCount;
             if (cartBtn) {
-                if (totalCount > 0) cartBtn.classList.add('visible');
-                else cartBtn.classList.remove('visible');
+                if (totalCount > 0) {
+                    cartBtn.classList.add('visible');
+                } else {
+                    cartBtn.classList.remove('visible');
+                }
             }
         }
 
