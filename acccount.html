@@ -14,18 +14,10 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Личный кабинет — Heaven Heart">
     <meta property="og:description" content="Управляйте своими заказами и привилегиями в личном кабинете Heaven Heart.">
-    <meta property="og:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-    <meta property="og:url" content="https://ваш-логин.github.io/название-репозитория/acccount.html">
-
-    <!-- Twitter Card (карточка для шеринга) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Личный кабинет — Heaven Heart">
-    <meta name="twitter:description" content="Управляйте своими заказами и привилегиями в личном кабинете Heaven Heart.">
-    <meta name="twitter:image" content="https://ваш-логин.github.io/название-репозитория/logo.png">
-
+    <meta property="og:image" content="logo.png">
+    
     <!-- Мобильные настройки интерфейса и темы -->
     <meta name="theme-color" content="#111111">
-    <meta name="msapplication-TileColor" content="#111111">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Heaven Heart">
@@ -38,6 +30,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --sat: env(safe-area-inset-top, 0px);
+            --sab: env(safe-area-inset-bottom, 0px);
+            --sal: env(safe-area-inset-left, 0px);
+            --sar: env(safe-area-inset-right, 0px);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -54,37 +53,55 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow-y: scroll; /* Принудительно держит место под полосу прокрутки на всех страницах */
         }
 
-        header {
-            background-color: transparent;
-            padding: calc(15px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
-            text-align: center;
+        /* Идентичная шапка 1 в 1 как на главной странице */
+        #mainHeader {
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid #eaeaea;
         }
 
+        .header-inner {
+            position: relative;
+            padding: calc(15px + var(--sat)) 16px 15px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
         .header-logo {
-            max-width: 300px;
+            max-width: 140px;
             width: 100%;
             height: auto;
-            display: inline-block;
-            margin-bottom: -15px;
+            display: block;
+            margin: 0 auto 12px auto;
             mix-blend-mode: multiply;
-            cursor: pointer;
         }
 
-        header p {
+        .header-subtitle {
             font-size: 0.8rem;
+            font-weight: 500;
             color: #666666;
-            margin: 0 0 10px 0;
-            letter-spacing: 1px;
+            margin: 2px 0 12px 0;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
+        /* Единый отступ контейнера (как на страницах проверки и отслеживания) */
         .container {
             max-width: 1100px;
-            margin: 40px auto;
+            margin: 50px auto;
             padding: 0 20px;
             width: 100%;
+            flex-grow: 1;
         }
 
         .account-card {
@@ -433,6 +450,7 @@
             background-color: #f4f4f4;
             border-top: 1px solid #eaeaea;
             color: #666;
+            margin-top: 40px;
         }
 
         footer a {
@@ -510,9 +528,13 @@
 </head>
 <body>
 
-    <header>
-        <a href="index.html"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
-        <p>Личный кабинет покупателя</p>
+    <header id="mainHeader">
+        <div class="header-inner">
+            <a href="index.html" style="text-decoration: none;">
+                <img src="logo.png" alt="Heaven Heart" class="header-logo">
+            </a>
+            <p class="header-subtitle">Bags & Accessories Collection</p>
+        </div>
     </header>
 
     <div class="container">
@@ -619,8 +641,6 @@
     <script>
         const ORDERS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz6US7__703IznmXTL_EqFLX1EJaqh_7tM9Bd9m-sMIHzf_NEaxPM-4TESTNGS8flLq2g/exec';
         const VERIFY_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkCGBHi2muz9_ilopvSMsb6rtXXOfys5FrmbUrrRd7Vf_ejDNCiLycTyzfa5Ob9zNL/exec';
-        
-        // Вставлена новая ссылка на скрипт авторизации из вашего сообщения
         const AUTH_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx3EJEjbc9h-F5k5ZzY4mmaUqTEI_ap0K2cFQU8sPyGf-xowfM-t9hIJpm52KWz3krVtA/exec';
 
         let cachedSerials = [];
@@ -667,7 +687,6 @@
             }
         }
 
-        // РЕГИСТРАЦИЯ ЧЕРЕЗ GET-ЗАПРОС
         async function handleRegister(e) {
             e.preventDefault();
             const username = document.getElementById('regUsername').value.trim();
@@ -697,7 +716,6 @@
             }
         }
 
-        // ВХОД ЧЕРЕЗ GET-ЗАПРОС
         async function handleLogin(e) {
             e.preventDefault();
             const login = document.getElementById('loginUsername').value.trim();

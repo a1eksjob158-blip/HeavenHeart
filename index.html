@@ -39,28 +39,62 @@
             overflow-x: hidden;
         }
 
-        header {
-            background-color: transparent;
-            padding: calc(15px + var(--sat)) 16px 12px 16px;
+        /* === ИДЕАЛЬНАЯ ШАПКА БЕЗ СМЕЩЕНИЙ И МЕРЦАНИЯ === */
+        #mainHeader {
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .header-inner {
+            position: relative;
+            padding: calc(15px + var(--sat)) 16px 15px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
+            width: 100%;
         }
 
+        /* Состояние шапки при скролле */
+        #mainHeader.header-scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        #mainHeader.header-scrolled .header-inner {
+            padding: calc(8px + var(--sat)) 16px 8px 16px; /* Компактная полоска */
+        }
+
+        /* Логотип всегда по центру, меняется только его размер */
         .header-logo {
-            max-width: 280px;
-            width: 85%;
+            max-width: 140px; /* Установили точный размер, как на вашем скриншоте */
+            width: 100%;
             height: auto;
-            display: inline-block;
-            margin-bottom: -10px;
+            display: block;
+            margin: 0 auto 12px auto;
             mix-blend-mode: multiply;
+            transition: max-width 0.25s ease, margin 0.25s ease;
         }
 
-        header p {
+        #mainHeader.header-scrolled .header-logo {
+            max-width: 85px; /* Компактный размер для свернутой шапки */
+            margin: 0 auto;   
+        }
+
+        .header-subtitle {
             font-size: 0.8rem;
             font-weight: 500;
             color: #666666;
             margin: 2px 0 12px 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
+            transition: opacity 0.15s ease;
         }
 
         .header-links-group {
@@ -69,385 +103,201 @@
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+            transition: opacity 0.15s ease;
+        }
+
+        /* Мгновенное скрытие лишнего без дерганий */
+        #mainHeader.header-scrolled .header-subtitle,
+        #mainHeader.header-scrolled .header-links-group {
+            display: none;
+        }
+
+        /* Кнопка бургер строго слева, не толкает логотип */
+        .menu-toggle {
+            display: none;
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #111;
+            padding: 8px;
+            z-index: 10001;
+        }
+
+        #mainHeader.header-scrolled .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle svg {
+            width: 26px; height: 26px;
+            stroke: currentColor; stroke-width: 2; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        #mainHeader.header-scrolled .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle svg {
+            width: 26px; height: 26px;
+            stroke: currentColor; stroke-width: 2; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* === БОКОВОЕ МЕНЮ (ШТОРКА) === */
+        .side-menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            z-index: 20000;
+            opacity: 0; visibility: hidden;
+            transition: all 0.35s ease;
+        }
+        
+        .side-menu-overlay.active {
+            opacity: 1; visibility: visible;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0; left: -100%;
+            width: 300px; max-width: 85vw; height: 100vh;
+            background: #ffffff;
+            z-index: 20001;
+            display: flex; flex-direction: column;
+            padding: calc(30px + var(--sat)) 25px 25px 25px;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .side-menu-close {
+            position: absolute;
+            top: calc(15px + var(--sat)); right: 15px;
+            background: none; border: none;
+            font-size: 2.5rem; line-height: 1;
+            cursor: pointer; color: #111;
+            width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Исправленный логотип в боковом меню */
+        .side-menu-logo {
+            max-width: 95px; /* Уменьшенный аккуратный размер */
+            display: block;
+            margin: 0 auto 30px auto; /* Строго по центру */
+            mix-blend-mode: multiply;
+        }
+
+        .side-menu-links {
+            display: flex; flex-direction: column; gap: 0;
+        }
+
+        .side-menu-links a, .side-menu-links button {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.9rem; font-weight: 600; color: #111;
+            text-decoration: none; padding: 18px 0;
+            border-bottom: 1px solid #f0f0f0; background: none; border-left: none; border-right: none; border-top: none;
+            cursor: pointer; text-transform: uppercase; font-family: 'Montserrat', sans-serif; text-align: left;
+            letter-spacing: 1px;
         }
 
         .header-verify-link, .header-user-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #111;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            background: rgba(0, 0, 0, 0.03);
-            padding: 7px 18px;
-            border-radius: 30px;
-            transition: all 0.35s ease;
-            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px; color: #111; text-decoration: none;
+            font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            border: 1px solid rgba(0, 0, 0, 0.2); background: rgba(0, 0, 0, 0.03); padding: 7px 18px;
+            border-radius: 30px; transition: all 0.35s ease; cursor: pointer;
         }
-
-        .header-verify-link:hover, .header-user-btn:hover {
-            background-color: #111;
-            color: #fff;
-            transform: translateY(-2px);
-        }
+        .header-verify-link:hover, .header-user-btn:hover { background-color: #111; color: #fff; transform: translateY(-2px); }
 
         .header-tg-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #111;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border: 1px solid #2AABEE;
-            padding: 7px 18px;
-            border-radius: 30px;
-            background: rgba(42, 171, 238, 0.08);
+            display: inline-flex; align-items: center; gap: 6px; color: #111; text-decoration: none;
+            font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            border: 1px solid #2AABEE; padding: 7px 18px; border-radius: 30px; background: rgba(42, 171, 238, 0.08);
             transition: all 0.35s ease;
         }
-
-        .header-tg-link:hover {
-            background: #2AABEE;
-            color: #fff;
-            transform: translateY(-2px);
-        }
+        .header-tg-link:hover { background: #2AABEE; color: #fff; transform: translateY(-2px); }
 
         .parallax-banner {
-            width: 100%;
-            aspect-ratio: 3 / 2;
-            max-height: 580px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            width: 100%; aspect-ratio: 3 / 2; max-height: 580px; background-size: cover;
+            background-position: center; background-repeat: no-repeat; display: flex;
+            align-items: center; justify-content: center; position: relative;
         }
+        .parallax-banner::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.35); }
 
-        .parallax-banner::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.35);
-        }
+        .gold-marquee-wrapper { width: 100%; background: #fbfbfb; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; padding: 10px 0; overflow: hidden; display: flex; margin-bottom: 40px; pointer-events: none; user-select: none; }
+        .gold-marquee-track { display: flex; width: max-content; animation: goldScrollContinuous 24s linear infinite; white-space: nowrap; }
+        .gold-marquee-item { display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #111111; padding: 0 16px; }
+        .gold-marquee-item span { color: #111111; margin: 0 12px; font-size: 0.85rem; font-weight: 800; }
+        @keyframes goldScrollContinuous { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .gold-marquee-wrapper {
-            width: 100%;
-            background: #fbfbfb;
-            border-top: 1px solid #eaeaea;
-            border-bottom: 1px solid #eaeaea;
-            padding: 10px 0;
-            overflow: hidden;
-            display: flex;
-            margin-bottom: 40px;
-            pointer-events: none;
-            user-select: none;
-        }
+        .container { width: 100%; max-width: 100%; margin: 0 auto; padding: 0 32px; }
+        .filter-section { margin-bottom: 30px; text-align: center; }
+        .filter-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #777; margin-bottom: 10px; font-weight: 700; }
+        .filter-controls { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-btn { background: #f4f4f4; color: #333; border: 1px solid #ddd; padding: 9px 20px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; transition: all 0.3s ease; }
+        .filter-btn:hover, .filter-btn.active { background: #111; color: #fff; border-color: #111; }
 
-        .gold-marquee-track {
-            display: flex;
-            width: max-content;
-            animation: goldScrollContinuous 24s linear infinite;
-            white-space: nowrap;
-        }
-
-        .gold-marquee-item {
-            display: inline-flex;
-            align-items: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #111111;
-            padding: 0 16px;
-        }
-
-        .gold-marquee-item span {
-            color: #111111;
-            margin: 0 12px;
-            font-size: 0.85rem;
-            font-weight: 800;
-        }
-
-        @keyframes goldScrollContinuous {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .container {
-            width: 100%;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        .filter-section {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .filter-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #777;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .filter-controls {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: #f4f4f4;
-            color: #333;
-            border: 1px solid #ddd;
-            padding: 9px 20px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: #111;
-            color: #fff;
-            border-color: #111;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            width: 100%;
-            margin-bottom: 60px;
-        }
-
-        .product-card {
-            background-color: #fbfbfb;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #eaeaea;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            width: 100%;
-            height: 520px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            border-color: #ccc;
-        }
-
-        .product-card-link {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .status-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            z-index: 10;
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
+        .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; width: 100%; margin-bottom: 60px; }
+        .product-card { background-color: #fbfbfb; border-radius: 16px; overflow: hidden; border: 1px solid #eaeaea; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; width: 100%; height: 520px; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-color: #ccc; }
+        .product-card-link { text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1; }
+        .status-badge { position: absolute; top: 15px; left: 15px; z-index: 10; padding: 5px 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; border-radius: 20px; text-transform: uppercase; }
         .badge-instock { background-color: rgba(46, 204, 113, 0.15); color: #27ae60; border: 1px solid rgba(46, 204, 113, 0.4); }
         .badge-preorder { background-color: rgba(229, 169, 59, 0.15); color: #d39e2e; border: 1px solid rgba(229, 169, 59, 0.4); }
 
-        .product-image {
-            width: 100%;
-            height: 270px;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .product-image img, .product-image video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .product-info {
-            padding: 16px 18px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            justify-content: space-between;
-        }
-
-        .product-brand-tag {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 2px;
-        }
-
-        .product-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #111;
-            margin-bottom: 5px;
-            line-height: 1.3;
-        }
-
-        .product-price {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #111111;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
+        .product-image { width: 100%; height: 270px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .product-image img, .product-image video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .product-info { padding: 16px 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .product-brand-tag { font-size: 0.72rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+        .product-title { font-size: 0.95rem; font-weight: 600; color: #111; margin-bottom: 5px; line-height: 1.3; }
+        .product-price { font-size: 1.15rem; font-weight: 700; color: #111111; margin-bottom: 10px; letter-spacing: 0.5px; }
 
         .btn-group { display: flex; flex-direction: column; gap: 8px; }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 11px 8px;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-size: 0.8rem;
-        }
-
+        .btn { display: block; width: 100%; padding: 11px 8px; background-color: #111; color: #fff; text-align: center; text-decoration: none; font-weight: 700; letter-spacing: 0.5px; border: none; border-radius: 30px; cursor: pointer; transition: background 0.3s; font-size: 0.8rem; }
         .btn:hover { background-color: #b38228; }
         .btn-cart { background-color: #f4f4f4; color: #111; border: 1px solid #ddd; }
         .btn-cart:hover { background-color: #111; color: #fff; border-color: #111; }
 
         .floating-cart-btn {
-            position: fixed;
-            bottom: calc(25px + var(--sab));
-            right: 20px;
-            z-index: 9998;
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            color: #111111;
-            padding: 12px 18px;
-            border-radius: 50px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.14);
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.9);
-            pointer-events: none;
-            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: fixed; bottom: calc(25px + var(--sab)); right: 20px; z-index: 9998;
+            background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            color: #111111; padding: 12px 18px; border-radius: 50px; text-decoration: none;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); border: 1px solid rgba(0, 0, 0, 0.14);
+            cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.9);
+            pointer-events: none; transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        .floating-cart-btn.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
+        .floating-cart-btn.visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
+        
         .floating-cart-btn svg { 
-    width: 20px; 
-    height: 20px;
-    stroke: currentColor;
-    stroke-width: 2.2;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-        .cart-badge {
-            background: #b38228;
-            color: #ffffff;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            line-height: 1;
-            min-width: 18px;
-            text-align: center;
+            width: 20px; 
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
         
-        .toast-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.85);
-            background-color: rgba(17, 17, 17, 0.85);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            padding: 16px 32px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            font-size: 0.95rem;
-            font-weight: 600;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .toast-notification.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .cart-badge { background: #b38228; color: #ffffff; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; line-height: 1; min-width: 18px; text-align: center; }
+        
+        .toast-notification { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.85); background-color: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); color: #fff; padding: 16px 32px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.95rem; font-weight: 600; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10001; display: flex; align-items: center; gap: 12px; }
+        .toast-notification.show { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
         .toast-icon { color: #888888; font-size: 1.2rem; }
 
-        footer {
-            text-align: center;
-            padding: 30px 20px calc(30px + var(--sab)) 20px;
-            background-color: #f4f4f4;
-            border-top: 1px solid #eaeaea;
-            color: #666;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 60px;
-        }
+        footer { text-align: center; padding: 30px 20px calc(30px + var(--sab)) 20px; background-color: #f4f4f4; border-top: 1px solid #eaeaea; color: #666; font-size: 0.85rem; font-weight: 500; margin-top: 60px; }
         footer a { color: #2AABEE; text-decoration: underline; }
 
         @media (max-width: 1024px) {
@@ -455,11 +305,6 @@
         }
 
         @media (max-width: 768px) {
-            html, body {
-                overflow-x: hidden;
-                width: 100%;
-                position: relative;
-            }
             .container { padding: 0 12px; }
             .header-links-group { gap: 8px; }
             .header-verify-link, .header-tg-link, .header-user-btn { padding: 6px 12px; font-size: 0.72rem; }
@@ -474,10 +319,20 @@
 </head>
 <body>
 
-    <header>
-        <a href="index.html" onclick="resetFiltersAndScroll();"><img src="logo.png" alt="Heaven Heart" class="header-logo"></a>
-        <p>Bags & Accessories Collection</p>
-        <div class="header-links-group">
+    <header id="mainHeader">
+        <div class="header-inner">
+            <button class="menu-toggle" onclick="openMenu()" aria-label="Открыть меню">
+                <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            
+            <a href="index.html" onclick="resetFiltersAndScroll();" style="text-decoration: none;">
+                <img src="logo.png" alt="Heaven Heart" class="header-logo">
+            </a>
+            
+            <p class="header-subtitle">Bags & Accessories Collection</p>
+            
+            <div class="header-links-group">
+            <a href="javascript:void(0);" onclick="scrollToCatalog()" class="header-verify-link">Каталог</a>
             <a href="about.html" class="header-verify-link">О нас</a>
             <a href="acept.html" class="header-verify-link">Проверка подлинности</a>
             <a href="tracking.html" class="header-verify-link">Отследить заказ</a>
@@ -485,11 +340,31 @@
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
                 Магазин в Telegram
             </a>
-            <button class="header-user-btn" id="authBtn" onclick="goToCabinet()">👤 Кабинет</button>
+            <button class="header-user-btn" id="authBtn" onclick="goToCabinet()">Кабинет</button>
+        </div>
         </div>
     </header>
 
-    <div class="parallax-banner" id="randomBanner"></div>
+    <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <button class="side-menu-close" onclick="closeMenu()">&times;</button>
+        
+        <img src="logo.png" alt="Heaven Heart" class="side-menu-logo">
+        
+        <div class="side-menu-links">
+            <a href="javascript:void(0);" onclick="closeMenu(); scrollToCatalog();">Каталог</a>
+            <a href="about.html">О нас</a>
+            <a href="acept.html">Проверка подлинности</a>
+            <a href="tracking.html">Отследить заказ</a>
+            <a href="https://t.me/Heaven_Heart_store_bot" target="_blank" style="color: #2AABEE;">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
+                Магазин в Telegram
+            </a>
+            <button id="sideAuthBtn" onclick="goToCabinet()">Кабинет</button>
+        </div>
+    </div>
+
+    <div class="parallax-banner" style="background-image: url('68250033.jpg');"></div>
 
     <div class="gold-marquee-wrapper">
         <div class="gold-marquee-track">
@@ -535,7 +410,6 @@
     <script>
         const CATALOG_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzX0dM6x5Dnr4NPZ4xtW8N6xd5mWJNb_RocQFnlDTVwp-uFYhavjphVD6sz_3v6VmJwQ/exec';
 
-        // Переменные для пагинации и данных
         let allProducts = [];
         let filteredProducts = [];
         let currentBrandFilter = sessionStorage.getItem('hh_brand_filter') || 'all';
@@ -543,7 +417,6 @@
         let currentPage = 1;
         const ITEMS_PER_PAGE = 12;
 
-        // Observer для бесконечного скролла
         let observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 if (currentPage * ITEMS_PER_PAGE < filteredProducts.length) {
@@ -552,7 +425,7 @@
                     renderPage(currentPage);
                 }
             }
-        }, { rootMargin: '300px' }); // Начинает грузить за 300px до конца списка
+        }, { rootMargin: '300px' }); 
 
         function goToCabinet() { window.location.href = 'acccount.html'; }
 
@@ -562,6 +435,27 @@
             sessionStorage.removeItem('hh_catalog_page');
             sessionStorage.removeItem('catalog_scroll_pos');
             window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 40) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        }, { passive: true });
+
+        function openMenu() {
+            document.getElementById('sideMenu').classList.add('active');
+            document.getElementById('sideMenuOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.remove('active');
+            document.getElementById('sideMenuOverlay').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -574,14 +468,16 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
 
-            const bannerEl = document.getElementById('randomBanner');
-            if (bannerEl) bannerEl.style.backgroundImage = `url('68250033.jpg')`;
-
             updateCartBadge();
             
             const logged = localStorage.getItem('hh_logged_in');
             const authBtn = document.getElementById('authBtn');
-            if (logged && authBtn) authBtn.innerHTML = `👤 ${JSON.parse(logged).name}`;
+            const sideAuthBtn = document.getElementById('sideAuthBtn');
+            if (logged) {
+                const userName = JSON.parse(logged).name;
+                if (authBtn) authBtn.innerHTML = `👤 ${userName}`;
+                if (sideAuthBtn) sideAuthBtn.innerHTML = `👤 ${userName}`;
+            }
 
             initCatalog(); 
         });
@@ -590,22 +486,19 @@
             let cachedData = null;
             try { cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache')); } catch (e) {}
             
-            // Если есть кэш, моментально рендерим его
             if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
                 allProducts = cachedData;
                 generateBrandButtons();
                 generateCategoryButtons();
-                applyDataFilters(true); // true означает первичную загрузку (с восстановлением скролла)
+                applyDataFilters(true); 
             }
 
-            // Фоновое обновление базы
             try {
                 const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now(), { cache: 'no-store' });
                 const freshData = await response.json();
                 
                 if (freshData && Array.isArray(freshData)) {
                     localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
-                    // Обновляем экран только если кэша не было, чтобы не "моргало"
                     if (!cachedData || cachedData.length === 0) {
                         allProducts = freshData;
                         generateBrandButtons();
@@ -673,7 +566,6 @@
             container.innerHTML = html;
         }
 
-        // Применяем фильтры к массиву данных
         function applyDataFilters(isInit = false) {
             filteredProducts = allProducts.filter(item => {
                 if (!item.id) return false;
@@ -692,14 +584,12 @@
             observer.disconnect();
 
             if (isInit) {
-                // Восстанавливаем сохраненные страницы
                 let savedPage = parseInt(sessionStorage.getItem('hh_catalog_page')) || 1;
                 for (let p = 1; p <= savedPage; p++) {
                     renderPage(p);
                 }
                 currentPage = savedPage;
 
-                // Плавно восстанавливаем скролл
                 setTimeout(() => {
                     const savedScroll = sessionStorage.getItem('catalog_scroll_pos');
                     if (savedScroll) {
@@ -708,14 +598,12 @@
                     }
                 }, 100);
             } else {
-                // Обычный сброс при клике на новый фильтр
                 currentPage = 1;
                 sessionStorage.setItem('hh_catalog_page', currentPage);
                 renderPage(currentPage);
             }
         }
 
-        // Рендерит только нужную "порцию" карточек
         function renderPage(page) {
             const grid = document.querySelector('.products-grid');
             if (!grid) return;
@@ -728,7 +616,6 @@
                 const images = item.images ? item.images.split(',') : ['logo.png'];
                 const mainImg = images[0].trim();
                 
-                // Ленивая загрузка: loading="lazy" для изображений, preload="none" для видео
                 let mediaHtml = mainImg.endsWith('.webm') || mainImg.endsWith('.mp4') 
                     ? `<video muted loop playsinline preload="none" onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"><source src="${mainImg}" type="video/webm"></video>`
                     : `<img src="${mainImg}" alt="${item.title}" loading="lazy">`;
@@ -777,7 +664,6 @@
                 grid.appendChild(card);
             });
 
-            // Вешаем "наблюдателя" на последнюю карточку, чтобы подгрузить следующую страницу
             const allCards = grid.querySelectorAll('.product-card');
             if (allCards.length > 0) {
                 observer.disconnect();
@@ -788,14 +674,14 @@
         function filterItems(category) {
             currentCategoryFilter = category;
             sessionStorage.setItem('hh_category_filter', category);
-            generateCategoryButtons(); // Обновляем активные кнопки
+            generateCategoryButtons(); 
             applyDataFilters(false);
         }
 
         function filterByBrand(brand) {
             currentBrandFilter = brand;
             sessionStorage.setItem('hh_brand_filter', brand);
-            generateBrandButtons(); // Обновляем активные кнопки
+            generateBrandButtons(); 
             applyDataFilters(false);
         }
 
@@ -842,6 +728,21 @@
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
+        function scrollToCatalog() {
+    // Сбрасываем фильтры и скроллим до секции категорий/товаров
+    resetFiltersAndScroll();
+    const catalogElement = document.querySelector('.container');
+    if (catalogElement) {
+        const headerOffset = 85; // Высота шапки, чтобы не перекрывать заголовки
+        const elementPosition = catalogElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+}
     </script>
 </body>
 </html>
