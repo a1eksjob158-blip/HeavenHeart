@@ -77,7 +77,7 @@
             width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto 12px auto;
+            margin: 0 auto 10px auto;
             mix-blend-mode: multiply;
             transition: max-width 0.25s cubic-bezier(0.25, 1, 0.5, 1), margin 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
@@ -91,7 +91,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             color: #666666;
-            margin: 2px 0 12px 0;
+            margin: 2px 0 10px 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             transition: opacity 0.15s ease, transform 0.15s ease;
@@ -105,51 +105,27 @@
             overflow: hidden;
         }
 
-        /* === КРУГЛАЯ КНОПКА МЕНЮ БЕЗ ФОНА === */
-/* === КНОПКА МЕНЮ БЕЗ ФОНА С АВТОМАТИЧЕСКОЙ ИНВЕРСИЕЙ КОНТУРА И ПОЛОСОК === */
-.side-menu-trigger-btn {
-    position: fixed;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent; /* Без фоновой заливки */
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border: 1px solid currentColor; /* Контур следует за цветом */
-    border-right: none; /* Примыкает к правому краю экрана */
-    color: #ffffff; /* Базовый цвет, который инвертируется */
-    width: 48px;
-    height: 56px;
-    border-radius: 16px 0 0 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10001;
-    mix-blend-mode: difference; /* Автоматически меняет черный/белый в зависимости от фона */
-    box-shadow: none;
-    transition: transform 0.2s;
-}
+        /* === АККУРАТНАЯ ПОЛОСОЧКА ПОД ТЕКСТОМ (ИНДИКАТОР МЕНЮ) === */
+        .menu-indicator-bar {
+            width: 48px;
+            height: 5px;
+            background-color: #d1d1d6;
+            border-radius: 3px;
+            margin: 6px auto 0 auto;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
 
-.side-menu-trigger-btn:hover {
-    transform: translateY(-50%) scale(1.05);
-}
+        .menu-indicator-bar:hover {
+            background-color: #8e8e93;
+            transform: scaleX(1.15);
+        }
 
-.side-menu-trigger-btn svg {
-    width: 26px;
-    height: 20px;
-    stroke: currentColor;
-    stroke-width: 1.5; /* Тонкие и широкие полоски */
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-        /* === БОКОВОЕ МЕНЮ (ШТОРКА ВЫЕЗЖАЕТ СПРАВА) === */
+        /* === ВЫЕЗЖАЮЩЕЕ МЕНЮ (КОМПАКТНАЯ КАРТОЧКА ПО ЦЕНТРУ) === */
         .side-menu-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.4);
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             z-index: 20000;
             opacity: 0; visibility: hidden;
@@ -162,48 +138,57 @@
 
         .side-menu {
             position: fixed;
-            top: 0; 
-            right: -100%;
-            left: auto;
-            width: 300px; max-width: 85vw; height: 100vh;
+            top: -100%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%; 
+            max-width: 400px;
+            max-height: 85vh;
             background: #ffffff;
             z-index: 20001;
             display: flex; flex-direction: column;
-            padding: calc(30px + var(--sat)) 25px 25px 25px;
-            box-shadow: -2px 0 20px rgba(0,0,0,0.1);
-            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 24px 24px 18px 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-radius: 24px;
+            transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
         }
 
         .side-menu.active {
-            right: 0;
-            left: auto;
+            top: 15px;
         }
 
-        .side-menu-close {
-            position: absolute;
-            top: calc(15px + var(--sat)); right: 15px;
-            background: none; border: none;
-            font-size: 2.5rem; line-height: 1;
-            cursor: pointer; color: #111;
-            width: 44px; height: 44px;
-            display: flex; align-items: center; justify-content: center;
+        /* Ручка для закрытия свайпом (теперь снизу) */
+        .side-menu-handle {
+            width: 44px;
+            height: 5px;
+            background-color: #d1d1d6;
+            border-radius: 3px;
+            margin: 16px auto 4px auto;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .side-menu-handle:hover {
+            background-color: #8e8e93;
         }
 
         .side-menu-logo {
-            max-width: 95px;
+            max-width: 90px;
             display: block;
-            margin: 0 auto 30px auto;
+            margin: 0 auto 15px auto;
             mix-blend-mode: multiply;
         }
 
         .side-menu-links {
             display: flex; flex-direction: column; gap: 0;
+            width: 100%;
         }
 
         .side-menu-links a, .side-menu-links button {
             display: flex; align-items: center; gap: 12px;
-            font-size: 0.9rem; font-weight: 600; color: #111;
-            text-decoration: none; padding: 18px 0;
+            font-size: 0.85rem; font-weight: 600; color: #111;
+            text-decoration: none; padding: 14px 0;
             border-bottom: 1px solid #f0f0f0; background: none; border-left: none; border-right: none; border-top: none;
             cursor: pointer; text-transform: uppercase; font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif !important; text-align: left;
             letter-spacing: 1px;
@@ -326,25 +311,23 @@
 </head>
 <body>
 
-    <!-- Кнопка вызова меню посередине справа -->
-    <button class="side-menu-trigger-btn" onclick="openMenu()" title="Открыть меню">
-        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </button>
-
     <header id="mainHeader">
-        <div class="header-inner">
+        <div class="header-inner" id="headerInner">
             <a href="index.html" onclick="resetFiltersAndScroll();" style="text-decoration: none;">
                 <img src="logo.png" alt="Heaven Heart" class="header-logo">
             </a>
             
             <p class="header-subtitle">Bags & Accessories Collection</p>
+
+            <!-- Полосочка в шапке для открытия меню -->
+            <div class="menu-indicator-bar" onclick="openMenu()" title="Открыть меню"></div>
         </div>
     </header>
 
     <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeMenu()"></div>
+    
+    <!-- Выпадающее меню (карточка) -->
     <div class="side-menu" id="sideMenu">
-        <button class="side-menu-close" onclick="closeMenu()">&times;</button>
-        
         <img src="logo.png" alt="Heaven Heart" class="side-menu-logo">
         
         <div class="side-menu-links">
@@ -359,6 +342,9 @@
             </a>
             <button id="sideAuthBtn" onclick="goToCabinet()">Кабинет</button>
         </div>
+
+        <!-- Ручка-индикатор теперь в самом низу меню -->
+        <div class="side-menu-handle" onclick="closeMenu()" title="Закрыть меню"></div>
     </div>
 
     <div class="parallax-banner" style="background-image: url('68250033.webp');"></div>
@@ -386,7 +372,7 @@
         <section class="products-grid"></section>
     </div>
 
-    <!-- Плавающая корзина справа внизу (появляется только при наличии товара) -->
+    <!-- Плавающая корзина справа внизу -->
     <div class="floating-cart-btn" id="floatingCartBtn" onclick="window.location.href='cart.html'" title="Корзина">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -455,6 +441,34 @@
             document.getElementById('sideMenuOverlay').classList.remove('active');
             document.body.style.overflow = '';
         }
+
+        // Поддержка жестов свайпа/потягивания на телефоне
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        const headerInner = document.getElementById('headerInner');
+        headerInner.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        headerInner.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            if (touchEndY - touchStartY > 35) {
+                openMenu();
+            }
+        }, {passive: true});
+
+        const sideMenu = document.getElementById('sideMenu');
+        sideMenu.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        sideMenu.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            if (touchStartY - touchEndY > 35) {
+                closeMenu();
+            }
+        }, {passive: true});
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
