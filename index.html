@@ -103,13 +103,13 @@
             display: none;
         }
 
-        /* Кнопка бургер (три полоски) всегда доступна слева */
+        /* Кнопка бургер (три полоски): скрыта наверху, плавно появляется слева при скролле */
         .menu-toggle {
             display: flex;
             position: absolute;
             left: 16px;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translateY(-50%) scale(0.8);
             background: none;
             border: none;
             cursor: pointer;
@@ -118,6 +118,17 @@
             z-index: 10001;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        #mainHeader.header-scrolled .menu-toggle {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(-50%) scale(1);
         }
 
         .menu-toggle svg {
