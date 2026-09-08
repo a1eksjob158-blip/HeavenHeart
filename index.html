@@ -40,7 +40,7 @@
             overflow-y: scroll;
         }
 
-        /* === ИДЕАЛЬНАЯ ШАПКА БЕЗ СМЕЩЕНИЙ И МЕРЦАНИЯ === */
+        /* === ИДЕАЛЬНАЯ МЯГКАЯ ШАПКА БЕЗ ЗАТЯГИВАНИЯ СКРОЛЛА === */
         #mainHeader {
             position: sticky;
             top: 0;
@@ -49,7 +49,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid transparent;
-            transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: box-shadow 0.25s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .header-inner {
@@ -60,7 +60,7 @@
             align-items: center;
             text-align: center;
             width: 100%;
-            transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: padding 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* Состояние шапки при скролле */
@@ -70,10 +70,10 @@
         }
 
         #mainHeader.header-scrolled .header-inner {
-            padding: calc(8px + var(--sat)) 16px 8px 16px; /* Компактная полоска */
+            padding: calc(8px + var(--sat)) 16px 8px 16px; 
         }
 
-        /* Логотип всегда по центру, плавно меняется его размер */
+        /* Логотип всегда по центру, плавно меняется размер без рывков */
         .header-logo {
             max-width: 140px; 
             width: 100%;
@@ -81,11 +81,11 @@
             display: block;
             margin: 0 auto 12px auto;
             mix-blend-mode: multiply;
-            transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: max-width 0.25s cubic-bezier(0.25, 1, 0.5, 1), margin 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         #mainHeader.header-scrolled .header-logo {
-            max-width: 85px; /* Компактный размер для свернутой шапки */
+            max-width: 85px; 
             margin: 0 auto;   
         }
 
@@ -96,7 +96,7 @@
             margin: 2px 0 12px 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            transition: opacity 0.25s ease, transform 0.25s ease;
+            transition: opacity 0.15s ease, transform 0.15s ease;
         }
 
         /* Плавное исчезновение подзаголовка при скролле */
@@ -108,7 +108,7 @@
             overflow: hidden;
         }
 
-        /* Кнопка бургер (три полоски): скрыта наверху, плавно проявляется слева при скролле */
+        /* Кнопка бургер (три полоски): плавно проявляется слева при малейшем скролле */
         .menu-toggle {
             display: flex;
             position: absolute;
@@ -126,7 +126,7 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         #mainHeader.header-scrolled .menu-toggle {
@@ -397,9 +397,10 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
+        // Убираем задержку: реакция на скролл с первого же пикселя (> 2)
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainHeader');
-            if (window.scrollY > 40) {
+            if (window.scrollY > 2) {
                 header.classList.add('header-scrolled');
             } else {
                 header.classList.remove('header-scrolled');
