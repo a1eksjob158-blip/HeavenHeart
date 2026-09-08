@@ -37,6 +37,7 @@
             padding-right: var(--sar);
             padding-bottom: calc(100px + var(--sab));
             overflow-x: hidden;
+            overflow-y: scroll;
         }
 
         /* === ИДЕАЛЬНАЯ ШАПКА БЕЗ СМЕЩЕНИЙ И МЕРЦАНИЯ === */
@@ -73,7 +74,7 @@
 
         /* Логотип всегда по центру, меняется только его размер */
         .header-logo {
-            max-width: 140px; /* Установили точный размер, как на вашем скриншоте */
+            max-width: 140px; 
             width: 100%;
             height: auto;
             display: block;
@@ -97,24 +98,14 @@
             transition: opacity 0.15s ease;
         }
 
-        .header-links-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            transition: opacity 0.15s ease;
-        }
-
-        /* Мгновенное скрытие лишнего без дерганий */
-        #mainHeader.header-scrolled .header-subtitle,
-        #mainHeader.header-scrolled .header-links-group {
+        /* Мгновенное скрытие подзаголовка при скролле */
+        #mainHeader.header-scrolled .header-subtitle {
             display: none;
         }
 
-        /* Кнопка бургер строго слева, не толкает логотип */
+        /* Кнопка бургер (три полоски) всегда доступна слева */
         .menu-toggle {
-            display: none;
+            display: flex;
             position: absolute;
             left: 16px;
             top: 50%;
@@ -125,10 +116,6 @@
             color: #111;
             padding: 8px;
             z-index: 10001;
-        }
-
-        #mainHeader.header-scrolled .menu-toggle {
-            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -139,19 +126,7 @@
             stroke-linecap: round; stroke-linejoin: round;
         }
 
-        #mainHeader.header-scrolled .menu-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .menu-toggle svg {
-            width: 26px; height: 26px;
-            stroke: currentColor; stroke-width: 2; fill: none;
-            stroke-linecap: round; stroke-linejoin: round;
-        }
-
-        /* === БОКОВОЕ МЕНЮ (ШТОРКА) === */
+        /* === БОКОВОЕ МЕНЮ (ШТОРКА) СО ВСЕМИ ССЫЛКАМИ === */
         .side-menu-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -192,11 +167,10 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Исправленный логотип в боковом меню */
         .side-menu-logo {
-            max-width: 95px; /* Уменьшенный аккуратный размер */
+            max-width: 95px;
             display: block;
-            margin: 0 auto 30px auto; /* Строго по центру */
+            margin: 0 auto 30px auto;
             mix-blend-mode: multiply;
         }
 
@@ -212,22 +186,6 @@
             cursor: pointer; text-transform: uppercase; font-family: 'Montserrat', sans-serif; text-align: left;
             letter-spacing: 1px;
         }
-
-        .header-verify-link, .header-user-btn {
-            display: inline-flex; align-items: center; gap: 6px; color: #111; text-decoration: none;
-            font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-            border: 1px solid rgba(0, 0, 0, 0.2); background: rgba(0, 0, 0, 0.03); padding: 7px 18px;
-            border-radius: 30px; transition: all 0.35s ease; cursor: pointer;
-        }
-        .header-verify-link:hover, .header-user-btn:hover { background-color: #111; color: #fff; transform: translateY(-2px); }
-
-        .header-tg-link {
-            display: inline-flex; align-items: center; gap: 6px; color: #111; text-decoration: none;
-            font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-            border: 1px solid #2AABEE; padding: 7px 18px; border-radius: 30px; background: rgba(42, 171, 238, 0.08);
-            transition: all 0.35s ease;
-        }
-        .header-tg-link:hover { background: #2AABEE; color: #fff; transform: translateY(-2px); }
 
         .parallax-banner {
             width: 100%; aspect-ratio: 3 / 2; max-height: 580px; background-size: cover;
@@ -306,8 +264,6 @@
 
         @media (max-width: 768px) {
             .container { padding: 0 12px; }
-            .header-links-group { gap: 8px; }
-            .header-verify-link, .header-tg-link, .header-user-btn { padding: 6px 12px; font-size: 0.72rem; }
             .parallax-banner { aspect-ratio: 3 / 2; max-height: 280px; margin-bottom: 20px; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
             .product-card { height: 100%; min-height: auto; } 
@@ -330,18 +286,6 @@
             </a>
             
             <p class="header-subtitle">Bags & Accessories Collection</p>
-            
-            <div class="header-links-group">
-            <a href="javascript:void(0);" onclick="scrollToCatalog()" class="header-verify-link">Каталог</a>
-            <a href="about.html" class="header-verify-link">О нас</a>
-            <a href="acept.html" class="header-verify-link">Проверка подлинности</a>
-            <a href="tracking.html" class="header-verify-link">Отследить заказ</a>
-            <a href="https://t.me/Heaven_Heart_store_bot" class="header-tg-link" target="_blank">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
-                Магазин в Telegram
-            </a>
-            <button class="header-user-btn" id="authBtn" onclick="goToCabinet()">Кабинет</button>
-        </div>
         </div>
     </header>
 
@@ -471,11 +415,9 @@
             updateCartBadge();
             
             const logged = localStorage.getItem('hh_logged_in');
-            const authBtn = document.getElementById('authBtn');
             const sideAuthBtn = document.getElementById('sideAuthBtn');
             if (logged) {
                 const userName = JSON.parse(logged).name;
-                if (authBtn) authBtn.innerHTML = `👤 ${userName}`;
                 if (sideAuthBtn) sideAuthBtn.innerHTML = `👤 ${userName}`;
             }
 
@@ -729,20 +671,19 @@
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
         function scrollToCatalog() {
-    // Сбрасываем фильтры и скроллим до секции категорий/товаров
-    resetFiltersAndScroll();
-    const catalogElement = document.querySelector('.container');
-    if (catalogElement) {
-        const headerOffset = 85; // Высота шапки, чтобы не перекрывать заголовки
-        const elementPosition = catalogElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            resetFiltersAndScroll();
+            const catalogElement = document.querySelector('.container');
+            if (catalogElement) {
+                const headerOffset = 85; 
+                const elementPosition = catalogElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
-    }
-}
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
     </script>
 </body>
 </html>
