@@ -49,10 +49,10 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            overflow-y: scroll; /* Принудительно держит место под полосу прокрутки для защиты от сдвигов */
+            overflow-y: scroll;
         }
 
-        /* Идентичная шапка 1 в 1 как на главной странице */
+        /* Шапка сайта с плавной анимацией уменьшения при скролле */
         #mainHeader {
             position: sticky;
             top: 0;
@@ -60,7 +60,8 @@
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid #eaeaea;
+            border-bottom: 1px solid transparent;
+            transition: box-shadow 0.25s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .header-inner {
@@ -71,6 +72,16 @@
             align-items: center;
             text-align: center;
             width: 100%;
+            transition: padding 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #mainHeader.header-scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        #mainHeader.header-scrolled .header-inner {
+            padding: calc(8px + var(--sat)) 16px 8px 16px; 
         }
 
         .header-logo {
@@ -78,17 +89,129 @@
             width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto 12px auto;
+            margin: 0 auto 10px auto;
             mix-blend-mode: multiply;
+            transition: max-width 0.25s cubic-bezier(0.25, 1, 0.5, 1), margin 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #mainHeader.header-scrolled .header-logo {
+            max-width: 85px; 
+            margin: 0 auto;   
         }
 
         .header-subtitle {
             font-size: 0.8rem;
             font-weight: 500;
             color: #666666;
-            margin: 2px 0 12px 0;
+            margin: 2px 0 10px 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+
+        #mainHeader.header-scrolled .header-subtitle {
+            opacity: 0;
+            visibility: hidden;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        /* Увеличенная область нажатия полосочки */
+        .menu-indicator-bar {
+            position: relative;
+            width: 48px;
+            height: 5px;
+            background-color: #d1d1d6;
+            border-radius: 3px;
+            margin: 8px auto 0 auto;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .menu-indicator-bar::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            bottom: -15px;
+            left: -25px;
+            right: -25px;
+        }
+
+        .menu-indicator-bar:hover {
+            background-color: #8e8e93;
+            transform: scaleX(1.15);
+        }
+
+        /* === ВЫЕЗЖАЮЩЕЕ МЕНЮ (КОМПАКТНАЯ КАРТОЧКА ПО ЦЕНТРУ СВЕРХУ) === */
+        .side-menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            z-index: 20000;
+            opacity: 0; visibility: hidden;
+            transition: all 0.35s ease;
+        }
+        
+        .side-menu-overlay.active { opacity: 1; visibility: visible; }
+
+        .side-menu {
+            position: fixed;
+            top: -100%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%; 
+            max-width: 400px;
+            max-height: 85vh;
+            background: #ffffff;
+            z-index: 20001;
+            display: flex; flex-direction: column;
+            padding: 24px 24px 18px 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-radius: 24px;
+            transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+
+        .side-menu.active { 
+            top: 15px; 
+        }
+
+        /* Ручка для закрытия свайпом внизу */
+        .side-menu-handle {
+            width: 44px;
+            height: 5px;
+            background-color: #d1d1d6;
+            border-radius: 3px;
+            margin: 16px auto 4px auto;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .side-menu-handle:hover {
+            background-color: #8e8e93;
+        }
+
+        .side-menu-logo {
+            max-width: 90px;
+            display: block;
+            margin: 0 auto 15px auto;
+            mix-blend-mode: multiply;
+        }
+
+        .side-menu-links {
+            display: flex; flex-direction: column; gap: 0;
+            width: 100%;
+        }
+
+        .side-menu-links a, .side-menu-links button {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.85rem; font-weight: 600; color: #111;
+            text-decoration: none; padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0; background: none; border-left: none; border-right: none; border-top: none;
+            cursor: pointer; text-transform: uppercase; font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif !important; text-align: left;
+            letter-spacing: 1px;
         }
 
         .container {
@@ -449,13 +572,38 @@
 <body>
 
     <header id="mainHeader">
-        <div class="header-inner">
+        <div class="header-inner" id="headerInner">
             <a href="index.html" style="text-decoration: none;">
                 <img src="logo.png" alt="Heaven Heart" class="header-logo">
             </a>
             <p class="header-subtitle">Bags & Accessories Collection</p>
+
+            <!-- Полосочка в шапке для открытия меню -->
+            <div class="menu-indicator-bar" onclick="openMenu()" title="Открыть меню"></div>
         </div>
     </header>
+
+    <!-- БОКОВОЕ МЕНЮ (КОМПАКТНАЯ КАРТОЧКА СВЕРХУ) -->
+    <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <img src="logo.png" alt="Heaven Heart" class="side-menu-logo">
+        
+        <div class="side-menu-links">
+            <a href="index.html#catalog">Каталог</a>
+            <a href="cart.html">Корзина</a>
+            <a href="about.html">О нас</a>
+            <a href="acept.html">Проверка подлинности</a>
+            <a href="tracking.html">Отследить заказ</a>
+            <a href="https://t.me/Heaven_Heart_store_bot" target="_blank" style="color: #2AABEE;">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.65-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/></svg>
+                Магазин в Telegram
+            </a>
+            <button id="sideAuthBtn" onclick="goToCabinet()">Кабинет</button>
+        </div>
+
+        <!-- Ручка-индикатор снизу для закрытия -->
+        <div class="side-menu-handle" onclick="closeMenu()" title="Закрыть меню"></div>
+    </div>
 
     <div class="container">
         <div class="cart-card" id="cartCardContainer">
@@ -545,6 +693,58 @@
         let cachedSerials = [];
         let currentDiscountPercent = 0;
         let appliedSerialNumber = '';
+
+        function goToCabinet() { window.location.href = 'acccount.html'; }
+
+        function openMenu() {
+            document.getElementById('sideMenu').classList.add('active');
+            document.getElementById('sideMenuOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.remove('active');
+            document.getElementById('sideMenuOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Анимация уменьшения шапки при скролле
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 2) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        }, { passive: true });
+
+        // Поддержка жестов свайпа на телефоне
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        const headerInner = document.getElementById('headerInner');
+        headerInner.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        headerInner.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            if (touchEndY - touchStartY > 35) {
+                openMenu();
+            }
+        }, {passive: true});
+
+        const sideMenu = document.getElementById('sideMenu');
+        sideMenu.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        sideMenu.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            if (touchStartY - touchEndY > 35) {
+                closeMenu();
+            }
+        }, {passive: true});
 
         function setupBackToProductButton() {
             const backBtn = document.getElementById('backToProductBtn');
@@ -930,7 +1130,7 @@
             `;
         }
 
-        window.addEventListener('DOMContentLoaded', () => { loadCartPage(); preloadSerials(); setupBackTestButton = setupBackToProductButton(); setupBackToProductButton(); });
+        window.addEventListener('DOMContentLoaded', () => { loadCartPage(); preloadSerials(); setupBackToProductButton(); });
     </script>
 </body>
 </html>
