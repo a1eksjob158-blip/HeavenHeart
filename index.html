@@ -510,6 +510,7 @@
             let cachedData = null;
             try { cachedData = JSON.parse(localStorage.getItem('hh_catalog_cache')); } catch (e) {}
             
+            // 1. Сразу показываем то, что есть в кэше (для мгновенной загрузки)
             if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
                 allProducts = cachedData;
                 generateBrandButtons();
@@ -517,17 +518,21 @@
                 applyDataFilters(true); 
             }
 
+            // 2. Фоном запрашиваем актуальные данные из Google Таблицы
             try {
                 const response = await fetch(CATALOG_WEB_APP_URL + '?t=' + Date.now(), { cache: 'no-store' });
                 const freshData = await response.json();
                 
                 if (freshData && Array.isArray(freshData)) {
+                    // Сохраняем свежие данные в кэш
                     localStorage.setItem('hh_catalog_cache', JSON.stringify(freshData));
-                    if (!cachedData || cachedData.length === 0) {
+                    
+                    // ОБНОВЛЯЕМ ИНТЕРФЕЙС НА ЛЕТУ, ЕСЛИ ДАННЫЕ ОТЛИЧАЮТСЯ
+                    if (JSON.stringify(freshData) !== JSON.stringify(allProducts)) {
                         allProducts = freshData;
                         generateBrandButtons();
                         generateCategoryButtons();
-                        applyDataFilters(true);
+                        applyDataFilters(false); // Перерисовываем сетку товаров и фильтры без перезагрузки
                     }
                 }
             } catch (error) {
